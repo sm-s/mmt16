@@ -1,7 +1,14 @@
 <nav class="large-2 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>     
+        <li class="heading"><?= __('Actions') ?></li>
+        <?php
+            $admin = $this->request->session()->read('is_admin');
+            $supervisor = $this->request->session()->read('is_supervisor');
+            if($admin || $supervisor){
+        ?>
         <li><?= $this->Html->link(__('New Member'), ['action' => 'add']) ?></li>
+        <?php }
+        ?>
     </ul>
 </nav>
 <div class="members index large-4 medium-8 columns content float: left">
@@ -21,8 +28,14 @@
                 <td><?= h($member->project_role) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $member->id]) ?>
+                    <?php
+			            $admin = $this->request->session()->read('is_admin');
+			            $supervisor = $this->request->session()->read('is_supervisor');
+			            if($admin || $supervisor){
+			        ?>
                     <?= $this->Html->link(__('Edit'), ['action' => 'edit', $member->id]) ?>
                     <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $member->id], ['confirm' => __('Are you sure you want to delete # {0}?', $member->id)]) ?>
+                    <?php } ?>
                 </td>
             </tr>
             <?php endforeach; ?>

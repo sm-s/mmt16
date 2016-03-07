@@ -33,8 +33,14 @@
                 <td><?= $workinghour->has('worktype') ? $this->Html->link($workinghour->worktype->description, ['controller' => 'Workypes', 'action' => 'view', $workinghour->worktype->id]) : '' ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $workinghour->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $workinghour->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $workinghour->id], ['confirm' => __('Are you sure you want to delete # {0}?', $workinghour->id)]) ?>
+					<?php
+			            $admin = $this->request->session()->read('is_admin');
+			            $supervisor = $this->request->session()->read('is_supervisor');
+			            if($admin || $supervisor){
+			        ?>
+	                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $workinghour->id]) ?>
+	                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $workinghour->id], ['confirm' => __('Are you sure you want to delete # {0}?', $workinghour->id)]) ?>
+					<?php } ?>
                 </td>
             </tr>
             <?php endforeach; ?>

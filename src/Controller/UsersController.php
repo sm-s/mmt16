@@ -162,6 +162,8 @@ class UsersController extends AppController
         if ($this->request->action === 'logout' || $this->request->action === 'editprofile') {
             return true;
         }
+        
+        
         return parent::isAuthorized($user);
     }
 }

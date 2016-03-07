@@ -153,7 +153,7 @@ class WorkinghoursController extends AppController
         // developers can only edit and delete their own workinghours
         if ($this->request->action === 'edit' || $this->request->action === 'delete') 
         {
-            if($project_role == "developer"){
+            if($project_role == "developer") {
                 $query = $this->Workinghours
                     ->find()
                     ->select(['member_id'])

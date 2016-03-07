@@ -1,7 +1,13 @@
 <nav class="large-2 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('New Weeklyreport'), ['action' => 'add']) ?></li>
+        <?php
+            $admin = $this->request->session()->read('is_admin');
+            $supervisor = $this->request->session()->read('is_supervisor');
+            if($admin || $supervisor){
+        ?>
+        	<li><?= $this->Html->link(__('New Weeklyreport'), ['action' => 'add']) ?></li>
+        <?php } ?>
         <li><?= $this->Html->link(__('Weeklyhours'), ['controller' => 'Weeklyhours', 'action' => 'index']) ?> </li> 
     </ul>
 </nav>

@@ -37,7 +37,14 @@
                 <td><?= $this->Number->format($weeklyhour->duration) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $weeklyhour->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $weeklyhour->id]) ?>
+                    <?php
+			            $admin = $this->request->session()->read('is_admin');
+			            $supervisor = $this->request->session()->read('is_supervisor');
+			            if($admin || $supervisor){
+			        ?>
+                 	   <?= $this->Html->link(__('Edit'), ['action' => 'edit', $weeklyhour->id]) ?>
+                 	   <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $weeklyhour->id], ['confirm' => __('Are you sure you want to delete # {0}?', $weeklyhour->id)]) ?>
+					<?php } ?>
                 </td>
             </tr>
             <?php endforeach; ?>

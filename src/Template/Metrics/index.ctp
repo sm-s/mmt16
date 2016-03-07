@@ -1,11 +1,13 @@
 <nav class="large-2 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('New Metric'), ['action' => 'add']) ?></li>
+        
         <?php
             $admin = $this->request->session()->read('is_admin');
-            if($admin){
+            $supervisor = $this->request->session()->read('is_supervisor');
+            if($admin || $supervisor){
         ?>
+	        <li><?= $this->Html->link(__('New Metric'), ['action' => 'add']) ?></li>
             <li><?= $this->Html->link(__('New Metric admin'), ['action' => 'addadmin']) ?></li>
         <?php
             }
@@ -33,8 +35,15 @@
                 <td><?= h($metric->date->format('Y-m-d')) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $metric->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $metric->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $metric->id], ['confirm' => __('Are you sure you want to delete # {0}?', $metric->id)]) ?>
+                    <?php
+			            $admin = $this->request->session()->read('is_admin');
+			            $supervisor = $this->request->session()->read('is_supervisor');
+			            if($admin || $supervisor){
+			        ?>
+	        
+	                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $metric->id]) ?>
+	                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $metric->id], ['confirm' => __('Are you sure you want to delete # {0}?', $metric->id)]) ?>
+					<?php } ?>
                 </td>
             </tr>
             <?php endforeach; ?>
