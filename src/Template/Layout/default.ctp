@@ -78,7 +78,7 @@ $cakeDescription = 'MMT';
 <body>
     <div style="background-color: #15848F; color: white; font-weight: bold; padding-left: 0.5em">
         <?php
-        print_r( ($this->request->session()->read('Auth.User.first_name')).' '.($this->request->session()->read('Auth.User.last_name')).', '.($this->request->session()->read('selected_project_role')) );
+        	print_r( ($this->request->session()->read('Auth.User.first_name')).' '.($this->request->session()->read('Auth.User.last_name')).', '.($this->request->session()->read('selected_project_role')) );
         ?>
     </div>
     <nav class="top-bar expanded" data-topbar role="navigation">
