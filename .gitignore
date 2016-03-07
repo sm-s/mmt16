@@ -3,3 +3,7 @@
 /tmp/*
 /logs/*
 /nbproject/private/
+/.settings
+/.buildpath
+/.project
+/.metadata
