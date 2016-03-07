@@ -78,7 +78,15 @@ $cakeDescription = 'MMT';
 <body>
     <div style="background-color: #15848F; color: white; font-weight: bold; padding-left: 0.5em">
         <?php
-        	print_r( ($this->request->session()->read('Auth.User.first_name')).' '.($this->request->session()->read('Auth.User.last_name')).', '.($this->request->session()->read('selected_project_role')) );
+        	if(empty($this->request->session()->read('Auth.User'))){
+        		print_r('Currently not logged in');
+        	} else {
+        		print_r( ($this->request->session()->read('Auth.User.first_name')).' '.($this->request->session()->read('Auth.User.last_name')) );
+			}
+			if ($this->request->session()->check('selected_project') && ($this->request->session()->read('selected_project_role')) != 'notmember' ) {
+				
+				print_r(', '.($this->request->session()->read('selected_project_role')) );
+			}
         ?>
     </div>
     <nav class="top-bar expanded" data-topbar role="navigation">
@@ -114,8 +122,11 @@ $cakeDescription = 'MMT';
         <?php } elseif($this->request->session()->check('selected_project')){ ?>
             <ul id="ulnav">
                 <li class="linav"><?= $this->Html->link(__('Project'), ['controller' => 'Projects', 'action' => 'view', $this->request->session()->read('selected_project')['id']]) ?></li>
-                <li class="linav"><?= $this->Html->link(__('Weeklyreports'), ['controller' => 'Weeklyreports', 'action' => 'index']) ?></li>
-                <li class="linav"><?= $this->Html->link(__('Log time'), ['controller' => 'Workinghours', 'action' => 'index']) ?></li>
+				<?php 
+					if ( $this->request->session()->read('selected_project_role') != 'notmember' ) { ?>
+		                <li class="linav"><?= $this->Html->link(__('Weeklyreports'), ['controller' => 'Weeklyreports', 'action' => 'index']) ?></li>
+		                <li class="linav"><?= $this->Html->link(__('Log time'), ['controller' => 'Workinghours', 'action' => 'index']) ?></li>
+				<?php } ?>
                 <li class="linav"><?= $this->Html->link(__('Charts'), ['controller' => 'Charts', 'action' => 'index']) ?></li>
                 <ul style="float:right;list-style-type:none;">
                     <li class="linav"><?= $this->Html->link(__('Profile'), ['controller' => 'Users', 'action' => 'editprofile']) ?></li>
