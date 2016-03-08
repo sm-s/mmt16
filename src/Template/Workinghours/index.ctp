@@ -2,7 +2,13 @@
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('Log time'), ['action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('Log time for another member'), ['action' => 'adddev']) ?></li>
+        <?php
+            $admin = $this->request->session()->read('is_admin');
+            $supervisor = $this->request->session()->read('is_supervisor');
+            if($admin || $supervisor){
+        ?>
+        	<li><?= $this->Html->link(__('Log time for another member'), ['action' => 'adddev']) ?></li>
+		<?php } ?>
     </ul>
 </nav>
 <div class="workinghours index large-6 medium-8 columns content float: left">
@@ -36,10 +42,12 @@
 					<?php
 			            $admin = $this->request->session()->read('is_admin');
 			            $supervisor = $this->request->session()->read('is_supervisor');
-			            if($admin || $supervisor){
-			        ?>
-	                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $workinghour->id]) ?>
-	                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $workinghour->id], ['confirm' => __('Are you sure you want to delete # {0}?', $workinghour->id)]) ?>
+			            
+			            // edit and delete can also be viewed by the developer who owns them
+			            if($admin || $supervisor
+			            || $workinghour->member->user_id == $this->request->session()->read('Auth.User.id') ) { ?>
+		                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $workinghour->id]) ?>
+		                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $workinghour->id], ['confirm' => __('Are you sure you want to delete # {0}?', $workinghour->id)]) ?>
 					<?php } ?>
                 </td>
             </tr>

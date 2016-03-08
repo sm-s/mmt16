@@ -124,7 +124,7 @@ $cakeDescription = 'MMT';
                 <li class="linav"><?= $this->Html->link(__('Project'), ['controller' => 'Projects', 'action' => 'view', $this->request->session()->read('selected_project')['id']]) ?></li>
 				<?php 
 					if ( $this->request->session()->read('selected_project_role') != 'notmember' ) { ?>
-		                <li class="linav"><?= $this->Html->link(__('Weeklyreports'), ['controller' => 'Weeklyreports', 'action' => 'index']) ?></li>
+		                <li class="linav"><?= $this->Html->link(__('Weekly reports'), ['controller' => 'Weeklyreports', 'action' => 'index']) ?></li>
 		                <li class="linav"><?= $this->Html->link(__('Log time'), ['controller' => 'Workinghours', 'action' => 'index']) ?></li>
 				<?php } ?>
                 <li class="linav"><?= $this->Html->link(__('Charts'), ['controller' => 'Charts', 'action' => 'index']) ?></li>

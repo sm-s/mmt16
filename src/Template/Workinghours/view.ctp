@@ -1,7 +1,14 @@
 <nav class="large-2 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('Edit logged time'), ['action' => 'edit', $workinghour->id]) ?> </li>
+        <?php
+        	$admin = $this->request->session()->read('is_admin');
+			$supervisor = $this->request->session()->read('is_supervisor');
+        	
+        	if($admin || $supervisor
+			|| $workinghour->member->user_id == $this->request->session()->read('Auth.User.id') ) { ?>
+				<li><?= $this->Html->link(__('Edit logged time'), ['action' => 'edit', $workinghour->id]) ?> </li>
+		<?php } ?>
     </ul>
 </nav>
 <div class="workinghours view large-7 medium-8 columns content float: left">
