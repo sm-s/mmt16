@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Controller\AppController;
 use Cake\I18n\Time;
 use Cake\ORM\TableRegistry;
+use Cake\ORM\Entity;
 
 class WorkinghoursController extends AppController
 {
@@ -159,7 +160,21 @@ class WorkinghoursController extends AppController
                     ->select(['member_id'])
                     ->where(['id =' => $this->request->pass[0]])
                     ->toArray();
-                if($query[0]->member_id == $user['id']){
+                
+                /* Bug fix 8.3. : members were unable to edit themselves because of false comparison (userID vs. memberID)
+				*/
+                
+                // fetching the Members-table from database
+                $members = TableRegistry::get('Members');
+                
+                // querying Members-table for member ID:s that correspond to the current user's ID
+                $query2 = $members
+                	->find()
+                	->select(['id'])
+                	->where(['user_id =' => $user['id']])
+                	->toArray();
+
+                if($query[0]->member_id == $query2[0]->id ){
                     return True;
                 }
                 return False;
