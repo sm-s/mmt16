@@ -161,7 +161,8 @@ class WorkinghoursController extends AppController
                     ->where(['id =' => $this->request->pass[0]])
                     ->toArray();
                 
-                /* Bug fix 8.3. : members were unable to edit themselves because of false comparison (userID vs. memberID)
+                /* Bug fix 8.3.2016 : members were unable to edit themselves because of false comparison (userID vs. memberID)
+                   Requirement ID = 17
 				*/
                 
                 // fetching the Members-table from database
