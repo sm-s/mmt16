@@ -14,7 +14,7 @@
     <fieldset>
         <legend><?= __('Edit logged time') ?></legend>
         <?php
-            echo $this->Form->input('member_id', ['options' => $members]);
+            // echo $this->Form->input('member_id', ['options' => $members]);
             echo $this->Form->input('date');
             echo $this->Form->input('description');
             echo $this->Form->input('duration');
