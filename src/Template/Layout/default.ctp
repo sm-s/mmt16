@@ -76,7 +76,8 @@ $cakeDescription = 'MMT';
     </style>
 </head>
 <body>
-    <div style="background-color: #15848F; color: white; font-weight: bold; padding-left: 0.5em">
+	<!-- this div shows the top-left corner (user's name + role) -->
+    <div style="background-color: #15848F; color: white; font-weight: bold; padding-left: 0.5em; float: left; ">
         <?php
         	/* Displays user information to every page
         	   Requirement ID: 23
@@ -90,25 +91,44 @@ $cakeDescription = 'MMT';
         		print_r( ($this->request->session()->read('Auth.User.first_name')).' '.($this->request->session()->read('Auth.User.last_name')) );
 				// checks if user has accessed any projects
 				if ($this->request->session()->check('selected_project') ) {
-					// fetch the name of current project
-					$selected_project = $this->request->session()->read('selected_project');
-	                $name = $selected_project['project_name'];
-	                
 					/* FIX 10.3.2016: now being a non-member is also shown
 					   Requirement ID: 23
 					   - Andy
 					*/
-					// display current project. If a member, role is shown as well
-					print_r(' currently in project '.$name.' as a ');
+					// display current role. Non-member status is also displayed
 					if (($this->request->session()->read('selected_project_role')) != 'notmember' ) {
-						print_r( ($this->request->session()->read('selected_project_role')) );
+						print_r(', ' . ($this->request->session()->read('selected_project_role')) );
 					} else {
-						print_r('non-member');
+						print_r(', not a member');
 					}
 				}
 			}
         ?>
     </div>
+    
+    <!-- This div shows the top-right corner (currently chosen project) -->
+	<div style="background-color: #15848F; color: white; font-weight: bold; padding-right: 0.5em; float: right; ">
+    	<?php
+    		// display info only if user is logged in
+    		if ( !empty($this->request->session()->read('Auth.User')) ){
+        		
+	    		// fetch the name of current project
+				$selected_project = $this->request->session()->read('selected_project');
+	            $name = $selected_project['project_name'];
+	            
+	            // the text part
+	            print_r('Current project: ');
+	            if ($selected_project)
+		    		print_r($name);
+		    	else
+		    		print_r('not chosen');
+		    }
+    	?>
+    </div>
+    
+    <!-- this div is only for clearing the two divs above (otherwise the floats wouldn't work) -->
+    <div style="background-color: #15848F; color: #15848F; "> <?php echo "</br>"; ?> </div>
+    
     <nav class="top-bar expanded" data-topbar role="navigation">
         <ul class="title-area large-2 medium-4 columns">
             <li class="name">
