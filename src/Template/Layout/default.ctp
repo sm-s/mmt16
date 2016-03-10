@@ -78,14 +78,34 @@ $cakeDescription = 'MMT';
 <body>
     <div style="background-color: #15848F; color: white; font-weight: bold; padding-left: 0.5em">
         <?php
-        	if(empty($this->request->session()->read('Auth.User'))){
+        	/* Displays user information to every page
+        	   Requirement ID: 23
+        	   - Andy
+        	*/
+        	// checks if logged in
+        	if ( empty($this->request->session()->read('Auth.User')) ){
         		print_r('Currently not logged in');
         	} else {
+        		// prints user's full name
         		print_r( ($this->request->session()->read('Auth.User.first_name')).' '.($this->request->session()->read('Auth.User.last_name')) );
-			}
-			if ($this->request->session()->check('selected_project') && ($this->request->session()->read('selected_project_role')) != 'notmember' ) {
-				
-				print_r(', '.($this->request->session()->read('selected_project_role')) );
+				// checks if user has accessed any projects
+				if ($this->request->session()->check('selected_project') ) {
+					// fetch the name of current project
+					$selected_project = $this->request->session()->read('selected_project');
+	                $name = $selected_project['project_name'];
+	                
+					/* FIX 10.3.2016: now being a non-member is also shown
+					   Requirement ID: 23
+					   - Andy
+					*/
+					// display current project. If a member, role is shown as well
+					print_r(' currently in project '.$name.' as a ');
+					if (($this->request->session()->read('selected_project_role')) != 'notmember' ) {
+						print_r( ($this->request->session()->read('selected_project_role')) );
+					} else {
+						print_r('non-member');
+					}
+				}
 			}
         ?>
     </div>
@@ -98,13 +118,16 @@ $cakeDescription = 'MMT';
         <!--
         <ul class="top-bar-section">
             <li class="right">
-                <?php
+                <?php 
+                	/* This bit of code was commented out because it seemed useless to me
+                	   If it actually does something then remove comment
+                	   - Andy
                     if($this->request->session()->check('selected_project')){
                         $selected_project = $this->request->session()->read('selected_project');
                         $name = $selected_project['project_name'];
-
                         echo "<a> $name </a>";
                     }
+                    */
                 ?>
             </li>
         </ul>
