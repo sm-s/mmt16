@@ -117,11 +117,8 @@ $cakeDescription = 'MMT';
 	            $name = $selected_project['project_name'];
 	            
 	            // the text part
-	            print_r('Current project: ');
 	            if ($selected_project)
-		    		print_r($name);
-		    	else
-		    		print_r('not chosen');
+		    		print_r('Current project: '.$name);
 		    }
     	?>
     </div>
