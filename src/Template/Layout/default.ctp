@@ -76,8 +76,26 @@ $cakeDescription = 'MMT';
     </style>
 </head>
 <body>
-	<!-- this div shows the top-left corner (user's name + role) -->
-    <div style="background-color: #15848F; color: white; font-weight: bold; padding-left: 0.5em; float: left; ">
+
+    <!-- This div shows the top-left corner (currently chosen project) -->
+	<div style="background-color: #15848F; color: white; font-weight: bold; padding-left: 0.5em; float: left; ">
+    	<?php
+    		// display info only if user is logged in
+    		if ( !empty($this->request->session()->read('Auth.User')) ){
+        		
+	    		// fetch the name of current project
+				$selected_project = $this->request->session()->read('selected_project');
+	            $name = $selected_project['project_name'];
+	            
+	            // the text part
+	            if ($selected_project)
+		    		print_r('Current project: '.$name);
+		    }
+    	?>
+    </div>
+    
+	<!-- this div shows the top-right corner (user's name + role) -->
+    <div style="background-color: #15848F; color: white; font-weight: bold; padding-right: 0.5em; float: right; ">
         <?php
         	/* Displays user information to every page
         	   Requirement ID: 23
@@ -104,23 +122,6 @@ $cakeDescription = 'MMT';
 				}
 			}
         ?>
-    </div>
-    
-    <!-- This div shows the top-right corner (currently chosen project) -->
-	<div style="background-color: #15848F; color: white; font-weight: bold; padding-right: 0.5em; float: right; ">
-    	<?php
-    		// display info only if user is logged in
-    		if ( !empty($this->request->session()->read('Auth.User')) ){
-        		
-	    		// fetch the name of current project
-				$selected_project = $this->request->session()->read('selected_project');
-	            $name = $selected_project['project_name'];
-	            
-	            // the text part
-	            if ($selected_project)
-		    		print_r('Current project: '.$name);
-		    }
-    	?>
     </div>
     
     <!-- this div is only for clearing the two divs above (otherwise the floats wouldn't work) -->
