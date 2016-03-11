@@ -1,7 +1,18 @@
 <nav class="large-2 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('Edit Weeklyhour'), ['action' => 'edit', $weeklyhour->id]) ?> </li>
+        <?php
+        	// more stuff hidden from devs; the edit-option in /weeklyhour/view/
+        	$admin = $this->request->session()->read('is_admin');
+            $supervisor = $this->request->session()->read('is_supervisor');
+		    $isManager = $this->request->session()->read('selected_project_role');
+		    
+	        if($admin || $supervisor || $isManager == 'manager') {
+	      ?>
+        		<li><?= $this->Html->link(__('Edit Weeklyhour'), ['action' => 'edit', $weeklyhour->id]) ?> </li>
+		<?php
+			}
+		?>
     </ul>
 </nav>
 <div class="weeklyhours view large-5 medium-8 columns content float: left">

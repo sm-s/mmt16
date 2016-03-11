@@ -4,7 +4,11 @@
         <?php
             $admin = $this->request->session()->read('is_admin');
             $supervisor = $this->request->session()->read('is_supervisor');
-            if($admin || $supervisor){
+            
+            // FIX: managers can also add new weeklyreports
+            $isManager = $this->request->session()->read('selected_project_role');
+            
+            if($admin || $supervisor || $isManager == 'manager'){
         ?>
         	<li><?= $this->Html->link(__('New Weeklyreport'), ['action' => 'add']) ?></li>
         <?php } ?>

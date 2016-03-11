@@ -5,13 +5,21 @@
         <?php
             $admin = $this->request->session()->read('is_admin');
             $supervisor = $this->request->session()->read('is_supervisor');
+            
+            // FIX: managers can also add new metrics (separate add for admin/superv. only)
+            $isManager = $this->request->session()->read('selected_project_role');
+
             if($admin || $supervisor){
         ?>
-	        <li><?= $this->Html->link(__('New Metric'), ['action' => 'add']) ?></li>
-            <li><?= $this->Html->link(__('New Metric admin'), ['action' => 'addadmin']) ?></li>
+            <li><?= $this->Html->link(__('New Metric (admin)'), ['action' => 'addadmin']) ?></li>
         <?php
-            }
+            } 
+            if ($isManager == 'manager' || $admin || $supervisor) {
         ?> 
+	        <li><?= $this->Html->link(__('New Metric'), ['action' => 'add']) ?></li>
+        <?php 
+        	} // endif
+        ?>
     </ul>
 </nav>
 <div class="metrics index large-7 medium-8 columns content float: left">
