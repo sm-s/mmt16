@@ -118,7 +118,7 @@ $cakeDescription = 'MMT';
 	            
 	            // the text part
 	            if ($selected_project)
-		    		print_r('Current project: '.$name.'Hello world!');
+		    		print_r('Current project: '.$name);
 		    }
     	?>
     </div>
