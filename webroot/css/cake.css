@@ -563,3 +563,13 @@ div.message.hidden {
   margin-bottom: 10px;
   border-bottom: 0px;
 }
+
+h5 {
+  color: #be140b;
+  padding-bottom: 0.5rem;
+  margin-bottom: 20px;
+}
+
+.chart {
+  width: 800px;
+}

@@ -158,236 +158,114 @@ class ChartsController extends AppController
         // This sets the charts visible in the actual charts page "Charts/index.php"
         $this->set(compact('phaseChart', 'reqChart', 'commitChart', 'testcaseChart', 'hoursChart', 'weeklyhourChart', 'reqPercentChart'));
     }
-    
-    public function reqPercentChart() {
-        $myChart = $this->Highcharts->createChart();
 
-        $myChart->chart->renderTo = "reqpercentwrapper";
-        $myChart->chart->type = "column";
-        $myChart->title->text = "Stacked Column Chart";
-
-        $myChart->yAxis->min = 0;
-        $myChart->yAxis->title->text = "Total Fruit Consumption";
-
-        $myChart->tooltip->formatter = $this->Highcharts->createJsExpr(
-            "function() {
-            return ''+ this.series.name +': '+ this.y +' ('+ Math.round(this.percentage) +'%)';}");
-
-        $myChart->plotOptions->column->stacking = "percent";
-        
-        return $myChart;
-    }
-    
-    
     // All the following functions are similar
     // They create a custom chart object and return it
     // Unfortunately the functions have to be in the controller, 
     // because the chart objects cannot be created outside of the controller
     
-    public function weeklyhourChart(){
+    /* 12.3.2016: Total renovation of the charts:
+     * - slight change to looks, alignments fixed
+     *   -> now all charts have the same appearance and size
+     * - labels on axes fixed
+     * - commit chart changed from area to column diagram
+     * - working hour chart makes more sense now
+     *   -> and the numbers on columns are no longer blurred
+     * - requirements charts under one header (with subheaders)
+     * Requirement ID: 7 (Andy)
+     */
+    
+    public function phaseChart() {
         $myChart = $this->Highcharts->createChart();
+        $myChart->chart->renderTo = 'phasewrapper';
+        $myChart->chart->type = 'area';
 
         $myChart->title = array(
-            'text' => 'Weekly hours', 
-            'x' => 20,
+            'text' => 'Phases',
             'y' => 20,
-            'align' => 'left',
+            'align' => 'center',
             'styleFont' => '18px Metrophobic, Arial, sans-serif',
             'styleColor' => '#0099ff',
         );
 
-        $myChart->chart->renderTo = 'weeklyhourwrapper';
-        $myChart->chart->type = 'area';
+        // body of the chart
         $myChart->chart->width =  800;
-        $myChart->chart->height = 600;
-        $myChart->chart->marginTop = 60;
-        $myChart->chart->marginLeft = 90;
-        $myChart->chart->marginRight = 30;
-        $myChart->chart->marginBottom = 110;
-        $myChart->chart->spacingRight = 10;
-        $myChart->chart->spacingBottom = 15;
-        $myChart->chart->spacingLeft = 0;
-        $myChart->chart->alignTicks = FALSE;
+        $myChart->chart->height = 500;
+        /*
+         $myChart->chart->marginTop = 60;
+         $myChart->chart->marginLeft = 90;
+         $myChart->chart->marginRight = 30;
+         $myChart->chart->marginBottom = 110;
+         $myChart->chart->spacingRight = 10;
+         $myChart->chart->spacingBottom = 15;
+         $myChart->chart->spacingLeft = 0;
+         */
+        // $myChart->chart->alignTicks = FALSE;
         $myChart->chart->backgroundColor->linearGradient = array(0, 0, 0, 300);
-        $myChart->chart->backgroundColor->stops = array(array(0, 'rgb(217, 217, 217)'), array(1, 'rgb(255, 255, 255)'));                
+        $myChart->chart->backgroundColor->stops = array(array(0, 'rgb(217, 217, 255)'), array(1, 'rgb(255, 255, 255)'));
 
-        $myChart->title->text = 'Weekly hours';
-        $myChart->xAxis->labels->formatter = $this->Highcharts->createJsExpr("function() { return this.value;}");
-        $myChart->yAxis->title->text = 'temp';
-        $myChart->yAxis->labels->formatter = $this->Highcharts->createJsExpr("function() { return this.value;}");
-        $myChart->tooltip->formatter = $this->Highcharts->createJsExpr("function() {
-        return this.series.name +' produced <b>'+
-        Highcharts.numberFormat(this.y, 0) +'</b><br/>Week number '+ this.x;}");
-        $myChart->plotOptions->area->marker->enabled = false;
-        $myChart->plotOptions->area->marker->symbol = 'circle';
-        $myChart->plotOptions->area->marker->radius = 2;
-        $myChart->plotOptions->area->marker->states->hover->enabled = true;
-
-        $myChart->legend->enabled = true;
-        $myChart->legend->layout = 'horizontal';
-        $myChart->legend->align = 'center';
-        $myChart->legend->verticalAlign  = 'bottom';
+        // legend below the charts
         $myChart->legend->itemStyle = array('color' => '#222');
         $myChart->legend->backgroundColor->linearGradient = array(0, 0, 0, 25);
         $myChart->legend->backgroundColor->stops = array(array(0, 'rgb(217, 217, 217)'), array(1, 'rgb(255, 255, 255)'));
 
-        $myChart->xAxis->labels->enabled = true;
-        $myChart->xAxis->labels->align = 'right';
-        $myChart->xAxis->labels->step = 1;
-        $myChart->xAxis->labels->x = 5;
-        $myChart->xAxis->labels->y = 20;
-        $myChart->yAxis->title->text = 'Weekly hours from reports';
-        $myChart->enable->autoStep = false;
-        $myChart->credits->enabled = true;
-        $myChart->credits->text = 'Example.com';
-        $myChart->credits->href = 'http://example.com';
-
-        return $myChart;
-    }
-    
-    public function testcaseChart() {
-        $myChart = $this->Highcharts->createChart();
-
-        $myChart->title = array(
-            'text' => 'Test Cases', 
-            'x' => 20,
-            'y' => 20,
-            'align' => 'left',
-            'styleFont' => '18px Metrophobic, Arial, sans-serif',
-            'styleColor' => '#0099ff',
-        );
-
-        $myChart->chart->renderTo = 'testcasewrapper';
-        $myChart->chart->type = 'area';
-        $myChart->chart->width =  800;
-        $myChart->chart->height = 600;
-        $myChart->chart->marginTop = 60;
-        $myChart->chart->marginLeft = 90;
-        $myChart->chart->marginRight = 30;
-        $myChart->chart->marginBottom = 110;
-        $myChart->chart->spacingRight = 10;
-        $myChart->chart->spacingBottom = 15;
-        $myChart->chart->spacingLeft = 0;
-        $myChart->chart->alignTicks = FALSE;
-        $myChart->chart->backgroundColor->linearGradient = array(0, 0, 0, 300);
-        $myChart->chart->backgroundColor->stops = array(array(0, 'rgb(217, 217, 217)'), array(1, 'rgb(255, 255, 255)'));                
-
-        $myChart->title->text = 'Test cases area';
-        //$myChart->subtitle->text = "Source: <a href=\"http://thebulletin.metapress.com/content/c4120650912x74k7/fulltext.pdf\">thebulletin.metapress.com</a>";
-        $myChart->xAxis->labels->formatter = $this->Highcharts->createJsExpr("function() { return this.value;}");
-        $myChart->yAxis->title->text = 'temp';
-        $myChart->yAxis->labels->formatter = $this->Highcharts->createJsExpr("function() { return this.value;}");
+        // labels to describe the content of axes
+        $myChart->xAxis->title->text = 'Week number';
+        $myChart->yAxis->title->text = 'Total amount of phases';
+        
+        // tooltips for the plotted graphs
         $myChart->tooltip->formatter = $this->Highcharts->createJsExpr("function() {
         return this.series.name +' <b>'+
         Highcharts.numberFormat(this.y, 0) +'</b><br/>Week number '+ this.x;}");
-        $myChart->plotOptions->area->marker->enabled = false;
-        $myChart->plotOptions->area->marker->symbol = 'circle';
-        $myChart->plotOptions->area->marker->radius = 2;
-        $myChart->plotOptions->area->marker->states->hover->enabled = true;
-
-        $myChart->legend->enabled = true;
-        $myChart->legend->layout = 'horizontal';
-        $myChart->legend->align = 'center';
-        $myChart->legend->verticalAlign  = 'bottom';
-        $myChart->legend->itemStyle = array('color' => '#222');
-        $myChart->legend->backgroundColor->linearGradient = array(0, 0, 0, 25);
-        $myChart->legend->backgroundColor->stops = array(array(0, 'rgb(217, 217, 217)'), array(1, 'rgb(255, 255, 255)'));
-
-        $myChart->xAxis->labels->enabled = true;
-        $myChart->xAxis->labels->align = 'right';
-        $myChart->xAxis->labels->step = 1;
-        $myChart->xAxis->labels->x = 5;
-        $myChart->xAxis->labels->y = 20;
-        $myChart->yAxis->title->text = 'Ammount of test cases';
-        $myChart->enable->autoStep = false;
-        // credits setting  [Highcharts.com  displayed on chart]
-        $myChart->credits->enabled = true;
-        $myChart->credits->text = 'Example.com';
-        $myChart->credits->href = 'http://example.com';
+        $myChart->plotOptions->area->marker->enabled = false;;
         
-        return $myChart;
-    }
-    
-    public function commitChart(){
-        $myChart = $this->Highcharts->createChart();
-
-        $myChart->title = array(
-            'text' => 'Commits', 
-            'x' => 20,
-            'y' => 20,
-            'align' => 'left',
-            'styleFont' => '18px Metrophobic, Arial, sans-serif',
-            'styleColor' => '#0099ff',
-        );
-
-        $myChart->chart->renderTo = 'commitwrapper';
-        $myChart->chart->type = 'area';
-        $myChart->chart->width =  800;
-        $myChart->chart->height = 600;
-        $myChart->chart->marginTop = 60;
-        $myChart->chart->marginLeft = 90;
-        $myChart->chart->marginRight = 30;
-        $myChart->chart->marginBottom = 110;
-        $myChart->chart->spacingRight = 10;
-        $myChart->chart->spacingBottom = 15;
-        $myChart->chart->spacingLeft = 0;
-        $myChart->chart->alignTicks = FALSE;
-        $myChart->chart->backgroundColor->linearGradient = array(0, 0, 0, 300);
-        $myChart->chart->backgroundColor->stops = array(array(0, 'rgb(217, 217, 217)'), array(1, 'rgb(255, 255, 255)'));                
-
-        $myChart->title->text = 'Commits';
-        $myChart->xAxis->labels->formatter = $this->Highcharts->createJsExpr("function() { return this.value;}");
-        $myChart->yAxis->title->text = 'temp';
-        $myChart->yAxis->labels->formatter = $this->Highcharts->createJsExpr("function() { return this.value;}");
-        $myChart->tooltip->formatter = $this->Highcharts->createJsExpr("function() {
-        return this.series.name +' produced <b>'+
-        Highcharts.numberFormat(this.y, 0) +'</b><br/>Week number '+ this.x;}");
-        $myChart->plotOptions->area->marker->enabled = false;
-        $myChart->plotOptions->area->marker->symbol = 'circle';
-        $myChart->plotOptions->area->marker->radius = 2;
-        $myChart->plotOptions->area->marker->states->hover->enabled = true;
-
-        $myChart->legend->enabled = true;
-        $myChart->legend->layout = 'horizontal';
-        $myChart->legend->align = 'center';
-        $myChart->legend->verticalAlign  = 'bottom';
-        $myChart->legend->itemStyle = array('color' => '#222');
-        $myChart->legend->backgroundColor->linearGradient = array(0, 0, 0, 25);
-        $myChart->legend->backgroundColor->stops = array(array(0, 'rgb(217, 217, 217)'), array(1, 'rgb(255, 255, 255)'));
-
-        $myChart->xAxis->labels->enabled = true;
-        $myChart->xAxis->labels->align = 'right';
-        $myChart->xAxis->labels->step = 1;
-        $myChart->xAxis->labels->x = 5;
-        $myChart->xAxis->labels->y = 20;
-        $myChart->yAxis->title->text = 'Ammount of commits';
-        $myChart->enable->autoStep = false;
-        $myChart->credits->enabled = true;
-        $myChart->credits->text = 'Example.com';
-        $myChart->credits->href = 'http://example.com';
-
         return $myChart;
     }
     
     public function reqChart() {
         $myChart = $this->Highcharts->createChart();
-
         $myChart->chart->renderTo = 'reqwrapper';
         $myChart->chart->type = 'column';
-        $myChart->title->text = 'Requirements';
-        $myChart->subtitle->text = 'req';
+        
+        $myChart->title = array(
+        		'text' => 'Requirements',
+        		'y' => 20,
+        		'align' => 'center',
+        		'styleFont' => '18px Metrophobic, Arial, sans-serif',
+        		'styleColor' => '#0099ff',
+        );
+        $myChart->subtitle->text = 'in numbers';
 
-        $myChart->yAxis->min = 0;
-        $myChart->yAxis->title->text = 'Requirements';
-        $myChart->legend->layout = 'vertical';
-        $myChart->legend->backgroundColor = '#FFFFFF';
-        $myChart->legend->align = 'left';
-        $myChart->legend->verticalAlign = 'top';
-        $myChart->legend->x = 100;
-        $myChart->legend->y = 70;
-        $myChart->legend->floating = 1;
-        $myChart->legend->shadow = 1;
+        // body of the chart
+        $myChart->chart->width =  800;
+        $myChart->chart->height = 500;
+        /*
+         $myChart->chart->marginTop = 60;
+         $myChart->chart->marginLeft = 90;
+         $myChart->chart->marginRight = 30;
+         $myChart->chart->marginBottom = 110;
+         $myChart->chart->spacingRight = 10;
+         $myChart->chart->spacingBottom = 15;
+         $myChart->chart->spacingLeft = 0;
+         */
+        // $myChart->chart->alignTicks = FALSE;
+        $myChart->chart->backgroundColor->linearGradient = array(0, 0, 0, 300);
+        $myChart->chart->backgroundColor->stops = array(array(0, 'rgb(217, 217, 255)'), array(1, 'rgb(255, 255, 255)'));
+        
+        // legend below the chart
+        $myChart->legend->enabled = true;
+        $myChart->legend->layout = 'horizontal';
+        $myChart->legend->align = 'center';
+        $myChart->legend->verticalAlign  = 'bottom';
+        $myChart->legend->itemStyle = array('color' => '#222');
+        $myChart->legend->backgroundColor->linearGradient = array(0, 0, 0, 25);
+        $myChart->legend->backgroundColor->stops = array(array(0, 'rgb(217, 217, 217)'), array(1, 'rgb(255, 255, 255)'));
 
+        // labels to describe the content of axes
+        $myChart->xAxis->title->text = 'Week number';
+        $myChart->yAxis->title->text = 'Total amount of requirements';
+        
+        // tooltips etc
         $myChart->tooltip->formatter = $this->Highcharts->createJsExpr("function() {
             return this.y;}");
 
@@ -397,145 +275,245 @@ class ChartsController extends AppController
         return $myChart;
     }
     
-    public function phaseChart(){
-        $chartName = 'Area Chart';
-
-        $myChart = $this->Highcharts->createChart();
-
-        $myChart->title = array(
-            'text' => 'Phases', 
-            'x' => 20,
-            'y' => 20,
-            'align' => 'left',
-            'styleFont' => '18px Metrophobic, Arial, sans-serif',
-            'styleColor' => '#0099ff',
+    public function reqPercentChart() {
+    	$myChart = $this->Highcharts->createChart();
+    	$myChart->chart->renderTo = "reqpercentwrapper";
+    	$myChart->chart->type = "column";
+    	$myChart->plotOptions->column->stacking = "percent";
+    	
+    	$myChart->title = array(
+        		'text' => 'Requirements',
+        		'y' => 20,
+        		'align' => 'center',
+        		'styleFont' => '18px Metrophobic, Arial, sans-serif',
+        		'styleColor' => '#0099ff',
         );
+    	$myChart->subtitle->text = 'in %';
+    	
+    	// body of the chart
+    	$myChart->chart->width =  800;
+    	$myChart->chart->height = 500;
+    	/*
+    	 $myChart->chart->marginTop = 60;
+    	 $myChart->chart->marginLeft = 90;
+    	 $myChart->chart->marginRight = 30;
+    	 $myChart->chart->marginBottom = 110;
+    	 $myChart->chart->spacingRight = 10;
+    	 $myChart->chart->spacingBottom = 15;
+    	 $myChart->chart->spacingLeft = 0;
+    	 */
+    	// $myChart->chart->alignTicks = FALSE;
+    	$myChart->chart->backgroundColor->linearGradient = array(0, 0, 0, 300);
+    	$myChart->chart->backgroundColor->stops = array(array(0, 'rgb(217, 217, 255)'), array(1, 'rgb(255, 255, 255)'));
 
-        $myChart->chart->renderTo = 'phasewrapper';
-        $myChart->chart->type = 'area';
-        $myChart->chart->width =  800;
-        $myChart->chart->height = 600;
-        $myChart->chart->marginTop = 60;
-        $myChart->chart->marginLeft = 90;
-        $myChart->chart->marginRight = 30;
-        $myChart->chart->marginBottom = 110;
-        $myChart->chart->spacingRight = 10;
-        $myChart->chart->spacingBottom = 15;
-        $myChart->chart->spacingLeft = 0;
-        $myChart->chart->alignTicks = FALSE;
-        $myChart->chart->backgroundColor->linearGradient = array(0, 0, 0, 300);
-        $myChart->chart->backgroundColor->stops = array(array(0, 'rgb(217, 217, 217)'), array(1, 'rgb(255, 255, 255)'));                
+    	// legend below the charts
+    	$myChart->legend->itemStyle = array('color' => '#222');
+    	$myChart->legend->backgroundColor->linearGradient = array(0, 0, 0, 25);
+    	$myChart->legend->backgroundColor->stops = array(array(0, 'rgb(217, 217, 217)'), array(1, 'rgb(255, 255, 255)'));
 
-        $myChart->title->text = 'Phases';
-        //$myChart->subtitle->text = "Source: <a href=\"http://thebulletin.metapress.com/content/c4120650912x74k7/fulltext.pdf\">thebulletin.metapress.com</a>";
-        $myChart->xAxis->labels->formatter = $this->Highcharts->createJsExpr("function() { return this.value;}");
-        $myChart->yAxis->title->text = 'temp';
-        $myChart->yAxis->labels->formatter = $this->Highcharts->createJsExpr("function() { return this.value;}");
-        $myChart->tooltip->formatter = $this->Highcharts->createJsExpr("function() {
+    	// labels to describe the content of axes
+    	$myChart->xAxis->title->text = 'Week number';
+    	$myChart->yAxis->title->text = '%';
+    	
+    	// tooltips
+    	$myChart->tooltip->formatter = $this->Highcharts->createJsExpr(
+    			"function() {
+            return ''+ this.series.name +': '+ this.y +' ('+ Math.round(this.percentage) +'%)';}");
+    
+    	return $myChart;
+    }
+    
+    public function commitChart(){
+    	$myChart = $this->Highcharts->createChart();
+    	$myChart->chart->renderTo = 'commitwrapper';
+    	$myChart->chart->type = 'column';
+    
+    	$myChart->title = array(
+        	'text' => 'Commits per week',
+        	'y' => 20,
+        	'align' => 'center',
+        	'styleFont' => '18px Metrophobic, Arial, sans-serif',
+        	'styleColor' => '#0099ff',
+        );
+    	
+    	// body of the chart
+    	$myChart->chart->width =  800;
+    	$myChart->chart->height = 500;
+    	/*
+    	 $myChart->chart->marginTop = 60;
+    	 $myChart->chart->marginLeft = 90;
+    	 $myChart->chart->marginRight = 30;
+    	 $myChart->chart->marginBottom = 110;
+    	 $myChart->chart->spacingRight = 10;
+    	 $myChart->chart->spacingBottom = 15;
+    	 $myChart->chart->spacingLeft = 0;
+    	 */
+    	// $myChart->chart->alignTicks = FALSE;
+    	$myChart->chart->backgroundColor->linearGradient = array(0, 0, 0, 300);
+    	$myChart->chart->backgroundColor->stops = array(array(0, 'rgb(217, 217, 255)'), array(1, 'rgb(255, 255, 255)'));
+
+    	// this chart doesn't need a legend
+    	$myChart->legend->enabled = false;
+
+		// tooltips
+    	$myChart->tooltip->formatter = $this->Highcharts->createJsExpr("function() {
+        return this.series.name +' produced <b>'+
+        Highcharts.numberFormat(this.y, 0) +'</b><br/>Week number '+ this.x;}");
+    	
+    	// labels to describe the content of axes
+    	$myChart->xAxis->title->text = 'Week number';
+    	$myChart->yAxis->title->text = 'Total amount of commits';
+   
+    	return $myChart;
+    }
+
+    public function testcaseChart() {
+    	$myChart = $this->Highcharts->createChart();
+    	$myChart->chart->renderTo = 'testcasewrapper';
+    	$myChart->chart->type = 'area';
+    
+    	$myChart->title = array(
+        	'text' => 'Test cases',
+        	'y' => 20,
+        	'align' => 'center',
+        	'styleFont' => '18px Metrophobic, Arial, sans-serif',
+        	'styleColor' => '#0099ff',
+        );
+    	
+    	// body of the chart
+    	$myChart->chart->width =  800;
+    	$myChart->chart->height = 500;
+    	/*
+    	 $myChart->chart->marginTop = 60;
+    	 $myChart->chart->marginLeft = 90;
+    	 $myChart->chart->marginRight = 30;
+    	 $myChart->chart->marginBottom = 110;
+    	 $myChart->chart->spacingRight = 10;
+    	 $myChart->chart->spacingBottom = 15;
+    	 $myChart->chart->spacingLeft = 0;
+    	 */
+    	// $myChart->chart->alignTicks = FALSE;
+    	$myChart->chart->backgroundColor->linearGradient = array(0, 0, 0, 300);
+    	$myChart->chart->backgroundColor->stops = array(array(0, 'rgb(217, 217, 255)'), array(1, 'rgb(255, 255, 255)'));
+
+    	// legend below the charts
+    	$myChart->legend->itemStyle = array('color' => '#222');
+    	$myChart->legend->backgroundColor->linearGradient = array(0, 0, 0, 25);
+    	$myChart->legend->backgroundColor->stops = array(array(0, 'rgb(217, 217, 217)'), array(1, 'rgb(255, 255, 255)'));
+    	 
+    	// tooltips etc
+    	$myChart->tooltip->formatter = $this->Highcharts->createJsExpr("function() {
         return this.series.name +' <b>'+
         Highcharts.numberFormat(this.y, 0) +'</b><br/>Week number '+ this.x;}");
-        $myChart->plotOptions->area->marker->enabled = false;
-        $myChart->plotOptions->area->marker->symbol = 'circle';
-        $myChart->plotOptions->area->marker->radius = 2;
-        $myChart->plotOptions->area->marker->states->hover->enabled = true;
+    	$myChart->plotOptions->area->marker->enabled = false;
 
-        $myChart->legend->enabled = true;
-        $myChart->legend->layout = 'horizontal';
-        $myChart->legend->align = 'center';
-        $myChart->legend->verticalAlign  = 'bottom';
-        $myChart->legend->itemStyle = array('color' => '#222');
-        $myChart->legend->backgroundColor->linearGradient = array(0, 0, 0, 25);
-        $myChart->legend->backgroundColor->stops = array(array(0, 'rgb(217, 217, 217)'), array(1, 'rgb(255, 255, 255)'));
-
-        $myChart->xAxis->labels->enabled = true;
-        $myChart->xAxis->labels->align = 'right';
-        $myChart->xAxis->labels->step = 1;
-        $myChart->xAxis->labels->x = 5;
-        $myChart->xAxis->labels->y = 20;
-        $myChart->yAxis->title->text = 'Ammount Phases';
-        $myChart->enable->autoStep = false;
-        // credits setting  [Highcharts.com  displayed on chart]
-        $myChart->credits->enabled = true;
-        $myChart->credits->text = 'Example.com';
-        $myChart->credits->href = 'http://example.com';
-        
-        return $myChart;
+    	// labels to describe the content of axes
+    	$myChart->xAxis->title->text = 'Week number';
+    	$myChart->yAxis->title->text = 'Total amount of test cases';
+    
+    	return $myChart;
     }
     
     public function hoursChart(){
-        $chartName = 'Area Chart';
-
-        $myChart = $this->Highcharts->createChart();
-
-        $myChart->title = array(
-            'text' => 'Hours (stacked)', 
-            'x' => 20,
-            'y' => 20,
-            'align' => 'left',
-            'styleFont' => '18px Metrophobic, Arial, sans-serif',
-            'styleColor' => '#0099ff',
+    	$myChart = $this->Highcharts->createChart();
+    	$myChart->chart->renderTo = 'hourswrapper';
+    	$myChart->chart->type = 'column';
+    	$myChart->plotOptions->column->stacking = "normal";
+    
+    	$myChart->title = array(
+        	'text' => 'Working hours',
+        	'y' => 20,
+        	'align' => 'center',
+        	'styleFont' => '18px Metrophobic, Arial, sans-serif',
+        	'styleColor' => '#0099ff',
         );
+    	$myChart->subtitle->text = "Categorized by type";
+    
+    	// body of the chart
+    	$myChart->chart->width =  800;
+    	$myChart->chart->height = 500;
+    	/*
+    	 $myChart->chart->marginTop = 60;
+    	 $myChart->chart->marginLeft = 90;
+    	 $myChart->chart->marginRight = 30;
+    	 $myChart->chart->marginBottom = 110;
+    	 $myChart->chart->spacingRight = 10;
+    	 $myChart->chart->spacingBottom = 15;
+    	 $myChart->chart->spacingLeft = 0;
+    	 */
+    	// $myChart->chart->alignTicks = FALSE;
+    	$myChart->chart->backgroundColor->linearGradient = array(0, 0, 0, 300);
+    	$myChart->chart->backgroundColor->stops = array(array(0, 'rgb(217, 217, 255)'), array(1, 'rgb(255, 255, 255)'));
 
-        $myChart->chart->renderTo = 'hourswrapper';
-        $myChart->chart->type = 'column';
-        $myChart->chart->width =  800;
-        $myChart->chart->height = 600;
-        $myChart->chart->marginTop = 60;
-        $myChart->chart->marginLeft = 90;
-        $myChart->chart->marginRight = 30;
-        $myChart->chart->marginBottom = 110;
-        $myChart->chart->spacingRight = 10;
-        $myChart->chart->spacingBottom = 15;
-        $myChart->chart->spacingLeft = 0;
-        $myChart->chart->alignTicks = FALSE;
-        $myChart->chart->backgroundColor->linearGradient = array(0, 0, 0, 300);
-        $myChart->chart->backgroundColor->stops = array(array(0, 'rgb(217, 217, 217)'), array(1, 'rgb(255, 255, 255)'));                
+    	// this chart doesn't need a legend
+    	$myChart->legend->enabled = false;
 
-        $myChart->title->text = 'Hours';
-        $myChart->xAxis->categories = array(
-                    'Planning and management',
-                    'Coding and testing',
-                    'Studying',
-                    'Documentation',
-                    'Other'
-        );
-        $myChart->xAxis->labels->formatter = $this->Highcharts->createJsExpr("function() { return this.value;}");
-        $myChart->yAxis->title->text = 'temp';
-        $myChart->yAxis->labels->formatter = $this->Highcharts->createJsExpr("function() { return this.value;}");
+    	// labels of axes; unique x-axis
+    	$myChart->xAxis->categories = array(
+    			'Planning and management',
+    			'Coding and testing',
+    			'Studying',
+    			'Documentation',
+    			'Other'
+    	);
+    	$myChart->yAxis->title->text = 'Total amount of working hours';
+
+		// tooltips etc
+    	$myChart->tooltip->formatter = $this->Highcharts->createJsExpr("function() {
+        return 'Total hours: ' +' <b>'+
+        Highcharts.numberFormat(this.y, 0) +'</b><br/>Work type: '+ this.x;}");
+    	$myChart->plotOptions->column->dataLabels->enabled = true;
+    	$myChart->plotOptions->column->dataLabels->style->textShadow = false;
+    	$myChart->plotOptions->column->dataLabels->style->color = '#444';
+    	$myChart->plotOptions->column->dataLabels->style->fontSize = '1.2em';
+    
+    	return $myChart;
+    }
+
+    public function weeklyhourChart(){
+		$myChart = $this->Highcharts->createChart();
+		$myChart->chart->renderTo = 'weeklyhourwrapper';
+		$myChart->chart->type = 'area';
+	
+		$myChart->title = array(
+			'text' => 'Weeklyhours',
+			'y' => 20,
+			'align' => 'center',
+			'styleFont' => '18px Metrophobic, Arial, sans-serif',
+			'styleColor' => '#0099ff',
+		);
+		$myChart->subtitle->text = 'Submitted to weekly reports';
+		
+		// body of the chart
+		$myChart->chart->width =  800;
+		$myChart->chart->height = 500;
+		/*
+		 $myChart->chart->marginTop = 60;
+		 $myChart->chart->marginLeft = 90;
+		 $myChart->chart->marginRight = 30;
+		 $myChart->chart->marginBottom = 110;
+		 $myChart->chart->spacingRight = 10;
+		 $myChart->chart->spacingBottom = 15;
+		 $myChart->chart->spacingLeft = 0;
+		 */
+		// $myChart->chart->alignTicks = FALSE;
+		$myChart->chart->backgroundColor->linearGradient = array(0, 0, 0, 300);
+		$myChart->chart->backgroundColor->stops = array(array(0, 'rgb(217, 217, 255)'), array(1, 'rgb(255, 255, 255)'));
+		
+		// this chart doesn't need a legend
+		$myChart->legend->enabled = false;
+		
+		// labels to describe the content of axes
+		$myChart->xAxis->title->text = 'Week number';
+		$myChart->yAxis->title->text = 'Total amount of weeklyhours';
+		
         $myChart->tooltip->formatter = $this->Highcharts->createJsExpr("function() {
-        return this.series.name +' <b>'+
+        return this.series.name +' produced <b>'+
         Highcharts.numberFormat(this.y, 0) +'</b><br/>Week number '+ this.x;}");
         $myChart->plotOptions->area->marker->enabled = false;
-        $myChart->plotOptions->area->marker->symbol = 'circle';
-        $myChart->plotOptions->area->marker->radius = 2;
-        $myChart->plotOptions->area->marker->states->hover->enabled = true;
 
-        $myChart->legend->enabled = true;
-        $myChart->legend->layout = 'horizontal';
-        $myChart->legend->align = 'center';
-        $myChart->legend->verticalAlign  = 'bottom';
-        $myChart->legend->itemStyle = array('color' => '#222');
-        $myChart->legend->backgroundColor->linearGradient = array(0, 0, 0, 25);
-        $myChart->legend->backgroundColor->stops = array(array(0, 'rgb(217, 217, 217)'), array(1, 'rgb(255, 255, 255)'));
-
-        $myChart->plotOptions->column->stacking = "normal";
-        $myChart->plotOptions->column->dataLabels->enabled = 1;
-        $myChart->plotOptions->column->dataLabels->color = $this->Highcharts->createJsExpr(
-        "(Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'");
-        $myChart->xAxis->labels->enabled = true;
-        $myChart->xAxis->labels->align = 'right';
-        $myChart->xAxis->labels->step = 1;
-        $myChart->xAxis->labels->x = 5;
-        $myChart->xAxis->labels->y = 20;
-        $myChart->yAxis->title->text = 'Total hours';
-        $myChart->enable->autoStep = false;
-        // credits setting  [Highcharts.com  displayed on chart]
-        $myChart->credits->enabled = true;
-        $myChart->credits->text = 'Example.com';
-        $myChart->credits->href = 'http://example.com';
-        
         return $myChart;
-    } 
+    }
     
     public function isAuthorized($user)
     {      
