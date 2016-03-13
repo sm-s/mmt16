@@ -1,16 +1,15 @@
 <nav class="large-2 medium-4 columns" id="actions-sidebar">    
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
+        <!-- doesn't work yet
+             Requirement ID: 4 -->
+        <li><?= $this->Html->link(__('Latest Reports'), ['action' => 'view']) ?></li>
         <?php
             $admin = $this->request->session()->read('is_admin');
             $supervisor = $this->request->session()->read('is_supervisor');
-            echo $supervisor;
             if($admin || $supervisor) {
         ?>
             <li><?= $this->Html->link(__('New Project'), ['action' => 'add']) ?></li>
-            <!-- doesn't work yet
-                 Requirement ID: 4 -->
-            <li><?= $this->Html->link(__('Latest Reports'), ['action' => 'view']) ?></li>
 		<?php
 			}
             if ($admin) {
