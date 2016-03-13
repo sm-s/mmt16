@@ -3,12 +3,12 @@
         <li class="heading"><?= __('Actions') ?></li>
         <?php
             $admin = $this->request->session()->read('is_admin');
-            $supervisor = $this->request->session()->read('is_supervisor');
+            $supervisor = ( $this->request->session()->read('selected_project_role') == 'supervisor' ) ? 1 : 0;
 
             // FIX: managers can also add new members
-            $isManager = $this->request->session()->read('selected_project_role');
+            $manager = ( $this->request->session()->read('selected_project_role') == 'manager' ) ? 1 : 0;
             
-            if($admin || $supervisor || $isManager == 'manager') {
+            if($admin || $supervisor || $manager ) {
         ?>
 			<li><?= $this->Html->link(__('New Member'), ['action' => 'add']) ?></li>
         <?php }
@@ -34,7 +34,7 @@
                     <?= $this->Html->link(__('View'), ['action' => 'view', $member->id]) ?>
                     <?php
 			            $admin = $this->request->session()->read('is_admin');
-			            $supervisor = $this->request->session()->read('is_supervisor');
+			            $supervisor = ( $this->request->session()->read('selected_project_role') == 'supervisor' ) ? 1 : 0;
 			            if($admin || $supervisor){
 			        ?>
                     <?= $this->Html->link(__('Edit'), ['action' => 'edit', $member->id]) ?>

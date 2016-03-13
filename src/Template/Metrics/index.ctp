@@ -4,17 +4,17 @@
         
         <?php
             $admin = $this->request->session()->read('is_admin');
-            $supervisor = $this->request->session()->read('is_supervisor');
+            $supervisor = ( $this->request->session()->read('selected_project_role') == 'supervisor' ) ? 1 : 0;
             
-            // FIX: managers can also add new metrics (separate add for admin/superv. only)
-            $isManager = $this->request->session()->read('selected_project_role');
+            // FIX: managers can also add new metrics (separate add for admin only)
+            $manager = ( $this->request->session()->read('selected_project_role') == 'manager' ) ? 1 : 0;
 
-            if($admin || $supervisor){
+            if($admin){
         ?>
             <li><?= $this->Html->link(__('New Metric (admin)'), ['action' => 'addadmin']) ?></li>
         <?php
             } 
-            if ($isManager == 'manager' || $admin || $supervisor) {
+            if ($manager || $admin || $supervisor) {
         ?> 
 	        <li><?= $this->Html->link(__('New Metric'), ['action' => 'add']) ?></li>
         <?php 
@@ -45,7 +45,7 @@
                     <?= $this->Html->link(__('View'), ['action' => 'view', $metric->id]) ?>
                     <?php
 			            $admin = $this->request->session()->read('is_admin');
-			            $supervisor = $this->request->session()->read('is_supervisor');
+			            $supervisor = ( $this->request->session()->read('selected_project_role') == 'supervisor' ) ? 1 : 0;
 			            if($admin || $supervisor){
 			        ?>
 	        

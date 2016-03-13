@@ -3,7 +3,7 @@
         <li class="heading"><?= __('Actions') ?></li>
         <?php
         	$admin = $this->request->session()->read('is_admin');
-			$supervisor = $this->request->session()->read('is_supervisor');
+			$supervisor = ( $this->request->session()->read('selected_project_role') == 'supervisor' ) ? 1 : 0;
         	
         	if($admin || $supervisor
 			|| $workinghour->member->user_id == $this->request->session()->read('Auth.User.id') ) { ?>

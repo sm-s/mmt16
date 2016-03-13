@@ -1,13 +1,17 @@
 <nav class="large-2 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('Log time'), ['action' => 'add']) ?></li>
         <?php
             $admin = $this->request->session()->read('is_admin');
-            $supervisor = $this->request->session()->read('is_supervisor');
-            if($admin || $supervisor){
+            $supervisor = ( $this->request->session()->read('selected_project_role') == 'supervisor' ) ? 1 : 0;
+            if ( !($supervisor) ) {
         ?>
-        	<li><?= $this->Html->link(__('Log time for another member'), ['action' => 'adddev']) ?></li>
+        	<li><?= $this->Html->link(__('Log time'), ['action' => 'add']) ?></li>
+      	<?php 
+			} 
+			if($admin || $supervisor) {
+		?>
+			<li><?= $this->Html->link(__('Log time for another member'), ['action' => 'adddev']) ?></li>
 		<?php } ?>
     </ul>
 </nav>
@@ -41,7 +45,7 @@
                     <?= $this->Html->link(__('View'), ['action' => 'view', $workinghour->id]) ?>
 					<?php
 			            $admin = $this->request->session()->read('is_admin');
-			            $supervisor = $this->request->session()->read('is_supervisor');
+						$supervisor = ( $this->request->session()->read('selected_project_role') == 'supervisor' ) ? 1 : 0;
 			            
 			            // edit and delete can also be viewed by the developer who owns them
 			            if($admin || $supervisor

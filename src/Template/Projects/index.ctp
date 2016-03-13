@@ -3,10 +3,10 @@
         <li class="heading"><?= __('Actions') ?></li>
         <!-- doesn't work yet
              Requirement ID: 4 -->
-        <li><?= $this->Html->link(__('Latest Reports'), ['action' => 'view']) ?></li>
+        <li><?= $this->Html->link(__('Latest Reports'), ['action' => 'view/10']) ?></li>
         <?php
             $admin = $this->request->session()->read('is_admin');
-            $supervisor = $this->request->session()->read('is_supervisor');
+            $supervisor = ( $this->request->session()->read('selected_project_role') == 'supervisor' ) ? 1 : 0;
             if($admin || $supervisor) {
         ?>
             <li><?= $this->Html->link(__('New Project'), ['action' => 'add']) ?></li>
