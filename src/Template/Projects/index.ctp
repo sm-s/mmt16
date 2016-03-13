@@ -4,17 +4,20 @@
         <?php
             $admin = $this->request->session()->read('is_admin');
             $supervisor = $this->request->session()->read('is_supervisor');
-            if($admin){
+            echo $supervisor;
+            if($admin || $supervisor) {
         ?>
             <li><?= $this->Html->link(__('New Project'), ['action' => 'add']) ?></li>
+            <!-- doesn't work yet
+                 Requirement ID: 4 -->
+            <li><?= $this->Html->link(__('Latest Reports'), ['action' => 'view']) ?></li>
+		<?php
+			}
+            if ($admin) {
+		?>
             <li><?= $this->Html->link(__('Manage Users'), ['controller' => 'Users', 'action' => 'index']) ?></li>
             <li><?= $this->Html->link(__('Metrictypes'), ['controller' => 'Metrictypes', 'action' => 'index']) ?> </li>
             <li><?= $this->Html->link(__('Worktypes'), ['controller' => 'Worktypes', 'action' => 'index']) ?> </li>
-        <?php
-            }
-            if(!$admin && $supervisor){
-        ?>
-            <li><?= $this->Html->link(__('New Project'), ['action' => 'add']) ?></li>
         <?php
             }
         ?>
