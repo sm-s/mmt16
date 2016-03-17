@@ -45,7 +45,7 @@
                             <td class="actions">
                                 <?= $this->Html->link(__('Select'), ['action' => 'view', $project->id]) ?>
                             </td>
-                        </tr>       
+                        </tr>
                     <?php } ?>
                 <?php endforeach; ?>
             </tbody>

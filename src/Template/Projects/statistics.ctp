@@ -20,43 +20,42 @@
         <h4><?= h('Weeklyreports') ?></h4>
         <tbody>
             <tr>
-                <td></td>
+                <td>
                 <?php 
                 $min = $this->request->session()->read('statistics_limits')['weekmin'];
                 $max = $this->request->session()->read('statistics_limits')['weekmax'];
                 for ($x = $min; $x <= $max; $x++) {
                     echo "<td>$x</td>";
                 } 
-                ?>
+                ?></td>
             </tr>
             
             <?php foreach ($projects as $project): ?>
                 <tr>
                     <td><?= h($project['project_name']) ?></td>
                     <?php
-                    	/* Wrapping cells' data in link tags if weeklyreports are available
-                    	 * For supervisors/admins only
-                    	 * Requirement ID: 4
-                    	 */
+                    
                     	$admin = $this->request->session()->read('is_admin');
 						$supervisor = ( $this->request->session()->read('selected_project_role') == 'supervisor' ) ? 1 : 0;
+						$weeklyreports = Cake\ORM\TableRegistry::get('Weeklyreports');
 
                     	foreach ($project['reports'] as $report):
                     ?>
-                        <td><?php
-                        	// adding link tags around X's if admin or supervisor
-                        	if ( $report == 'X' && ($admin || $supervisor) ) { ?>
-                        		<a href="www.google.com">
-                        	<?php
-                        		} ?>
-                        	<!-- this is the data inside the cells -->
-                        	<?= h($report) ?>
+                        <td>
                         <?php
-                        	// closing link tags
-                        	if ( $report == 'X' && ($admin || $supervisor) ) {
-                        ?>
-                        		</a>
-                        	<?php } ?></td>
+                        	if ( !($report == 'X') ) { ?>
+                        		<?= h($report) ?>
+                        <?php
+                        	}
+                        	// adding link to X's if admin or supervisor
+                        	elseif ( $report == 'X' && ($admin || $supervisor) ) { ?>
+                        		<?= $this->Html->link(__($report.' (view)'), ['action' => 'view']) ?>
+                        <?php 
+                        	} else { ?>
+                        		<?= h($report) ?>
+                        <?php
+                        	} ?>
+                        </td>
                     <?php endforeach; ?>
                 </tr>
             <?php endforeach; ?>
