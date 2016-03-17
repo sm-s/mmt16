@@ -33,24 +33,38 @@
             <?php foreach ($projects as $project): ?>
                 <tr>
                     <td><?= h($project['project_name']) ?></td>
-                    <?php
-                    
+                    <?php                    
                     	$admin = $this->request->session()->read('is_admin');
 						$supervisor = ( $this->request->session()->read('selected_project_role') == 'supervisor' ) ? 1 : 0;
-						$weeklyreports = Cake\ORM\TableRegistry::get('Weeklyreports');
 
-                    	foreach ($project['reports'] as $report):
-                    ?>
+						// query iterator, resets after finishing one row
+						$i = 0;
+
+                    	foreach ($project['reports'] as $report): ?>
                         <td>
                         <?php
+                        	// non-X's print like normal
                         	if ( !($report == 'X') ) { ?>
                         		<?= h($report) ?>
                         <?php
                         	}
                         	// adding link to X's if admin or supervisor
-                        	elseif ( $report == 'X' && ($admin || $supervisor) ) { ?>
-                        		<?= $this->Html->link(__($report.' (view)'), ['action' => 'view']) ?>
-                        <?php 
+                        	elseif ( $report == 'X' && ($admin || $supervisor) ) { 
+                        		// fetching the ID for current weeklyreport's view-page
+                        		$query = Cake\ORM\TableRegistry::get('Weeklyreports')
+									->find()
+									->select(['id']) 
+									->where(['project_id =' => $project['id']])
+									->toArray(); 
+								// transforming returned query item to integer
+								$reportId = intval( substr($query[$i++], 11, 3) );
+						?>
+                        		<?= $this->Html->link(__($report.' (view)'), [
+								                                              'controller' => 'Weeklyreports',
+                        		                                              'action' => 'view',
+                        		                                              $reportId ]) ?>
+                        <?php
+                        	// displays X without a link to other users
                         	} else { ?>
                         		<?= h($report) ?>
                         <?php
