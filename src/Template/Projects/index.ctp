@@ -4,12 +4,9 @@
         <?php
             $admin = $this->request->session()->read('is_admin');
             $supervisor = ( $this->request->session()->read('selected_project_role') == 'supervisor' ) ? 1 : 0;
+            // only admins/supervisors can add new projects
             if($admin || $supervisor) {
         ?>
-        	<!-- doesn't work yet
-             Requirement ID: 4 -->
-	        <li><?= $this->Html->link(__('Latest Reports'), ['action' => 'view/10']) ?></li>
-
             <li><?= $this->Html->link(__('New Project'), ['action' => 'add']) ?></li>
 		<?php
 			}
