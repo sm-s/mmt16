@@ -28,12 +28,23 @@ class WeeklyreportsController extends AppController
 
     public function view($id = null)
     {
-        // only load if the report is from the current project
+    	/* EDIT: admins and supervisors can view weeklyreports of all projects regardless of selected one
+    	 * REQ ID: 4 
+    	 */
+    	$admin = $this->request->session()->read('is_admin');
+    	$supervisor = ( $this->request->session()->read('selected_project_role') == 'supervisor' ) ? 1 : 0;
+    	
+        // only load if the report is from the current project unless admin/superv.
         $project_id = $this->request->session()->read('selected_project')['id'];
-        $weeklyreport = $this->Weeklyreports->get($id, [
-            'contain' => ['Projects', 'Metrics', 'Weeklyhours'],
-            'conditions' => array('Weeklyreports.project_id' => $project_id)
-        ]);
+        if ($admin || $supervisor) {
+        	// admin/superv. can access without conditions
+        	$weeklyreport = $this->Weeklyreports->get($id, [
+        		'contain' => ['Projects', 'Metrics', 'Weeklyhours'] ]);
+        } else {
+        	$weeklyreport = $this->Weeklyreports->get($id, [
+        			'contain' => ['Projects', 'Metrics', 'Weeklyhours'],
+        			'conditions' => array('Weeklyreports.project_id' => $project_id) ]);
+        }
         
         // get members because the weeklyhours table has a function we want to use
         $members = TableRegistry::get('Members');

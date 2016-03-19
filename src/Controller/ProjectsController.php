@@ -6,6 +6,7 @@ use App\Controller\MemberController;
 use Cake\Filesystem\Folder;
 use Cake\ORM\TableRegistry;
 use Cake\I18n\Time;
+use Cake\Routing\Route\RedirectRoute;
 
 class ProjectsController extends AppController
 {
@@ -191,6 +192,10 @@ class ProjectsController extends AppController
         // statistics and faq are open pages to everyone
         $this->Auth->allow(['statistics']);
         $this->Auth->allow(['faq']);
+    }
+    
+    public function redir() {
+    	$this->redirect('www.google.com');
     }
     
     public function isAuthorized($user)

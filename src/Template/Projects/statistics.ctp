@@ -20,21 +20,56 @@
         <h4><?= h('Weeklyreports') ?></h4>
         <tbody>
             <tr>
-                <td></td>
+                <td>
                 <?php 
                 $min = $this->request->session()->read('statistics_limits')['weekmin'];
                 $max = $this->request->session()->read('statistics_limits')['weekmax'];
                 for ($x = $min; $x <= $max; $x++) {
                     echo "<td>$x</td>";
                 } 
-                ?>
+                ?></td>
             </tr>
             
             <?php foreach ($projects as $project): ?>
                 <tr>
                     <td><?= h($project['project_name']) ?></td>
-                    <?php foreach ($project['reports'] as $report): ?>
-                        <td><?= h($report) ?></td>
+                    <?php                    
+                    	$admin = $this->request->session()->read('is_admin');
+						$supervisor = ( $this->request->session()->read('selected_project_role') == 'supervisor' ) ? 1 : 0;
+
+						// query iterator, resets after finishing one row
+						$i = 0;
+
+                    	foreach ($project['reports'] as $report): ?>
+                        <td>
+                        <?php
+                        	// non-X's print like normal
+                        	if ( !($report == 'X') ) { ?>
+                        		<?= h($report) ?>
+                        <?php
+                        	}
+                        	// adding link to X's if admin or supervisor
+                        	elseif ( $report == 'X' && ($admin || $supervisor) ) { 
+                        		// fetching the ID for current weeklyreport's view-page
+                        		$query = Cake\ORM\TableRegistry::get('Weeklyreports')
+									->find()
+									->select(['id']) 
+									->where(['project_id =' => $project['id']])
+									->toArray(); 
+								// transforming returned query item to integer
+								$reportId = intval( substr($query[$i++], 11, 3) );
+						?>
+                        		<?= $this->Html->link(__($report.' (view)'), [
+								                                              'controller' => 'Weeklyreports',
+                        		                                              'action' => 'view',
+                        		                                              $reportId ]) ?>
+                        <?php
+                        	// displays X without a link to other users
+                        	} else { ?>
+                        		<?= h($report) ?>
+                        <?php
+                        	} ?>
+                        </td>
                     <?php endforeach; ?>
                 </tr>
             <?php endforeach; ?>
