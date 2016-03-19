@@ -6,6 +6,8 @@ by Ändi
 16.3.2016
 
 Use this however you want, I don't care
+To contact me, use this email:
+a (DOT) i (DOT) valjakka (AT) acm (DOT) org
 
 **********************************************************
 
