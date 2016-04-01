@@ -59,12 +59,17 @@
                     <th><?= __('Worktype') ?></th>
                     <th class="actions"><?= __('Actions') ?></th>
                 </tr>
-                <?php foreach ($member->workinghours as $workinghours): ?>
+                <?php foreach ($member->workinghours as $workinghours): 
+                	$query = Cake\ORM\TableRegistry::get('Worktypes')
+                		->find()
+                		->where(['id =' => $workinghours->worktype_id])
+                		->toArray();
+                ?>
                 <tr>
                     <td><?= h($workinghours->date) ?></td>
                     <td><?= h($workinghours->description) ?></td>
                     <td><?= h($workinghours->duration) ?></td>
-                    <td><?= h($workinghours->worktype) ?></td>
+	                <td><?= h($query[0]->description) ?></td>
                     <td class="actions">
                         <?= $this->Html->link(__('View'), ['controller' => 'Workinghours', 'action' => 'view', $workinghours->id]) ?>
 
