@@ -24,6 +24,18 @@
                 <?php 
                 $min = $this->request->session()->read('statistics_limits')['weekmin'];
                 $max = $this->request->session()->read('statistics_limits')['weekmax'];
+                
+                // correction for nonsensical values
+                if ( $min < 1 )  $min = 1;
+                if ( $min > 52 ) $min = 52;
+                if ( $max < 1 )  $max = 1;
+                if ( $max > 52 ) $max = 52;
+                if ( $max < $min ) { 
+					$temp = $max; 
+                	$max = $min;
+                	$min = $temp;
+                }
+
                 for ($x = $min; $x <= $max; $x++) {
                     echo "<td>$x</td>";
                 } 
@@ -34,49 +46,59 @@
                 <tr>
                     <td><?= h($project['project_name']) ?></td>
                     <?php                    
-                    	$admin = $this->request->session()->read('is_admin');
+						$admin = $this->request->session()->read('is_admin');
 						$supervisor = ( $this->request->session()->read('selected_project_role') == 'supervisor' ) ? 1 : 0;
 
 						// query iterator, resets after finishing one row
 						$i = 0;
 
-                    	foreach ($project['reports'] as $report): ?>
-                        <td>
-                        <?php
-                        	// non-X's print like normal
-                        	if ( !($report == 'X') ) { ?>
-                        		<?= h($report) ?>
-                        <?php
-                        	}
-                        	// adding link to X's if admin or supervisor
-                        	elseif ( $report == 'X' && ($admin || $supervisor) ) { 
-                        		// fetching the ID for current weeklyreport's view-page
-                        		$query = Cake\ORM\TableRegistry::get('Weeklyreports')
-									->find()
-									->select(['id']) 
-									->where(['project_id =' => $project['id']])
-									->toArray(); 
-								// transforming returned query item to integer
-								$reportId = intval( substr($query[$i++], 11, 3) );
-						?>
-                        		<?= $this->Html->link(__($report.' (view)'), [
-								                                              'controller' => 'Weeklyreports',
-                        		                                              'action' => 'view',
-                        		                                              $reportId ]) ?>
-                        <?php
-                        	// displays X without a link to other users
-                        	} else { ?>
-                        		<?= h($report) ?>
-                        <?php
-                        	} ?>
-                        </td>
+                    	foreach ($project['reports'] as $report):
+                    		// if current project is already finished (= non-empty finished_date), print empty data cells in else
+			            	if ( empty( $project['finished_date'] ) ) {
+					?>
+		                        <td>
+		                        <?php
+		                        	// non-X's print like normal
+		                        	if ( !($report == 'X') ) { ?>
+		                        		<?= h($report) ?>
+		                        <?php
+		                        	}
+		                        	// adding link to X's if admin or supervisor
+		                        	// BUG FIX 31.3.: links to weeklyreports now actually link to correct reports
+		                        	elseif ( $report == 'X' && ($admin || $supervisor) ) { 
+		                        		// fetching the ID for current weeklyreport's view-page
+		                        		$query = Cake\ORM\TableRegistry::get('Weeklyreports')
+											->find()
+											->select(['id'])
+											->where(['project_id =' => $project['id'], 
+											         'week >=' => $min])
+											->toArray();
+										// transforming returned query item to integer (cuts the string from 11th index)
+										$reportId = intval( substr($query[$i++], 11) );
+								?>
+		                        		<?= $this->Html->link(__($report.' (view)'), [
+										                                              'controller' => 'Weeklyreports',
+		                        		                                              'action' => 'view',
+		                        		                                              $reportId ]) ?>
+		                        <?php
+		                        	// displays X without a link to other users
+		                        	} else { ?>
+		                        		<?= h($report) ?>
+		                        <?php
+		                        	} ?>
+		                        </td>
+	                        <?php
+                        	} // end if (else = print empty data cells)
+                        	else { ?>
+                        		<td></td>
+                        	<?php } ?>
                     <?php endforeach; ?>
                 </tr>
             <?php endforeach; ?>
         </tbody> 
     </table>
     <table border="1" style="width:50%;">
-        <h4><?= h('Total Weeklyhours') ?></h4>
+        <h4><?= h('Total weeklyhours') ?></h4>
         <tbody>
             <?php foreach ($projects as $project): ?>
                 <tr>
@@ -86,4 +108,9 @@
             <?php endforeach; ?>
         </tbody> 
     </table>
+    
+    <article>
+    	<h4><?= h('Additional statistics') ?></h4>
+    	<p>Visit the <a href="http://www.uta.fi/sis/tie/pw/statistics.html" target="_blank">Statistics page</a> of Project Work course.</p>
+    </article>
 </div>

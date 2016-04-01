@@ -70,7 +70,7 @@ class ProjectsTable extends Table
         $projects = TableRegistry::get('Projects');
         $query = $projects
             ->find()
-            ->select(['id', 'project_name'])
+            ->select(['id', 'project_name', 'finished_date'])
             ->where(['is_public' => 1])
             ->toArray();
         $publicProjects = array();
@@ -78,6 +78,7 @@ class ProjectsTable extends Table
             $project = array();
             $project['id'] = $temp->id;
             $project['project_name'] = $temp->project_name;
+            $project['finished_date'] = $temp->finished_date;
             $publicProjects[] = $project;
         }
         return $publicProjects;
@@ -116,10 +117,12 @@ class ProjectsTable extends Table
     // ' ' if there is no report but its still not late
     public function getWeeklyreportWeeks($project_id, $min, $max, $year){
         $weeklyreports = TableRegistry::get('Weeklyreports'); 
+        /* BUG FIX: editing weekly limits now works fine
+         */
         $query = $weeklyreports
             ->find()
             ->select(['week'])
-            ->where(['project_id' => $project_id, 'week >' => $min, 'week <' => $max, 'year' => $year])
+            ->where(['project_id' => $project_id, 'week >=' => $min, 'week <=' => $max, 'year' => $year])
             ->toArray();
 
         $weeks = array();

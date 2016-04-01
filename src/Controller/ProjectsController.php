@@ -57,8 +57,25 @@ class ProjectsController extends AppController
         if ($this->request->is('post')) {
             $data = $this->request->data;
             
-            $statistics_limits['weekmin'] = $data['weekmin'];
-            $statistics_limits['weekmax'] = $data['weekmax'];
+            /* FIX: editing limits on Public Statistics now behaves like a decent UI
+             */
+            // fetch values using helpers
+            $min = $data['weekmin'];
+            $max = $data['weekmax'];
+            
+            // correction for nonsensical values
+            if ( $min < 1 )  $min = 1;
+            if ( $min > 52 ) $min = 52;
+            if ( $max < 1 )  $max = 1;
+            if ( $max > 52 ) $max = 52;
+            if ( $max < $min ) {
+            	$temp = $max;
+            	$max = $min;
+            	$min = $temp;
+            }
+            
+            $statistics_limits['weekmin'] = $min;
+            $statistics_limits['weekmax'] = $max;
             $statistics_limits['year'] = $data['year'];
             
             $this->request->session()->write('statistics_limits', $statistics_limits);
@@ -69,8 +86,8 @@ class ProjectsController extends AppController
         if(!$this->request->session()->check('statistics_limits')){
             $time = Time::now();
             // magic numbers for the springs project work course
-            $statistics_limits['weekmin'] = 5;
-            $statistics_limits['weekmax'] =  23;
+            $statistics_limits['weekmin'] = 2;
+            $statistics_limits['weekmax'] = 15;
             
             $statistics_limits['year'] = $time->year;
             
@@ -192,10 +209,6 @@ class ProjectsController extends AppController
         // statistics and faq are open pages to everyone
         $this->Auth->allow(['statistics']);
         $this->Auth->allow(['faq']);
-    }
-    
-    public function redir() {
-    	$this->redirect('www.google.com');
     }
     
     public function isAuthorized($user)
