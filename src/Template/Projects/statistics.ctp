@@ -73,8 +73,8 @@
 											->where(['project_id =' => $project['id'], 
 											         'week >=' => $min])
 											->toArray();
-										// transforming returned query item to integer (cuts the string from 11th index)
-										$reportId = intval( substr($query[$i++], 11) );
+										// transforming returned query item to integer
+										$reportId = $query[$i++]->id;
 								?>
 		                        		<?= $this->Html->link(__($report.' (view)'), [
 										                                              'controller' => 'Weeklyreports',
