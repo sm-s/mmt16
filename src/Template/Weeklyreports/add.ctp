@@ -23,7 +23,7 @@
             else{
                 $now = Time::now();
                 echo $this->Form->input('title');
-                echo $this->Form->input('week', array('value' => $now->weekOfYear));
+                echo $this->Form->input('week', array('value' => $now->weekOfYear -1));
                 echo $this->Form->input('year', array('value' => $now->year));
                 echo $this->Form->input('reglink');
                 echo $this->Form->input('problems');
