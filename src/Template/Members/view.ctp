@@ -64,12 +64,13 @@
                 		->find()
                 		->where(['id =' => $workinghours->worktype_id])
                 		->toArray();
+                	$worktype = $query[0];
                 ?>
                 <tr>
                     <td><?= h($workinghours->date) ?></td>
                     <td><?= h($workinghours->description) ?></td>
-                    <td><?= h($workinghours->duration) ?></td>
-	                <td><?= h($query[0]->description) ?></td>
+                    <td><?= $this->Number->format($workinghours->duration) ?></td>
+	                <td><?= h($worktype->description) ?></td>
                     <td class="actions">
                         <?= $this->Html->link(__('View'), ['controller' => 'Workinghours', 'action' => 'view', $workinghours->id]) ?>
 

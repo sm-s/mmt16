@@ -24,7 +24,7 @@
         </thead>
         <tbody>
             <?php foreach ($weeklyhours as $weeklyhour): ?>
-            <tr>        
+            <tr>
                 <?php
                     foreach($memberlist as $member){
                         if($weeklyhour->member->id == $member['id']){

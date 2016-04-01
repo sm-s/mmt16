@@ -22,8 +22,12 @@
             }
             else{
                 $now = Time::now();
-                echo $this->Form->input('title');
-                echo $this->Form->input('week', array('value' => $now->weekOfYear -1));
+                $reportWeek = $now->weekOfYear -1;
+                $currProj = $this->request->session()->read('selected_project')['project_name'];
+
+				// autofills some info to report title
+                echo $this->Form->input('title', array('value' => $currProj.', report for week '.$reportWeek.', '.$now->year) );
+                echo $this->Form->input('week', array('value' => $reportWeek));
                 echo $this->Form->input('year', array('value' => $now->year));
                 echo $this->Form->input('reglink');
                 echo $this->Form->input('problems');
