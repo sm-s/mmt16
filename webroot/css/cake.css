@@ -573,3 +573,15 @@ h5 {
 .chart {
   width: 800px;
 }
+
+/**
+ * Req #1 
+ * Req #21
+ */
+input[readonly]{
+  float:left;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  width: 9em;
+  background-color: white;
+}

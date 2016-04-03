@@ -37,9 +37,14 @@ class WorkinghoursTable extends Table
             ->add('id', 'valid', ['rule' => 'numeric'])
             ->allowEmpty('id', 'create');
 
+        /*
+         * Req #1
+         * 
+         * Made changes for the datepicker so that the working hours could be saved
+         */
         $validator
-            ->add('date', 'valid', ['rule' => 'date'])
-            ->requirePresence('date', 'create')
+            //->add('date', 'valid', ['rule' => 'date'])
+            //->requirePresence('date', 'create')
             ->notEmpty('date');
 
         $validator
