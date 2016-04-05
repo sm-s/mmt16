@@ -51,7 +51,7 @@ echo $this->Html->script('jquery-ui.min');
                 $year = $temp['year'];
                 $month = $temp['month'];
                 $day = $temp['day'];   
-                $mDate = date("m/d/Y", mktime(0,0,0, $month, $day, $year));
+                $mDate = date("d M Y", mktime(0,0,0, $month, $day, $year));
             } 
         ?>    
     </fieldset>

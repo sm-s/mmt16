@@ -66,8 +66,8 @@ echo $this->Html->script('jquery-ui.min');
                 // $mDate is the first day of the new weeklyreport week (monday) 
                 $monday = new DateTime();
                 $monday->setISODate($maxYear,$maxWeek,8);
-                $mDate1 = $monday->format('m/d/Y');
-                $mDate = date($mDate1);
+                $mDate1 = $monday->format('d M Y');
+                $mDate = date('d M Y', strtotime($mDate1));
             }
             /*
              * There are no weekly reports.
@@ -87,7 +87,7 @@ echo $this->Html->script('jquery-ui.min');
                     $day = $temp['day'];
                     
                     // $mDate is the date project was created on              
-                    $mDate = date("m/d/Y", mktime(0,0,0, $month, $day, $year));
+                    $mDate = date("d M Y", mktime(0,0,0, $month, $day, $year));
                 }
             }
         ?>    
