@@ -18,6 +18,7 @@ $cakeDescription = 'MMT';
 //debug prints
 //print_r($this->request->session()->read('selected_project_role'));
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -76,7 +77,7 @@ $cakeDescription = 'MMT';
     </style>
 </head>
 <body>
-
+<div id="area51">
     <!-- This div shows the top-left corner (currently chosen project) -->
 	<div style="background-color: #15848F; color: white; font-weight: bold; padding-left: 0.5em; float: left; ">
     	<?php
@@ -196,5 +197,6 @@ $cakeDescription = 'MMT';
     </section>
     <footer>
     </footer>
+</div>
 </body>
 </html>

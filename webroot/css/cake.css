@@ -1,3 +1,31 @@
+body {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color: #FFF;
+  background-image: url('http://www.uta.fi/resurssit/kuvat/tausta.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+div {
+  background-color: #FFF;
+}
+
+/* I just came up with a unique name that probably was not used
+   This div contains the actual content of this site */
+#area51 {
+  background-color: #FFF;
+  
+  width: 80%;
+  min-width: 100px;
+  max-width: 1200px;
+  
+  min-height: 100%;
+  margin: 0 auto;
+}
+
 .disabled a,
 a.disabled {
   pointer-events: none;
@@ -13,6 +41,8 @@ a {
 
 .side-nav li a:not(.button) {
   color: #15848F;
+  
+  margin-left: 0.8em;
 }
 
 .side-nav li a:not(.button):hover {
@@ -366,11 +396,16 @@ pre {
 }
 
 .top-bar.expanded .title-area {
+  
   background: #01545b;
+  
+  border-right: 2px solid white;
+  border-bottom: 2px solid white;
+  border-radius: 0px 0px 20px 0px;
 }
 
 .top-bar.expanded, .top-bar,.top-bar-section ul li,.top-bar-section li:not(.has-form) a:not(.button) {
-  background: #116d76;
+  background: #19578A;
 }
 
 .top-bar-section li:not(.has-form) a:not(.button):hover {
