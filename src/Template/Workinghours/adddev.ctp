@@ -68,6 +68,7 @@ echo $this->Html->script('jquery-ui.min');
      * both the input field and the icon can be clicked
      */
     $( "#date" ).datepicker({
+        dateFormat: "MM d, yy",
         minDate: new Date('<?php echo $mDate; ?>'),
         maxDate: '0', 
         firstDay: 1,
