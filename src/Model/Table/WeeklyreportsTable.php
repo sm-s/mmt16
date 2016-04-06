@@ -26,13 +26,19 @@ class WeeklyreportsTable extends Table
             'joinType' => 'INNER'
         ]);
         $this->hasMany('Metrics', [
-            'foreignKey' => 'weeklyreport_id'
+            'foreignKey' => 'weeklyreport_id',
+        	'dependent' => true,
+        	'cascadeCallbacks' => true,
         ]);
         $this->hasMany('Workinghours', [
-            'foreignKey' => 'member_id'
+            'foreignKey' => 'member_id',
+        	'dependent' => true,
+        	'cascadeCallbacks' => true,
         ]);
         $this->hasMany('Weeklyhours', [
-            'foreignKey' => 'weeklyreport_id'
+            'foreignKey' => 'weeklyreport_id',
+        	'dependent' => true,
+        	'cascadeCallbacks' => true
         ]);
     }
     
