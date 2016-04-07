@@ -12,8 +12,13 @@ body {
 /* general rules for all divs 
 */
 div {
-  background-color: #FFF;
+	background-color: #FFF;
 }
+	
+	.clearer {
+		background-color: inherit;
+		clear: both;
+	}
 
 /* I just came up with a unique name that probably was not used
    This div contains the actual content of this site */
@@ -28,13 +33,88 @@ div {
   margin: 0 auto;
 }
 
+#statusbar {
+	background-color: #15848F; 
+	color: #15848F;
+}
+
+.top-bar.expanded .title-area {
+  background: #01545b;
+  height: 80px;
+  z-index: 2;
+  position: relative;
+  
+  border-right: 2px solid white;
+  border-bottom: 2px solid white;
+  border-radius: 0px 0px 20px 0px;
+}
+
+.top-bar.expanded, 
+.top-bar,
+.top-bar-section ul li,
+.top-bar-section li:not(.has-form) a:not(.button) {
+  position: relative;
+  background: #19578A;
+  height: 54px;
+}
+
+.top-bar-section li:not(.has-form) a:not(.button):hover {
+  background-color: #308e97;
+  background: #308e97;
+}
+
+#navleft {
+	position: 
+}
+
+#navright {
+	
+}
+
+/* This styling was originally inside <style> -tags in default.ctp
+*/
+ulnav {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #333;
+    }
+
+    .linav {
+        float: left;
+        border-right:1px solid #bbb;
+    }
+
+    .linav:last-child {
+        
+    }
+
+    .linav a {
+        display: block;
+        color: white;
+        text-align: left;
+        padding: 14px 16px;
+        text-decoration: none;
+    }
+
+    .linav a:hover:not(.active) {
+        background-color: #111;
+    }
+
+    .active {
+        background-color: #4CAF50;
+    }
+/* end default.ctp
+*/
+
 .disabled a,
 a.disabled {
   pointer-events: none;
 }
 
 a:hover {
-  color: #15848F;
+  color: #1778A5;
 }
 
 a {
@@ -403,30 +483,7 @@ pre {
   margin-right: 9px;
 }
 
-.top-bar.expanded .title-area {
-  background: #01545b;
-  height: 80px;
-  position: absolute;
-  z-index: 2;
-  
-  border-right: 2px solid white;
-  border-bottom: 2px solid white;
-  border-radius: 0px 0px 20px 0px;
-}
 
-.top-bar.expanded, 
-.top-bar,
-.top-bar-section ul li,
-.top-bar-section li:not(.has-form) a:not(.button) {
-  position: relative;
-  background: #19578A;
-  height: 54px;
-}
-
-.top-bar-section li:not(.has-form) a:not(.button):hover {
-  background-color: #308e97;
-  background: #308e97;
-}
 
 .side-nav li.heading {
   color: #1798A5;
