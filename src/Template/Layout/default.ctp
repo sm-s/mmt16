@@ -134,6 +134,7 @@ $cakeDescription = 'MMT';
                 <h1><a href=""><?= $this->fetch('title') ?></a></h1>
             </li>
         </ul>
+
         <!--
         <ul class="top-bar-section">
             <li class="right">
@@ -151,18 +152,24 @@ $cakeDescription = 'MMT';
             </li>
         </ul>
         -->
-        <ul id="ulnav">
-            <li class="linav"><?= $this->Html->link(__('Home'), ['controller' => 'Projects', 'action' => 'index']) ?></a></li>
+
+		<!-- Home button is always displayed -->
+        <ul class="ulnav">
+            <li class="linav">
+            	<?= $this->Html->link(__('Home'), ['controller' => 'Projects', 'action' => 'index']) ?>
+            </li>
         </ul>
+ 
+ 		<!-- If not logged in, show login buttons -->
         <?php if(empty($this->request->session()->read('Auth.User'))){ ?>
-            <ul id="ulnav">
+            <ul class="ulnav">
                 <ul style="float:right;list-style-type:none;">
-                  <li class="linav"><?= $this->Html->link(__('Log in'), ['controller' => 'Users', 'action' => 'login']) ?></li>
-                  <li class="linav"><?= $this->Html->link(__('Sign up'), ['controller' => 'Users', 'action' => 'signup']) ?></li>
+					<li class="linav"><?= $this->Html->link(__('Log in'), ['controller' => 'Users', 'action' => 'login']) ?></li>
+					<li class="linav"><?= $this->Html->link(__('Sign up'), ['controller' => 'Users', 'action' => 'signup']) ?></li>
                 </ul>
             </ul>   
-        <?php } elseif($this->request->session()->check('selected_project')){ ?>
-            <ul id="ulnav">
+        <?php } elseif($this->request->session()->check('selected_project')) { ?>
+            <ul class="ulnav">
                 <li class="linav"><?= $this->Html->link(__('Project'), ['controller' => 'Projects', 'action' => 'view', $this->request->session()->read('selected_project')['id']]) ?></li>
 				<?php 
 					if ( $this->request->session()->read('selected_project_role') != 'notmember' ) { ?>

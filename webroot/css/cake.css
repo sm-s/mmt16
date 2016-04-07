@@ -9,6 +9,8 @@ body {
   background-attachment: fixed;
 }
 
+/* general rules for all divs 
+*/
 div {
   background-color: #FFF;
 }
@@ -37,6 +39,12 @@ a:hover {
 
 a {
   color: #1798A5;
+}
+
+.side-nav {
+  position: relative;
+  	top: 20px;
+  z-index: 1;
 }
 
 .side-nav li a:not(.button) {
@@ -396,16 +404,23 @@ pre {
 }
 
 .top-bar.expanded .title-area {
-  
   background: #01545b;
+  height: 80px;
+  position: absolute;
+  z-index: 2;
   
   border-right: 2px solid white;
   border-bottom: 2px solid white;
   border-radius: 0px 0px 20px 0px;
 }
 
-.top-bar.expanded, .top-bar,.top-bar-section ul li,.top-bar-section li:not(.has-form) a:not(.button) {
+.top-bar.expanded, 
+.top-bar,
+.top-bar-section ul li,
+.top-bar-section li:not(.has-form) a:not(.button) {
+  position: relative;
   background: #19578A;
+  height: 54px;
 }
 
 .top-bar-section li:not(.has-form) a:not(.button):hover {
