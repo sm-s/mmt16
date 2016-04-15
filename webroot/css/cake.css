@@ -16,13 +16,13 @@ div {
 }
 	
 	.clearer {
-		background-color: inherit;
 		clear: both;
 	}
 
 /* I just came up with a unique name that probably was not used
    This div contains the actual content of this site */
 #area51 {
+  position: relative;
   background-color: #FFF;
   
   width: 80%;
@@ -33,46 +33,96 @@ div {
   margin: 0 auto;
 }
 
+/* Statusbar: shows login info */
+
 #statusbar {
 	background-color: #15848F; 
 	color: #15848F;
 }
-
-.top-bar.expanded .title-area {
-  background: #01545b;
-  height: 80px;
-  z-index: 2;
-  position: relative;
-  
-  border-right: 2px solid white;
-  border-bottom: 2px solid white;
-  border-radius: 0px 0px 20px 0px;
-}
-
-.top-bar.expanded, 
-.top-bar,
-.top-bar-section ul li,
-.top-bar-section li:not(.has-form) a:not(.button) {
-  position: relative;
-  background: #19578A;
-  height: 54px;
-}
-
-.top-bar-section li:not(.has-form) a:not(.button):hover {
-  background-color: #308e97;
-  background: #308e97;
-}
-
-#navleft {
-	position: 
-}
-
-#navright {
+	#statusleft {
+		background-color: #15848F; 
+		color: white; 
+		font-weight: bold; 
+		padding-left: 0.5em; 
+		float: left;
+	}
+	#statusright {
+		background-color: #15848F; 
+		color: white; 
+		font-weight: bold; 
+		padding-right: 0.5em; 
+		float: right;
+	}
 	
-}
+/* Navigation bar */
+#navtop {
+	background-color: #19578A;
 
+	width: 100%;
+	min-height: 50px;
+}
+	#navtop ul {
+		list-style-type: none;
+		padding: 0;
+		margin: 0;
+	}
+
+	#navleft {
+		float: left;
+		background-color: #083e7f;
+		z-index: 2;
+		max-width: 270px;
+
+		border-right: 2px solid #9BD;
+		border-bottom: 2px solid #9BD;
+		border-radius: 0px 0px 20px 0px;
+	}
+	
+	#navright ul li {
+		float: left;
+	}
+
+/*
+	.title-area {
+	  background: #01545b;
+	  height: 80px;
+	  z-index: 2;
+	  
+	  border-right: 2px solid white;
+	  border-bottom: 2px solid white;
+	  border-radius: 0px 0px 20px 0px;
+	}
+	
+	
+		.top-bar.expanded .title-area {
+		  background: #01545b;
+		  height: 80px;
+		  z-index: 2;
+		  position: relative;
+		  
+		  border-right: 2px solid white;
+		  border-bottom: 2px solid white;
+		  border-radius: 0px 0px 20px 0px;
+		}
+		
+		.top-bar.expanded, 
+		.top-bar,
+		.top-bar-section ul li,
+		.top-bar-section li:not(.has-form) a:not(.button) {
+		  position: relative;
+		  background: #19578A;
+		  height: 54px;
+		}
+	
+	.top-bar-section li:not(.has-form) a:not(.button):hover {
+	  background-color: #308e97;
+	  background: #308e97;
+	}
+}
+*/
 /* This styling was originally inside <style> -tags in default.ctp
 */
+/*
 ulnav {
         list-style-type: none;
         margin: 0;
@@ -105,6 +155,7 @@ ulnav {
     .active {
         background-color: #4CAF50;
     }
+  */  	
 /* end default.ctp
 */
 
@@ -633,6 +684,7 @@ div.message.hidden {
 
 /* Use 'one true layout' methods to get equal height columns */
 .container {
+  clear: both;
   overflow: hidden;
   min-height: 92%; /* full height almost always */
 }
