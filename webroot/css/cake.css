@@ -12,11 +12,122 @@ body {
 /* general rules for all divs 
 */
 div {
-	background-color: #FFF;
+	background-color: transparent;
 }
-	
 	.clearer {
 		clear: both;
+	}
+
+/* Statusbar: shows login info */
+#statusbar {
+	background-color: transparent;
+}
+	#statusleft {
+		background-color: inherit; 
+		color: white; 
+		font-weight: bold; 
+		padding-left: 0.5em; 
+		float: left;
+	}
+	#statusright {
+		background-color: inherit; 
+		color: white; 
+		font-weight: bold; 
+		padding-right: 0.5em; 
+		float: right;
+	}
+
+.dropdown {
+	position: absolute;
+	right: 2em;
+}
+	.dropdown button {
+		padding: 0.2em 4em;
+		border: 2px ridge silver;
+			border-top: none;
+		border-radius: 0 0 20px 20px;
+		background-color: #083e7f;
+		margin: 0;
+	}
+		.dropdown button:hover {
+			background-color: #222;
+		}
+		.dropdown button #label {
+			font-family: sans;
+			color: #FFF;
+		}
+		.dropdown button img {
+			margin: 0 auto;
+			width: 1.5em;
+			height: 0.8em;
+			display: block;
+		}
+		
+	.dd-content {
+		z-index: 10000;
+		display: none;
+		min-height: 200px;
+		left: -3em;
+			right: -3em;
+		padding-top: 1em;
+			padding-bottom: 1.5em;
+		position: absolute;
+		background-color: #f9f9f9;
+		box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+		border-radius: 5px;
+			border: 10px outset dodgerblue;
+		
+	}
+		/* hover: show dropdown */
+		.dropdown:hover .dd-content {
+			display: block;
+		}
+		
+		.dd-content img {
+			display: block;
+			margin: 0 auto;
+			height: 70%;
+		}
+		
+		.dd-content #userinfo {
+			margin-left: 2.4em;
+		}
+		
+		.dd-content .info {
+			font-weight: bold;
+				color: #878;
+		}
+	
+		/* Links inside the dropdown */
+		.dd-content ul {
+			display: block;
+			list-style-type: none;
+			margin: 0 auto;
+		}
+			.dd-content ul li {
+				float: left;
+			}
+			.dd-content ul a {
+				display: block;
+				padding: 1.3em;
+			}
+			.dd-content ul #space {
+				display: block;
+				padding-top: 1.3em;
+					padding-bottom: 1.3em;
+			}
+			
+
+/* Change color of dropdown links on hover */
+.dd-content a:hover {background-color: #f1f1f1}
+
+/* Banner picture */
+#topimg {
+	
+}
+	#topimg img {
+		display: block;
+		margin: 1em 0 1em 1em;
 	}
 
 /* I just came up with a unique name that probably was not used
@@ -31,27 +142,33 @@ div {
   
   min-height: 100%;
   margin: 0 auto;
+  
+  border-radius: 0 600px 0 0 ;
+}
+	
+/* For navigations in general */
+nav ul {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
 }
 
-/* Statusbar: shows login info */
+/* Title section left to navigation bar */
+#left-title {
+	float: left;
+	background-color: #083e7f;
+	z-index: 2;
+	width: 300px;
 
-#statusbar {
-	background-color: #15848F; 
-	color: #15848F;
+	border-right: 2px solid #9BD;
+	border-bottom: 2px solid #9BD;
+	border-radius: 0px 0px 20px 0px;
 }
-	#statusleft {
-		background-color: #15848F; 
-		color: white; 
-		font-weight: bold; 
-		padding-left: 0.5em; 
-		float: left;
-	}
-	#statusright {
-		background-color: #15848F; 
-		color: white; 
-		font-weight: bold; 
-		padding-right: 0.5em; 
-		float: right;
+	#left-title li a {
+		font-family: monospace;
+			font-size: 0.8em;
+			color: #FFF;
+		margin-left: 0.4em;
 	}
 	
 /* Navigation bar */
@@ -59,27 +176,33 @@ div {
 	background-color: #19578A;
 
 	width: 100%;
-	min-height: 50px;
-}
-	#navtop ul {
-		list-style-type: none;
-		padding: 0;
-		margin: 0;
-	}
-
-	#navleft {
+	max-height: 25px;
+	margin-top: 2.5em;
+}	
+	#navtop ul .navbutton {
 		float: left;
-		background-color: #083e7f;
-		z-index: 2;
-		max-width: 270px;
-
-		border-right: 2px solid #9BD;
-		border-bottom: 2px solid #9BD;
-		border-radius: 0px 0px 20px 0px;
+		margin-top: -1.25em;
 	}
 	
-	#navright ul li {
-		float: left;
+	#navtop ul .login {
+		float: right;
+		margin-top: -1.4em;
+	}
+		#navtop ul a {
+			display: block;
+			background-color: #083e7f;
+			font-size: 1.2em;
+				color: #FFF;
+			padding: 0.5em;
+			margin: 0.2em;
+			border: 2px ridge skyblue;
+				border-radius: 10px;
+		}
+			#navtop ul li a:hover {
+			background-color: #222;
+		}
+		
+		
 	}
 
 /*

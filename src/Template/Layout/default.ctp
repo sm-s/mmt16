@@ -44,93 +44,130 @@ $cakeDescription = 'MMT';
 </head>
 <body>
 <div id="area51">
-	<div id="statusbar">
-	    <!-- This div shows the top-left corner (currently chosen project) -->
-		<div id="statusleft">
-	    	<?php
-	    		// display info only if user is logged in
-	    		if ( !empty($this->request->session()->read('Auth.User')) ){
-	        		
-		    		// fetch the name of current project
-					$selected_project = $this->request->session()->read('selected_project');
-		            $name = $selected_project['project_name'];
-                            
-		            // the text part
-		            if ($selected_project)
-			    		print_r('Current project: '.$name);
-			    }
-	    	?>
-	    </div>
-	    
-		<!-- this div shows the top-right corner (user's name + role) -->
-	    <div id="statusright">
-	        <?php
-	        	/* Displays user information to every page
-	        	   Requirement ID: 23
-	        	   - Andy
-	        	*/
-	        	// checks if logged in
-	        	if ( empty($this->request->session()->read('Auth.User')) ){
-	        		print_r('Currently not logged in');
-	        	} else {
-	        		// prints user's full name
-	        		print_r( ($this->request->session()->read('Auth.User.first_name')).' '.($this->request->session()->read('Auth.User.last_name')) );
-					// checks if user has accessed any projects
-					if ($this->request->session()->check('selected_project') ) {
-						/* FIX 10.3.2016: now being a non-member is also shown
+	<div class="dropdown">
+				<button>
+					<span id="label">Options</span>
+					<img src="/Metrix/img/arrow.png" />
+				</button>
+				<div class="dd-content">
+					<img src="/Metrix/img/icon.png" />
+					<div id="userinfo">
+						<div class="info">Logged in as</div>
+						<?php
+						/* Displays user information to every page
 						   Requirement ID: 23
 						   - Andy
 						*/
-						// display current role. Non-member status is also displayed
-						if (($this->request->session()->read('selected_project_role')) != 'notmember' ) {
-							print_r(', ' . ($this->request->session()->read('selected_project_role')) );
+						// checks if logged in
+						if ( empty($this->request->session()->read('Auth.User')) ){
+							print_r('Currently not logged in');
+						?>
+						<ul>
+							<li class="login">
+								<?= $this->Html->link(__('Log in'), ['controller' => 'Users', 'action' => 'login']) ?>
+							</li>
+							<li id="space">: :</li>
+							<li class="login">
+								<?= $this->Html->link(__('Sign up'), ['controller' => 'Users', 'action' => 'signup']) ?>
+							</li>
+						</ul>
+						<?php
+							
 						} else {
-							print_r(', not a member');
-						}
-					}
-				}
-	        ?>
-	    </div>
-	    
-	    <!-- this div is only for clearing the two divs above (otherwise the floats wouldn't work) -->
-	    <div class="clearer"></div>
-    </div> <!-- statusbar -->
+							// prints user's full name
+							print_r( ($this->request->session()->read('Auth.User.first_name')).' '.($this->request->session()->read('Auth.User.last_name')) );
+							// checks if user has accessed any projects
+							if ($this->request->session()->check('selected_project') ) {
 
-	<!-- top navigation bar -->
+								// fetch the name of current project
+								$selected_project = $this->request->session()->read('selected_project');
+								$name = $selected_project['project_name'];
+
+								echo "<div class=\"info\">On project</div>";
+
+								// the text part
+								if ($selected_project)
+									print_r($name);
+								else
+									print_r('none');
+								/* FIX 10.3.2016: now being a non-member is also shown
+								   Requirement ID: 23
+								   - Andy
+								*/
+								// display current role. Non-member status is also displayed
+								echo "<div class=\"info\">Project role</div>";
+								if (($this->request->session()->read('selected_project_role')) != 'notmember' ) {
+									print_r(($this->request->session()->read('selected_project_role')) );
+								} else {
+									print_r('not a member');
+								}
+							}
+						?>
+						<ul>
+							<li class="login">
+								<?= $this->Html->link(__('Profile'), ['controller' => 'Users', 'action' => 'editprofile']) ?>
+							</li>
+							<li id="space">: :</li>
+							<li class="login">
+								<?= $this->Html->link(__('Log out'), ['controller' => 'Users', 'action' => 'logout']) ?>
+							</li>
+						</ul>
+						<?php } ?>
+					</div>
+				</div>
+			</div>
+	&nbsp;
+	<div id="topimg">
+		<img src="http://www.uta.fi/resurssit/kuvat/taylogo_eng.png" />
+	</div>
+
+	<!-- Left side (displays current location) -->
+	<nav id="left-title">
+		<ul>
+			<li class="title-area">
+				<h1><a href=""><?= $this->fetch('title') ?></a></h1>
+			</li>
+		</ul>
+	</nav>
+	
+	<!-- top navigation bar with every other button -->
 	<nav id="navtop" role="navigation" data-topbar>
-		
-		<!-- Left side (displays current location) -->
-	    <nav id="navleft" class="large-3">
-	        <ul>
-	            <li class="title-area">
-	                <h1><a href=""><?= $this->fetch('title') ?></a></h1>
-	            </li>
-	        </ul>
-	    </nav>
-
-		<!-- every other button -->
-	    <nav id="navright" class="large-9">
 	    	<ul>
 	    		 <li class="navbutton">
 	            	<?= $this->Html->link(__('Home'), ['controller' => 'Projects', 'action' => 'index']) ?>
 	            </li>
-	    	
+				
+				<!-- OLD BUTTONS (reset if necessary)
 		    	<?php 
 		        	// If not logged in, show login buttons
 		        	if(empty($this->request->session()->read('Auth.User'))) { 
 		        ?>
-			        <nav class="logins">
-						<li class="navbutton">
+			        <nav>
+						<li class="login">
 							<?= $this->Html->link(__('Log in'), ['controller' => 'Users', 'action' => 'login']) ?>
 						</li>
-						<li class="navbutton">
+						<li class="login">
 							<?= $this->Html->link(__('Sign up'), ['controller' => 'Users', 'action' => 'signup']) ?>
 						</li>
 					</nav>
 
 				<?php 
+					// display logout
+	        		} else {
+				?>
+					<nav>
+	                    <li class="login">
+							<?= $this->Html->link(__('Log out'), ['controller' => 'Users', 'action' => 'logout']) ?>
+						</li>
+						<li class="login">
+							<?= $this->Html->link(__('Profile'), ['controller' => 'Users', 'action' => 'editprofile']) ?>
+						</li>
+	                </nav>
+				-->
+				<?php 
+					}
 					// logged in with a project selected
-	        		} elseif( $this->request->session()->check('selected_project') ) {
+					if( $this->request->session()->check('selected_project') ) {
 	        	?>
 	                <li class="navbutton"><?= $this->Html->link(__('Project'), ['controller' => 'Projects', 'action' => 'view', $this->request->session()->read('selected_project')['id']]) ?></li>
 					<?php
@@ -142,17 +179,13 @@ $cakeDescription = 'MMT';
 					
 	                <li class="navbutton"><?= $this->Html->link(__('Charts'), ['controller' => 'Charts', 'action' => 'index']) ?></li>
 	                
-					<?php } else { ?>
+					<?php ?>
 
-	                <nav class="logins">
-	                    <li class="login"><?= $this->Html->link(__('Profile'), ['controller' => 'Users', 'action' => 'editprofile']) ?></li>
-	                    <li class="login"><?= $this->Html->link(__('Log out'), ['controller' => 'Users', 'action' => 'logout']) ?></li>
-	                </nav>
+	                
 	                
 	                <?php } ?>
 			
 	        </ul> <!-- end -->
-	    </nav>
 	
 		<!--
 	    <nav class="top-bar expanded">
