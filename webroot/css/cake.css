@@ -3,7 +3,7 @@ body {
   height: 100%;
   position: absolute;
   background-color: #FFF;
-  background-image: url('http://www.uta.fi/resurssit/kuvat/tausta.jpg');
+  background-image: url('../img/tausta.jpg');
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -17,6 +17,11 @@ div {
 	.clearer {
 		clear: both;
 	}
+
+hr {
+	margin-top: 0;
+		margin-bottom: 0.5em;
+}
 
 /* Statusbar: shows login info */
 #statusbar {
@@ -199,10 +204,51 @@ nav ul {
 			#navtop ul li a:hover {
 			background-color: #222;
 		}
-		
-		
+
+/* All footer related styling */
+footer {
+	min-height: 200px;
+}
+	footer ul {
+		list-style-type: none;
+		margin: 0;
+	}
+	
+	footer h6 {
+		font-weight: bold;
+			font-family: Liberation Sans, Arial, sans;
 	}
 
+	#area52 {
+		background-color: #FFF;
+		width: 80%;
+
+		min-height: 100%;
+		margin: 0 auto;
+	}
+		#area52 .footerblock {
+			width: 31%;
+			float: left;
+			
+			margin-left: 1em;
+			
+			border-right: 2px inset #999;
+			min-height: 180px;
+		}
+			.footerblock #logoblock {
+				margin-top: 12%;
+			}
+			#area52 img {
+				float: left;
+				margin-right: 1em;
+			}
+			#area52 .footerlogo {
+				font-family: serif;
+					font-size: 1.4em;
+			}
+			#area52 :last-child {
+				border: none;
+			}
 /*
 	.title-area {
 	  background: #01545b;

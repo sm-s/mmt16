@@ -45,80 +45,88 @@ $cakeDescription = 'MMT';
 <body>
 <div id="area51">
 	<div class="dropdown">
-				<button>
-					<span id="label">Options</span>
-					<img src="/Metrix/img/arrow.png" />
-				</button>
-				<div class="dd-content">
-					<img src="/Metrix/img/icon.png" />
-					<div id="userinfo">
-						<div class="info">Logged in as</div>
-						<?php
-						/* Displays user information to every page
+		<button>
+			<?php
+				// different label text depending on if logged in or not
+				if ( empty($this->request->session()->read('Auth.User')) ) {
+					echo '<span id="label">Log in</span>';
+				} else {
+					echo '<span id="label">Options</span>';
+				}
+			?>
+			<img src="/Metrix/img/arrow.png" />
+		</button>
+		<div class="dd-content">
+			<img src="/Metrix/img/icon.png" />
+			<div id="userinfo">
+				<div class="info">Logged in as</div>
+				<?php
+				/* Displays user information to every page
+				   Requirement ID: 23
+				   - Andy
+				*/
+				// checks if logged in
+				if ( empty($this->request->session()->read('Auth.User')) ){
+					print_r('Currently not logged in');
+				?>
+				<ul>
+					<li class="login">
+						<?= $this->Html->link(__('Log in'), ['controller' => 'Users', 'action' => 'login']) ?>
+					</li>
+					<li id="space">: :</li>
+					<li class="login">
+						<?= $this->Html->link(__('Sign up'), ['controller' => 'Users', 'action' => 'signup']) ?>
+					</li>
+				</ul>
+				<?php
+
+				} else {
+					// prints user's full name
+					print_r( ($this->request->session()->read('Auth.User.first_name')).' '.($this->request->session()->read('Auth.User.last_name')) );
+					// checks if user has accessed any projects
+					if ($this->request->session()->check('selected_project') ) {
+
+						// fetch the name of current project
+						$selected_project = $this->request->session()->read('selected_project');
+						$name = $selected_project['project_name'];
+
+						echo "<div class=\"info\">On project</div>";
+
+						// the text part
+						if ($selected_project)
+							print_r($name);
+						else
+							print_r('none');
+						/* FIX 10.3.2016: now being a non-member is also shown
 						   Requirement ID: 23
 						   - Andy
 						*/
-						// checks if logged in
-						if ( empty($this->request->session()->read('Auth.User')) ){
-							print_r('Currently not logged in');
-						?>
-						<ul>
-							<li class="login">
-								<?= $this->Html->link(__('Log in'), ['controller' => 'Users', 'action' => 'login']) ?>
-							</li>
-							<li id="space">: :</li>
-							<li class="login">
-								<?= $this->Html->link(__('Sign up'), ['controller' => 'Users', 'action' => 'signup']) ?>
-							</li>
-						</ul>
-						<?php
-							
+						// display current role. Non-member status is also displayed
+						echo "<div class=\"info\">Project role</div>";
+						if (($this->request->session()->read('selected_project_role')) != 'notmember' ) {
+							print_r(($this->request->session()->read('selected_project_role')) );
 						} else {
-							// prints user's full name
-							print_r( ($this->request->session()->read('Auth.User.first_name')).' '.($this->request->session()->read('Auth.User.last_name')) );
-							// checks if user has accessed any projects
-							if ($this->request->session()->check('selected_project') ) {
-
-								// fetch the name of current project
-								$selected_project = $this->request->session()->read('selected_project');
-								$name = $selected_project['project_name'];
-
-								echo "<div class=\"info\">On project</div>";
-
-								// the text part
-								if ($selected_project)
-									print_r($name);
-								else
-									print_r('none');
-								/* FIX 10.3.2016: now being a non-member is also shown
-								   Requirement ID: 23
-								   - Andy
-								*/
-								// display current role. Non-member status is also displayed
-								echo "<div class=\"info\">Project role</div>";
-								if (($this->request->session()->read('selected_project_role')) != 'notmember' ) {
-									print_r(($this->request->session()->read('selected_project_role')) );
-								} else {
-									print_r('not a member');
-								}
-							}
-						?>
-						<ul>
-							<li class="login">
-								<?= $this->Html->link(__('Profile'), ['controller' => 'Users', 'action' => 'editprofile']) ?>
-							</li>
-							<li id="space">: :</li>
-							<li class="login">
-								<?= $this->Html->link(__('Log out'), ['controller' => 'Users', 'action' => 'logout']) ?>
-							</li>
-						</ul>
-						<?php } ?>
-					</div>
-				</div>
+							print_r('not a member');
+						}
+					}
+				?>
+				<ul>
+					<li class="login">
+						<?= $this->Html->link(__('Profile'), ['controller' => 'Users', 'action' => 'editprofile']) ?>
+					</li>
+					<li id="space">: :</li>
+					<li class="login">
+						<?= $this->Html->link(__('Log out'), ['controller' => 'Users', 'action' => 'logout']) ?>
+					</li>
+				</ul>
+				<?php } ?>
 			</div>
+		</div>
+	</div>
+	<!-- this non-breaking space is empty content that makes the page render correctly -->
 	&nbsp;
 	<div id="topimg">
-		<img src="http://www.uta.fi/resurssit/kuvat/taylogo_eng.png" />
+		<img src="/Metrix/img/utalogo.png" />
 	</div>
 
 	<!-- Left side (displays current location) -->
@@ -186,12 +194,6 @@ $cakeDescription = 'MMT';
 	                <?php } ?>
 			
 	        </ul> <!-- end -->
-	
-		<!--
-	    <nav class="top-bar expanded">
-	    	
-		</nav>
-		-->	
 		<div class="clearer"></div>
 	</nav>
 
@@ -199,8 +201,43 @@ $cakeDescription = 'MMT';
     <section class="container clearfix">
         <?= $this->fetch('content') ?>
     </section>
-    <footer>
-    </footer>
+
 </div>
+<hr/>
+<footer>
+	<!-- "reverse background" for footer -->
+	<div id="area52">
+		<div class="footerblock">
+			<div id="logoblock">
+				<img src="/Metrix/img/pitkalogo1.png" />
+				<div class="footerlogo">METRICS</div>
+				<div class="footerlogo">MONITORING</div>
+				<div class="footerlogo">TOOL</div>
+			</div>
+		</div>
+		<div class="footerblock">
+			<h6>PUBLIC PAGES</h6>
+			<ul>
+				<li><?= $this->Html->link(__('Home'), ['controller' => 'Projects', 'action' => 'index']) ?></li>
+				<li><?= $this->Html->link(__('Public statistics'), ['controller' => 'Projects', 'action' => 'statistics']) ?> </li>
+				<li><?= $this->Html->link(__('FAQ'), ['controller' => 'Projects', 'action' => 'faq']) ?> </li>
+			</ul>
+			<h6>OTHER RESOURCES</h6>
+			<ul>
+				<li><a href="http://www.uta.fi/sis/tie/pw/statistics.html" target="_blank">Project Work Statistics</a></li>
+			</ul>
+		</div>
+		<div class="footerblock">
+			<h6>CONTACT INFO</h6>
+			<ul>
+				<li><a href="http://www.uta.fi/sis/yhteystiedot/henkilokunta/pekkamakiaho.html" target="_blank">Supervisor's page</a></li>
+			</ul>
+			<h6>MISC</h6>
+			<ul>
+				<li><a href="http://mmttest.sis.uta.fi/" target="_blank">MMT's test page</a></li>
+			</ul>
+		</div>
+	</div>
+</footer>
 </body>
 </html>
