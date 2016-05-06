@@ -329,12 +329,13 @@ class ChartsController extends AppController
     	$myChart->chart->type = 'column';
     
     	$myChart->title = array(
-        	'text' => 'Total number of commits',
+        	'text' => 'Commits',
         	'y' => 20,
         	'align' => 'center',
         	'styleFont' => '18px Metrophobic, Arial, sans-serif',
         	'styleColor' => '#0099ff',
         );
+		$myChart->subtitle->text = 'total number';
     	
     	// body of the chart
     	$myChart->chart->width =  800;
