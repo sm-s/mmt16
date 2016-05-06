@@ -329,7 +329,7 @@ class ChartsController extends AppController
     	$myChart->chart->type = 'column';
     
     	$myChart->title = array(
-        	'text' => 'Commits per week',
+        	'text' => 'Total number of commits',
         	'y' => 20,
         	'align' => 'center',
         	'styleFont' => '18px Metrophobic, Arial, sans-serif',
