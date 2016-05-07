@@ -335,7 +335,7 @@ class ChartsController extends AppController
         	'styleFont' => '18px Metrophobic, Arial, sans-serif',
         	'styleColor' => '#0099ff',
         );
-		$myChart->subtitle->text = 'total number';
+		$myChart->subtitle->text = 'in total';
     	
     	// body of the chart
     	$myChart->chart->width =  800;
