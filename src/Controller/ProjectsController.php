@@ -62,8 +62,9 @@ class ProjectsController extends AppController
             // fetch values using helpers
             $min = $data['weekmin'];
             $max = $data['weekmax'];
+			$year = $data['year'];
             
-            // correction for nonsensical values
+            // correction for nonsensical values for week numbers
             if ( $min < 1 )  $min = 1;
             if ( $min > 52 ) $min = 52;
             if ( $max < 1 )  $max = 1;
@@ -73,10 +74,14 @@ class ProjectsController extends AppController
             	$max = $min;
             	$min = $temp;
             }
+			// correction of year to current if bigger than it
+			if ( $year > date("Y") ) {
+				$year = date("Y");
+			}
             
             $statistics_limits['weekmin'] = $min;
             $statistics_limits['weekmax'] = $max;
-            $statistics_limits['year'] = $data['year'];
+            $statistics_limits['year'] = $year;
             
             $this->request->session()->write('statistics_limits', $statistics_limits);
             // reload page

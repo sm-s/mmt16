@@ -22,11 +22,53 @@ class ChartsController extends AppController
         if ($this->request->is('post')) {
             $data = $this->request->data;
             
+			/*
             $chart_limits['weekmin'] = $data['weekmin'];
             $chart_limits['weekmax'] = $data['weekmax'];
             $chart_limits['yearmin'] = $data['yearmin'];
             $chart_limits['yearmax'] = $data['yearmax'];
+			 * 
+			 */
+            /* FIX: editing limits on Public Statistics now behaves like a decent UI
+             */
+            // fetch values using helpers
+            $min = $data['weekmin'];
+            $max = $data['weekmax'];
+			$yearmin = $data['yearmin'];
+			$yearmax = $data['yearmax'];
             
+            // correction for nonsensical values for week numbers
+            if ( $min < 1 )  $min = 1;
+            if ( $min > 52 ) $min = 52;
+            if ( $max < 1 )  $max = 1;
+            if ( $max > 52 ) $max = 52;
+			
+			// switching max/min if necessary for weeks and years
+            if ( $max < $min ) {
+            	$temp = $max;
+            	$max = $min;
+            	$min = $temp;
+            }
+            if ( $yearmax < $yearmin ) {
+            	$temp = $yearmax;
+            	$yearmax = $yearmin;
+            	$yearmin = $temp;
+            }
+			
+			// minimum week limit will be set to minimal value I decided arbitrarily
+			if ( $yearmin < 2008) {
+				$yearmin = 2008;
+			}
+			// correction of year to current if bigger than it
+			if ( $yearmax > date("Y") ) {
+				$yearmax = date("Y");
+			}
+            
+            $chart_limits['weekmin'] = $min;
+            $chart_limits['weekmax'] = $max;
+            $chart_limits['yearmin'] = $yearmin;
+			$chart_limits['yearmax'] = $yearmax;
+			
             $this->request->session()->write('chart_limits', $chart_limits);
             // refreshin the page to apply the new limits
             $page = $_SERVER['PHP_SELF'];
@@ -36,8 +78,8 @@ class ChartsController extends AppController
         if(!$this->request->session()->check('chart_limits')){
             $time = Time::now();
             // show last year, current year and next year
-            $chart_limits['weekmin'] = 0;
-            $chart_limits['weekmax'] =  53;
+            $chart_limits['weekmin'] = 1;
+            $chart_limits['weekmax'] =  52;
             $chart_limits['yearmin'] = $time->year - 1;
             $chart_limits['yearmax'] = $time->year;
             
@@ -428,7 +470,7 @@ class ChartsController extends AppController
         	'styleFont' => '18px Metrophobic, Arial, sans-serif',
         	'styleColor' => '#0099ff',
         );
-    	$myChart->subtitle->text = "Categorized by type";
+    	$myChart->subtitle->text = "categorized by type";
     
     	// body of the chart
     	$myChart->chart->width =  800;
@@ -483,7 +525,7 @@ class ChartsController extends AppController
 			'styleFont' => '18px Metrophobic, Arial, sans-serif',
 			'styleColor' => '#0099ff',
 		);
-		$myChart->subtitle->text = 'Submitted to weekly reports';
+		$myChart->subtitle->text = 'submitted to weekly reports';
 		
 		// body of the chart
 		$myChart->chart->width =  800;
