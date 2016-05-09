@@ -6,7 +6,7 @@
         <li class="heading"><?= __('Actions') ?></li>
     </ul>
 </nav>
-<div class="metrics form large-4 medium-8 columns content float: left">
+<div class="metrics form large-6 medium-8 columns content float: left">
     <?= $this->Form->create($metric) ?>
     <fieldset>
         <legend><?= __('Add Metrics, Page 2/3') ?></legend>
@@ -17,19 +17,19 @@
                 array('value' => $current_metrics[0]['value'], 'label' => 'Phase', 
                 'type' => 'number', 'required' => true, 'min' => 0));
             echo $this->Form->input('totalPhases', 
-                array('value' => $current_metrics[1]['value'], 'label' => 'Total Phases', 
+                array('value' => $current_metrics[1]['value'], 'label' => 'Total phases', 
                 'type' => 'number', 'required' => true, 'min' => 0));
             echo $this->Form->input('reqNew', 
-                array('value' => $current_metrics[2]['value'], 'label' => 'Requirement new', 
+                array('value' => $current_metrics[2]['value'], 'label' => 'New requirements', 
                 'type' => 'number', 'required' => true, 'min' => 0));
             echo $this->Form->input('reqInProgress', 
-                array('value' => $current_metrics[3]['value'], 'label' => 'Requirement in progress', 
+                array('value' => $current_metrics[3]['value'], 'label' => 'Requirements in progress', 
                 'type' => 'number', 'required' => true, 'min' => 0));
             echo $this->Form->input('reqClosed', 
-                array('value' => $current_metrics[4]['value'], 'label' => 'Requirement closed', 
+                array('value' => $current_metrics[4]['value'], 'label' => 'Closed requirement', 
                 'type' => 'number', 'required' => true, 'min' => 0));
             echo $this->Form->input('reqRejected', 
-                array('value' => $current_metrics[5]['value'], 'label' => 'Requirement rejected', 
+                array('value' => $current_metrics[5]['value'], 'label' => 'Rejected requirements', 
                 'type' => 'number', 'required' => true, 'min' => 0));
             echo $this->Form->input('commits', 
                 array('value' => $current_metrics[6]['value'], 'label' => 'Commits', 
@@ -40,11 +40,24 @@
             echo $this->Form->input('totalTestCases', 
                 array('value' => $current_metrics[8]['value'], 'label' => 'Total test cases', 
                 'type' => 'number', 'required' => true, 'min' => 0));
-        ?>
+		?>
+		<div style="margin-top: 2em;">
+	        <?php
+	        	/* REQ ID 27: navigating back now doesn't require fields  to be filled
+	        	* Also positions of buttons slightly altered
+            	* Navigating back to previous page changed to regular link to avoid confusion
+	        	*/
+	            // buttons
+		        echo $this->Form->button('Next Page', ['name' => 'submit', 'value' => 'next']);
+		    ?>
+		    <!-- for positioning back-link -->
+		    <div style="padding-top: 0.7em;">
+			    <?php
+			        echo $this->Html->link('Previous Page', ['controller' => 'Weeklyreports', 'action' => 'add']); 
+		    	?>
+	    	</div>
+    	</div>
     </fieldset>
-    <?php 
-        echo $this->Form->button('Next Page', ['name' => 'submit', 'value' => 'next']);
-        echo $this->Form->button('Previous Page', ['name' => 'submit', 'value' => 'previous', 'style' => 'float: left']); 
-    ?>
+   
     <?= $this->Form->end() ?>
 </div>
