@@ -181,7 +181,7 @@ $cakeDescription = 'MMT';
 					<?php
 						// if not a member, particular links are not shown 
 						if ( $this->request->session()->read('selected_project_role') != 'notmember' ) { ?>
-			                <li class="navbutton"><?= $this->Html->link(__('Weekly reports'), ['controller' => 'Weeklyreports', 'action' => 'index']) ?></li>
+			                <li class="navbutton"><?= $this->Html->link(__('Reports'), ['controller' => 'Weeklyreports', 'action' => 'index']) ?></li>
 			                <li class="navbutton"><?= $this->Html->link(__('Log time'), ['controller' => 'Workinghours', 'action' => 'index']) ?></li>
 					<?php } ?>
 					
