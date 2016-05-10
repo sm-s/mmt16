@@ -249,6 +249,20 @@ footer {
 			#area52 :last-child {
 				border: none;
 			}
+
+/* MESSAGES-boxes in the weeklyreports' view page
+*/
+.messagebox {
+	background-color: #EEE;
+	padding: 0.6em;
+	border-radius: 5px;
+	margin-bottom: 0.5em;
+}
+	.messagebox .msginfo {
+		color: #09A7DB;
+		font-size: 0.85em;
+	}
+
 /*
 	.title-area {
 	  background: #01545b;

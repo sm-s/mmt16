@@ -77,7 +77,7 @@
         </tr>
         <tr>
             <th><?= __('Created on') ?></th>
-            <td><?= h($weeklyreport->created_on->format('Y-m-d')) ?></td>
+            <td><?= h($weeklyreport->created_on->format('d.m.Y')) ?></td>
         </tr>
         <tr>
             <th><?= __('Updated on') ?></th>
@@ -122,7 +122,7 @@
                 <?php foreach ($weeklyreport->metrics as $metrics): ?>
                 <tr>
                     <td><?= h($metrics->metric_description) ?></td>
-                    <td><?= h($metrics->date->format('Y-m-d')) ?></td>
+                    <td><?= h($metrics->date->format('d.m.Y')) ?></td>
                     <td><?= h($metrics->value) ?></td>
                     <td class="actions">
                         <?= $this->Html->link(__('Edit'), ['controller' => 'Metrics', 'action' => 'edit', $metrics->id]) ?>
@@ -132,5 +132,34 @@
                 <?php endforeach; ?>
             </table>
         <?php endif; ?>
+		<h4><?= __('Comments') ?></h4>
+		<?php
+			// query for messages
+			$query = Cake\ORM\TableRegistry::get('Messages')
+						->find()
+						->select()
+						->where(['weeklyreport_id =' => $weeklyreport['id']])
+						->toArray();
+			
+			if (empty( $query )) {
+				echo "<p>No comments yet, be the first one!</p>";
+			} else {
+				// loop every query row
+				for ($i=0; $i<sizeof( $query ); $i++ ) {
+					// data into variables
+					$userquery = Cake\ORM\TableRegistry::get('Users')
+								->find()
+								->select(['first_name', 'last_name'])
+								->where(['id =' => $query[$i]->user_id])
+								->toArray();
+					$fullname = $userquery[0]->first_name ." ". $userquery[0]->last_name;
+					echo "<div class='messagebox'>";
+					echo "<span class='msginfo'>" . $fullname . " left this comment on " . $query[$i]->date_created->format('d.m.Y, H:i') . "</span><br />";
+					echo $query[$i]->content;
+					echo "</div>";
+				}
+			}
+		?>
+		<input type="text" /> <input type="submit" />
     </div>
 </div>
