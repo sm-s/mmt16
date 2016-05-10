@@ -31,13 +31,13 @@
             <th><?= __('Created On') ?></th>
             <td><?= h($project->created_on->format('d.m.Y')) ?></tr>
         </tr>
-        <tr>
-            <th><?= __('Updated On') ?></th>
-            <td><?= h($project->updated_on->format('d.m.Y')) ?></tr>
-        </tr>
+       
         <tr>
             <th><?= __('Finished Date') ?></th>
-            <td><?= h($project->finished_date->format('d.m.Y')) ?></tr>
+            <td><?php 
+				if ( !empty($project->finished_date) )
+					echo h($project->finished_date->format('d.m.Y'));
+			?></td>
         </tr>
         <tr>
             <th><?= __('Is Public') ?></th>
