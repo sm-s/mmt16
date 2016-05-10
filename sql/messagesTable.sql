@@ -3,7 +3,7 @@ CREATE TABLE messages (
 	user_id INT NOT NULL,
 	weeklyreport_id INT NOT NULL,
 	content VARCHAR(1000),
-	date_created DATETIME NOT NULL,
+	date_created DATETIME NOT NULL DEFAULT GETDATE(),
 	date_modified DATETIME,
 	PRIMARY KEY (id),
 	FOREIGN KEY (user_id) REFERENCES users(id),

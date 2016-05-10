@@ -160,6 +160,18 @@
 				}
 			}
 		?>
-		<input type="text" /> <input type="submit" />
+		<?php
+			echo $this->Form->create('Messages', array('url'=>array('controller'=>'messages', 'action'=>'add')));
+			echo $this->request->session()->read('selected_project_userid');
+		?>
+		<fieldset>
+			<legend><?= __('New message') ?></legend>
+			<?= $this->Form->textarea('content') ?>
+			<?= $this->Form->hidden('user_id', array('type' => 'numeric', 'default' => 50 ) ) ?>
+			<?= $this->Form->hidden('weeklyreport_id', array('type' => 'numeric', 'default' => 87 ) ) ?>
+			<?= $this->Form->hidden('current_date', array('type' => 'datetime', 'default' =>  ) ) ?>
+		</fieldset>
+		<?php echo $this->Form->button('Submit', ['name' => 'submit', 'value' => 'submit']); ?>
+		<?= $this->Form->end() ?>
     </div>
 </div>
