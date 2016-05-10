@@ -15,11 +15,13 @@
         <li><?= $this->Html->link(__('Metrics'), ['controller' => 'Metrics', 'action' => 'index']) ?> </li>     
     </ul>
 </nav>
-<div class="projects view large-6 medium-12 columns content float: left">
+<div class="projects view large-10 columns content float: left">
     <h3><?= h($project->project_name) ?></h3>
 	<p>
 		<?= h($project->description) ?>
 	</p>
+</div>
+<div class="projects view large-6 medium-12 columns content float: left">
     <table class="vertical-table">
 		<!--
         <tr>
