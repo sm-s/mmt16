@@ -169,7 +169,6 @@
 			<?= $this->Form->textarea('content') ?>
 			<?= $this->Form->hidden('user_id', array('type' => 'numeric', 'default' => 50 ) ) ?>
 			<?= $this->Form->hidden('weeklyreport_id', array('type' => 'numeric', 'default' => 87 ) ) ?>
-			<?= $this->Form->hidden('current_date', array('type' => 'datetime', 'default' =>  ) ) ?>
 		</fieldset>
 		<?php echo $this->Form->button('Submit', ['name' => 'submit', 'value' => 'submit']); ?>
 		<?= $this->Form->end() ?>
