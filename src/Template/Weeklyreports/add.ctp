@@ -15,10 +15,10 @@
                 echo $this->Form->input('title', array('value' => $current_weeklyreport['title']));
                 echo $this->Form->input('week', array('value' => $current_weeklyreport['week']));
                 echo $this->Form->input('year', array('value' => $current_weeklyreport['year']));
-                echo $this->Form->input('reglink', array('value' => $current_weeklyreport['reglink']));
+                echo $this->Form->input('reglink', array('value' => $current_weeklyreport['reglink'], 'label' => 'Requirements link' ));
                 echo $this->Form->input('problems', array('value' => $current_weeklyreport['problems']));
                 echo $this->Form->input('meetings', array('value' => $current_weeklyreport['meetings']));
-                echo $this->Form->input('additional', array('value' => $current_weeklyreport['additional']));
+                echo $this->Form->input('additional', array('value' => $current_weeklyreport['additional'], 'label' => 'Additional information'));
             }
             else{
                 $now = Time::now();
@@ -29,10 +29,10 @@
                 echo $this->Form->input('title', array('value' => $currProj.', report for week '.$reportWeek.', '.$now->year) );
                 echo $this->Form->input('week', array('value' => $reportWeek));
                 echo $this->Form->input('year', array('value' => $now->year));
-                echo $this->Form->input('reglink');
+                echo $this->Form->input('reglink', array('label' => 'Requirements link'));
                 echo $this->Form->input('problems');
                 echo $this->Form->input('meetings');
-                echo $this->Form->input('additional');
+                echo $this->Form->input('additional', array('label' => 'Additional information'));
             }     
         ?>
     </fieldset>

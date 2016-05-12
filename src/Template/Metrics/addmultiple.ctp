@@ -14,7 +14,7 @@
             $current_metrics = $this->request->session()->read('current_metrics');
         
             echo $this->Form->input('phase', 
-                array('value' => $current_metrics[0]['value'], 'label' => 'Phase', 
+                array('value' => $current_metrics[0]['value'], 'label' => 'Current phase', 
                 'type' => 'number', 'required' => true, 'min' => 0));
             echo $this->Form->input('totalPhases', 
                 array('value' => $current_metrics[1]['value'], 'label' => 'Total phases', 
@@ -26,7 +26,7 @@
                 array('value' => $current_metrics[3]['value'], 'label' => 'Requirements in progress', 
                 'type' => 'number', 'required' => true, 'min' => 0));
             echo $this->Form->input('reqClosed', 
-                array('value' => $current_metrics[4]['value'], 'label' => 'Closed requirement', 
+                array('value' => $current_metrics[4]['value'], 'label' => 'Closed requirements', 
                 'type' => 'number', 'required' => true, 'min' => 0));
             echo $this->Form->input('reqRejected', 
                 array('value' => $current_metrics[5]['value'], 'label' => 'Rejected requirements', 
@@ -48,12 +48,12 @@
             	* Navigating back to previous page changed to regular link to avoid confusion
 	        	*/
 	            // buttons
-		        echo $this->Form->button('Next Page', ['name' => 'submit', 'value' => 'next']);
+		        echo $this->Form->button('Next page', ['name' => 'submit', 'value' => 'next']);
 		    ?>
 		    <!-- for positioning back-link -->
 		    <div style="padding-top: 0.7em;">
 			    <?php
-			        echo $this->Html->link('Previous Page', ['controller' => 'Weeklyreports', 'action' => 'add']); 
+			        echo $this->Html->link('Previous page', ['controller' => 'Weeklyreports', 'action' => 'add']); 
 		    	?>
 	    	</div>
     	</div>
