@@ -89,9 +89,15 @@ class WorkinghoursController extends AppController
         $project_id = $this->request->session()->read('selected_project')['id'];
         $worktypes = $this->Workinghours->Worktypes->find('list', ['limit' => 200]);
         $now = Time::now();
-        $members = $this->Workinghours->Members->find('list', ['limit' => 200])
-                                                ->where(['Members.project_id' => $project_id, 'Members.project_role !=' => 'supervisor', 'Members.ending_date >' => $now])
-                                                ->orWhere(['Members.project_id' => $project_id, 'Members.project_role !=' => 'supervisor', 'Members.ending_date IS' => NULL]);
+        $members = $this->Workinghours->Members->find('list',[ 
+              'conditions' => ['Members.project_id' => $project_id, 
+                               'Members.project_role !=' => 'supervisor',
+                               'or' => array('Members.ending_date >' => $now,'Members.ending_date IS' => NULL)],
+              'contain' => ['Users'], 
+              'keyField' => 'id', 
+              'valueField' => 'user.full_name',
+              'limit' => 200]);
+
         $this->set(compact('workinghour', 'members', 'worktypes'));
         $this->set('_serialize', ['workinghour']);
     }

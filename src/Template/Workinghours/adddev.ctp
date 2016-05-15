@@ -14,7 +14,10 @@ echo $this->Html->script('jquery-ui.min');
     <fieldset>
         <legend><?= __('Log time for another member') ?></legend>
         <?php
-            echo $this->Form->input('member_id', ['options' => $members]);
+            /* Req 10: changing the ID's of entities to their textual names 
+             * updated: WorkingHours.addev.ctp, WorkingHoursController.php, User.php, 
+             * Weeklyhours.edit.ctp, WeeklyHoursController.php*/
+            echo $this->Form->input('member_id', ['options' => $members, 'label' => 'Member Name']);
             
             /*
              * Req #21
