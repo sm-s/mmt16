@@ -2,7 +2,16 @@
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('Back'), ['action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('Edit Metric'), ['action' => 'edit', $metric->id]) ?> </li>
+        <?php
+           $admin = $this->request->session()->read('is_admin');
+           /* Req33: Only administrator can add or change/delete metrics.
+           * Updated view.ctp and index.ctp */ 
+           if ($admin) {
+        ?>
+           <li><?= $this->Html->link(__('Edit Metric'), ['action' => 'edit', $metric->id]) ?> </li>
+        <?php
+           }
+         ?>
     </ul>
 </nav>
 <div class="metrics view large-3 medium-8 columns content float: left">
