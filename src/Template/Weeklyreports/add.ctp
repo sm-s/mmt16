@@ -3,7 +3,7 @@
         <li class="heading"><?= __('Actions') ?></li>
     </ul>
 </nav>
-<div class="weeklyreports form large-6 medium-8 columns content float: left">
+<div class="weeklyreports form large-8 medium-16 columns content float: left">
     <?= $this->Form->create($weeklyreport) ?>
     <fieldset>
         <legend><?= __('Add Weeklyreport, Page 1/3') ?></legend>
@@ -13,8 +13,8 @@
             
             if(!is_null($current_weeklyreport)){
                 echo $this->Form->input('title', array('value' => $current_weeklyreport['title']));
-                echo $this->Form->input('week', array('value' => $current_weeklyreport['week']));
-                echo $this->Form->input('year', array('value' => $current_weeklyreport['year']));
+                echo $this->Form->input('week', array('value' => $current_weeklyreport['week'], 'style' => 'width: 35%;'));
+                echo $this->Form->input('year', array('value' => $current_weeklyreport['year'], 'style' => 'width: 35%;'));
                 echo $this->Form->input('meetings', array('value' => $current_weeklyreport['meetings']));
                 echo $this->Form->input('reglink', array('value' => $current_weeklyreport['reglink'], 'label' => 'Requirements link' ));
                 echo $this->Form->input('problems', array('value' => $current_weeklyreport['problems']));
@@ -27,8 +27,8 @@
 
 				// autofills some info to report title
                 echo $this->Form->input('title', array('value' => $currProj.', report for week '.$reportWeek.', '.$now->year) );
-                echo $this->Form->input('week', array('value' => $reportWeek));
-                echo $this->Form->input('year', array('value' => $now->year));
+                echo $this->Form->input('week', array('value' => $reportWeek, 'style' => 'width: 35%;'));
+                echo $this->Form->input('year', array('value' => $now->year, 'style' => 'width: 35%;'));
                 echo $this->Form->input('meetings');
                 echo $this->Form->input('reglink', array('label' => 'Requirements link'));
                 echo $this->Form->input('problems');

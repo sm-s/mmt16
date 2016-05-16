@@ -21,7 +21,7 @@
         ?>
     </ul>
 </nav>
-<div class="metrics index large-7 medium-8 columns content float: left">
+<div class="metrics index large-8 medium-16 columns content float: left">
     <h3><?= __('Metrics') ?></h3>
     <table cellpadding="0" cellspacing="0">
         <thead>

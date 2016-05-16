@@ -13,7 +13,7 @@
          ?>
     </ul>
 </nav>
-<div class="metrics view large-3 medium-8 columns content float: left">
+<div class="metrics view large-7 medium-14 columns content float: left">
     <h3><?= h($metric->metrictype->description) ?></h3>
     <table class="vertical-table">
         <tr>

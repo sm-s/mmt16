@@ -3,7 +3,7 @@
         <li class="heading"><?= __('Actions') ?></li>
     </ul>
 </nav>
-<div class="members form large-4 medium-8 columns content float: left">
+<div class="members form large-8 medium-16 columns content float: left">
     <?= $this->Form->create($member) ?>
     <fieldset>
         <legend><?= __('Add Member') ?></legend>

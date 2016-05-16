@@ -42,7 +42,8 @@ $cakeDescription = 'MMT';
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
 </head>
-<body>
+<!-- onmousemove will make any Flash messages disappear -->
+<body onmousemove="$('.message').delay(2500).fadeOut(1000);">
 <div id="area51">
 	<div class="dropdown">
 		<button>

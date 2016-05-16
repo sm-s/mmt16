@@ -9,7 +9,7 @@
         ?></li>
     </ul>
 </nav>
-<div class="metrictypes form large-5 medium-8 columns content float: left">
+<div class="metrictypes form large-8 medium-16 columns content float: left">
     <?= $this->Form->create($metrictype) ?>
     <fieldset>
         <legend><?= __('Edit Metrictype') ?></legend>

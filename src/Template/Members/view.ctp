@@ -4,7 +4,7 @@
         <li><?= $this->Html->link(__('Edit Member'), ['action' => 'edit', $member->id]) ?> </li>
     </ul>
 </nav>
-<div class="members view large-6 medium-8 columns content float: left">
+<div class="members view large-8 medium-16 columns content float: left">
     <h3><?= h($member->user->first_name . " ". $member->user->last_name) ?></h3>
     <table class="vertical-table">
         <tr>

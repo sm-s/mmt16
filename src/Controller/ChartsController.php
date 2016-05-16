@@ -22,52 +22,11 @@ class ChartsController extends AppController
         if ($this->request->is('post')) {
             $data = $this->request->data;
             
-			/*
             $chart_limits['weekmin'] = $data['weekmin'];
             $chart_limits['weekmax'] = $data['weekmax'];
             $chart_limits['yearmin'] = $data['yearmin'];
             $chart_limits['yearmax'] = $data['yearmax'];
-			 * 
-			 */
-            /* FIX: editing limits on Public Statistics now behaves like a decent UI
-             */
-            // fetch values using helpers
-            $min = $data['weekmin'];
-            $max = $data['weekmax'];
-			$yearmin = $data['yearmin'];
-			$yearmax = $data['yearmax'];
-            
-            // correction for nonsensical values for week numbers
-            if ( $min < 1 )  $min = 1;
-            if ( $min > 52 ) $min = 52;
-            if ( $max < 1 )  $max = 1;
-            if ( $max > 52 ) $max = 52;
-			
-			// switching max/min if necessary for weeks and years
-            if ( $max < $min ) {
-            	$temp = $max;
-            	$max = $min;
-            	$min = $temp;
-            }
-            if ( $yearmax < $yearmin ) {
-            	$temp = $yearmax;
-            	$yearmax = $yearmin;
-            	$yearmin = $temp;
-            }
-			
-			// minimum week limit will be set to minimal value I decided arbitrarily
-			if ( $yearmin < 2008) {
-				$yearmin = 2008;
-			}
-			// correction of year to current if bigger than it
-			if ( $yearmax > date("Y") ) {
-				$yearmax = date("Y");
-			}
-            
-            $chart_limits['weekmin'] = $min;
-            $chart_limits['weekmax'] = $max;
-            $chart_limits['yearmin'] = $yearmin;
-			$chart_limits['yearmax'] = $yearmax;
+
 			
             $this->request->session()->write('chart_limits', $chart_limits);
             // refreshin the page to apply the new limits

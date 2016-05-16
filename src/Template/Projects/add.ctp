@@ -3,7 +3,7 @@
         <li class="heading"><?= __('Actions') ?></li>
     </ul>
 </nav>
-<div class="projects form large-7 medium-14 columns content float: left">
+<div class="projects form large-8 medium-16 columns content float: left">
     <?= $this->Form->create($project) ?>
     <fieldset>
         <legend><?= __('Add Project') ?></legend>

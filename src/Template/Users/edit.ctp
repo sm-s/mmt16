@@ -9,7 +9,7 @@
         ?></li>
     </ul>
 </nav>
-<div class="users form large-6 medium-8 columns content float: left">
+<div class="users form large-8 medium-16 columns content float: left">
     <?= $this->Form->create($user) ?>
     <fieldset>
         <legend><?= __('Edit User') ?></legend>

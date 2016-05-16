@@ -15,32 +15,36 @@
         <li><?= $this->Html->link(__('Weeklyhours'), ['controller' => 'Weeklyhours', 'action' => 'index']) ?> </li> 
     </ul>
 </nav>
-<div class="weeklyreports index large-8 medium-16 columns content float: left">
+<div class="weeklyreports index large-9 medium-18 columns content float: left">
     <h3><?= __('Weeklyreports') ?></h3>
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>
-                <th><?= $this->Paginator->sort('title') ?></th>
+                <th colspan="2"><?= $this->Paginator->sort('title') ?></th>
                 <th><?= $this->Paginator->sort('week') ?></th>
                 <th><?= $this->Paginator->sort('year') ?></th>
+				<!--
                 <th><?= $this->Paginator->sort('created_on') ?></th>
                 <th><?= $this->Paginator->sort('updated_on') ?></th>
+				-->
                 <th class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($weeklyreports as $weeklyreport): ?>
             <tr>
-                <td><?= h($weeklyreport->title) ?></td>
+                <td colspan="2"><?= h($weeklyreport->title) ?></td>
                 <td><?= h($weeklyreport->week) ?></td>
                 <td><?= h($weeklyreport->year) ?></td>
+				<!--
                 <td><?= h($weeklyreport->created_on->format('d.m.Y')) ?></td>
                 <td><?php
 					if ($weeklyreport->updated_on != NULL)
 						echo h($weeklyreport->updated_on->format('d.m.Y'));
 				?></td>
+				-->
                 <td class="actions">
-                    <?= $this->Html->link(__('Select'), ['action' => 'view', $weeklyreport->id]) ?>
+                    <?= $this->Html->link(__('View'), ['action' => 'view', $weeklyreport->id]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>

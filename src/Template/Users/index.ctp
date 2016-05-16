@@ -9,8 +9,10 @@
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>
+				<!--
                 <th><?= $this->Paginator->sort('id') ?></th>
                 <th><?= $this->Paginator->sort('email') ?></th>
+				-->
                 <th><?= $this->Paginator->sort('first_name') ?></th>
                 <th><?= $this->Paginator->sort('last_name') ?></th>
                 <th><?= $this->Paginator->sort('phone') ?></th>
@@ -21,8 +23,10 @@
         <tbody>
             <?php foreach ($users as $user): ?>
             <tr>
+				<!--
                 <td><?= $this->Number->format($user->id) ?></td>
                 <td><?= h($user->email) ?></td>
+				-->
                 <td><?= h($user->first_name) ?></td>
                 <td><?= h($user->last_name) ?></td>
                 <td><?= h($user->phone) ?></td>

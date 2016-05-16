@@ -8,7 +8,7 @@
         <li class="heading"><?= __('Actions') ?></li>
     </ul>
 </nav>
-<div class="weeklyhours form large-6 medium-8 columns content float: left">
+<div class="weeklyhours form large-6 medium-12 columns content float: left">
     <?= $this->Form->create($weeklyhours) ?>
     <fieldset>
         <legend><?= __('Add Weeklyhours, Page 3/3') ?></legend>
@@ -44,7 +44,7 @@
         		* Also positions of buttons slightly altered
             	* Navigating back to previous page changed to regular link to avoid confusion
 	        	*/
-        		echo $this->Form->button('Submit', ['name' => 'submit', 'value' => 'submit']);
+        		echo $this->Form->button('Submit', ['name' => 'submit', 'value' => 'submit', 'style' => 'float: right;']);
         	?>
         	<!-- for positioning back-link -->
 		    <div style="padding-top: 0.7em;">

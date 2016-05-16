@@ -15,7 +15,7 @@
         <li><?= $this->Html->link(__('Metrics'), ['controller' => 'Metrics', 'action' => 'index']) ?> </li>     
     </ul>
 </nav>
-<div class="projects view large-4 medium-8 columns content float: left">
+<div class="projects view large-7 medium-16 columns content float: left">
     <h3><?= h($project->project_name) ?></h3>
     <table class="vertical-table">
         <tr>
