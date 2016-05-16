@@ -8,7 +8,7 @@
         <li class="heading"><?= __('Actions') ?></li>
     </ul>
 </nav>
-<div class="weeklyhours form large-4 medium-8 columns content float: left">
+<div class="weeklyhours form large-6 medium-8 columns content float: left">
     <?= $this->Form->create($weeklyhours) ?>
     <fieldset>
         <legend><?= __('Add Weeklyhours, Page 3/3') ?></legend>
@@ -37,12 +37,26 @@
                 }
                 echo "</tr>";
             }
-            
         ?>
+        <div style="margin-top: 2em">
+        	<?php
+        		/* REQ ID 27: navigating back now doesn't require fields  to be filled
+        		* Also positions of buttons slightly altered
+            	* Navigating back to previous page changed to regular link to avoid confusion
+	        	*/
+        		echo $this->Form->button('Submit', ['name' => 'submit', 'value' => 'submit']);
+        	?>
+        	<!-- for positioning back-link -->
+		    <div style="padding-top: 0.7em;">
+			    <?php
+			    	// echo $this->Form->button('Back', ['name' => 'submit', 'value' => 'previous']);
+			        echo $this->Html->link('Previous Page', ['controller' => 'Metrics', 'action' => 'addmultiple']); 
+		    	?>
+	    	</div>
+        </div>
     </fieldset>
     <?php 
-        echo $this->Form->button('Submit', ['name' => 'submit', 'value' => 'submit']);
-        echo $this->Form->button('Previous Page', ['name' => 'submit', 'value' => 'previous', 'style' => 'float: left']); 
+        
     ?>
     <?= $this->Form->end() ?>
 </div>
