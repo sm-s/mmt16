@@ -34,7 +34,7 @@
                 <td><?= h($workinghours->id) ?></td>
                 <td><?= h($workinghours->member_id) ?></td>
                 <td><?= h($workinghours->worktype_id) ?></td>
-                <td><?= h($workinghours->date) ?></td>
+                <td><?= h($workinghours->date->format('d.m.Y')) ?></td>
                 <td><?= h($workinghours->description) ?></td>
                 <td><?= h($workinghours->duration) ?></td>
                 <td class="actions">

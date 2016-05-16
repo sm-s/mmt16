@@ -51,8 +51,14 @@
                 <td><?= h($members->user_id) ?></td>
                 <td><?= h($members->project_id) ?></td>
                 <td><?= h($members->project_role) ?></td>
-                <td><?= h($members->starting_date) ?></td>
-                <td><?= h($members->ending_date) ?></td>
+                <td><?php 
+					if ($members->starting_date != NULL)
+						echo h($members->starting_date->format('d.m.Y')); 
+				?></td>
+                <td><?php 
+					if ($members->ending_date != NULL)
+						echo h($members->ending_date->format('d.m.Y')); 
+				?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['controller' => 'Members', 'action' => 'view', $members->id]) ?>
 

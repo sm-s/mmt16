@@ -13,11 +13,17 @@
         </tr>
         <tr>
             <th><?= __('Starting Date') ?></th>
-            <td><?= h($member->starting_date) ?></tr>
+            <td><?php 
+			if ($member->starting_date != NULL)
+				echo h($member->starting_date->format('d.m.Y')); 
+			?></td>
         </tr>
         <tr>
             <th><?= __('Ending Date') ?></th>
-            <td><?= h($member->ending_date) ?></tr>
+            <td><?php 
+			if ($member->ending_date != NULL)
+				echo h($member->ending_date->format('d.m.Y')); 
+			?></td>
         </tr>
         <tr>
             <th><?= __('Email') ?></th>
@@ -67,7 +73,7 @@
                 	$worktype = $query[0];
                 ?>
                 <tr>
-                    <td><?= h($workinghours->date) ?></td>
+                    <td><?= h($workinghours->date->format('d.m.Y')) ?></td>
                     <td><?= h($workinghours->description) ?></td>
                     <td><?= $this->Number->format($workinghours->duration) ?></td>
 	                <td><?= h($worktype->description) ?></td>
