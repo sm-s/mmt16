@@ -74,6 +74,13 @@ class ProjectsController extends AppController
             	$max = $min;
             	$min = $temp;
             }
+			
+			// for clear displaying purposes, amount of columns is limited to 11 (name + 10 weeks)
+			if ( ($max - $min) > 9 ) {
+				$max = $min + 9;
+				$this->Flash->success(__('Maximum of ten weeks can be displayed at a time.'));
+			}
+				
 			// correction of year to current if bigger than it
 			if ( $year > date("Y") ) {
 				$year = date("Y");

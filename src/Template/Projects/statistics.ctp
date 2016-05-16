@@ -14,13 +14,15 @@
             <?= $this->Form->end() ?>
     </ul>
 </nav>
-<div class="projects view large-10 medium-8 columns content float: left">
+<div class="projects view large-9 medium-18 columns content float: left">
     <h3><?= h('Public statistics') ?></h3>
     <table border="1">
         <h4><?= h('Weeklyreports') ?></h4>
         <tbody>
             <tr>
-                <td>
+				<!-- empty cell -->
+                <td colspan="2"></td>
+
                 <?php 
                 $min = $this->request->session()->read('statistics_limits')['weekmin'];
                 $max = $this->request->session()->read('statistics_limits')['weekmax'];
@@ -31,20 +33,25 @@
                 if ( $max < 1 )  $max = 1;
                 if ( $max > 52 ) $max = 52;
                 if ( $max < $min ) { 
-					$temp = $max; 
+					$temp = $max;
                 	$max = $min;
                 	$min = $temp;
                 }
+				
+				// for clear displaying purposes, amount of columns is limited to 11 (name + 10 weeks)
+				if ( ($max - $min) > 9 ) {
+					$max = $min + 9;
+				}
 
                 for ($x = $min; $x <= $max; $x++) {
                     echo "<td>$x</td>";
                 } 
-                ?></td>
+                ?>
             </tr>
             
             <?php foreach ($projects as $project): ?>
                 <tr>
-                    <td><?= h($project['project_name']) ?></td>
+                    <td colspan="2"><?= h($project['project_name']) ?></td>
                     <?php                    
 						$admin = $this->request->session()->read('is_admin');
 						$supervisor = ( $this->request->session()->read('selected_project_role') == 'supervisor' ) ? 1 : 0;

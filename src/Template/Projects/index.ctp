@@ -22,7 +22,7 @@
         <li><?= $this->Html->link(__('FAQ'), ['controller' => 'Projects', 'action' => 'faq']) ?> </li>
     </ul>    
 </nav>
-<div class="projects index large-8 medium-8 columns content float: left">
+<div class="projects index large-9 medium-18 columns content float: left">
     <!-- List of the projects the user is a member of-->
     <?php if($this->request->session()->check('Auth.User')){ ?>
         <h3><?= __('Projects') ?></h3>

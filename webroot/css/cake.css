@@ -249,6 +249,12 @@ footer {
 			#area52 :last-child {
 				border: none;
 			}
+			
+/* FAQ
+*/
+#faq ul {
+	list-style-type: circle;
+}
 /*
 	.title-area {
 	  background: #01545b;
@@ -713,6 +719,8 @@ pre {
 
 #actions-sidebar {
   background: #fafafa;
+  border-radius: 0 0 10px 0;
+  padding-bottom: 2em;
 }
 
 .index table {
@@ -856,11 +864,9 @@ div.message.hidden {
   min-height: 92%; /* full height almost always */
 }
 
-/* Force equal height by overflowing */
 .content,
 #actions-sidebar {
-  margin-bottom: -99999px;
-  padding-bottom: 99999px;
+	
 }
 @media(max-width: 640px) {
     #actions-sidebar {
@@ -870,6 +876,7 @@ div.message.hidden {
 }
 
 .content h3 {
+  font-size: 2.2em;
   color: #be140b;
   padding-bottom: 0.5rem;
   margin-bottom: 20px;
