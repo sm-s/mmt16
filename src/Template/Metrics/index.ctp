@@ -6,15 +6,14 @@
             $admin = $this->request->session()->read('is_admin');
             $supervisor = ( $this->request->session()->read('selected_project_role') == 'supervisor' ) ? 1 : 0;
             
-            // FIX: managers can also add new metrics (separate add for admin only)
-            $manager = ( $this->request->session()->read('selected_project_role') == 'manager' ) ? 1 : 0;
-
+            /* Req33: Only administrator can add or change/delete metrics.
+             * Updated view.ctp and index.ctp */   
             if($admin){
         ?>
             <li><?= $this->Html->link(__('New Metric (admin)'), ['action' => 'addadmin']) ?></li>
         <?php
             } 
-            if ($manager || $admin || $supervisor) {
+            if ($admin || $supervisor) {
         ?> 
 	        <li><?= $this->Html->link(__('New Metric'), ['action' => 'add']) ?></li>
         <?php 

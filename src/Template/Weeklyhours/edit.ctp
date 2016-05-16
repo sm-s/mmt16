@@ -21,7 +21,10 @@
     <fieldset>
         <legend><?= __('Edit Weeklyhour') ?></legend>
         <?php
-            echo $this->Form->input('member_id', ['options' => $members]);
+             /* Req 10: changing the ID's of entities to their textual names 
+             * updated: WorkingHours.addev.ctp, WorkingHoursController.php, User.php, 
+             * Weeklyhours.edit.ctp, WeeklyHoursController.php*/
+            echo $this->Form->input('member_id', ['options' => $members, 'label' => 'Member Name']);
             echo $this->Form->input('duration');
         ?>
     </fieldset>
