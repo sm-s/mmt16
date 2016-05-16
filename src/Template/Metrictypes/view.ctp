@@ -4,7 +4,7 @@
         <li><?= $this->Html->link(__('Edit Metrictype'), ['action' => 'edit', $metrictype->id]) ?> </li>
     </ul>
 </nav>
-<div class="metrictypes view large-5 medium-8 columns content float: left">
+<div class="metrictypes view large-7 medium-14 columns content float: left">
     <h3><?= h($metrictype->id) ?></h3>
     <table class="vertical-table">
         <tr>

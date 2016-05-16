@@ -15,7 +15,7 @@ echo $this->Html->script('jquery-ui.min');
         ?></li>
     </ul>
 </nav>
-<div class="workinghours form large-7 medium-8 columns content float: left">
+<div class="workinghours form large-8 medium-16 columns content float: left">
     <?= $this->Form->create($workinghour) ?>
     <fieldset>
         <legend><?= __('Edit logged time') ?></legend>
@@ -37,7 +37,7 @@ echo $this->Html->script('jquery-ui.min');
             ?> </br>
         <?php  
             echo $this->Form->input('description');
-            echo $this->Form->input('duration');
+            echo $this->Form->input('duration', array('style' => 'width: 35%;'));
             echo $this->Form->input('worktype_id', ['options' => $worktypes]);    
         /*
          *

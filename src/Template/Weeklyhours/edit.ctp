@@ -16,7 +16,7 @@
         ?> 
     </ul>
 </nav>
-<div class="weeklyhours form large-5 medium-8 columns content float: left">
+<div class="weeklyhours form large-8 medium-16 columns content float: left">
     <?= $this->Form->create($weeklyhour) ?>
     <fieldset>
         <legend><?= __('Edit Weeklyhour') ?></legend>
@@ -25,7 +25,7 @@
              * updated: WorkingHours.addev.ctp, WorkingHoursController.php, User.php, 
              * Weeklyhours.edit.ctp, WeeklyHoursController.php*/
             echo $this->Form->input('member_id', ['options' => $members, 'label' => 'Member Name']);
-            echo $this->Form->input('duration');
+            echo $this->Form->input('duration', array('style' => 'width: 33%;'));
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

@@ -4,14 +4,35 @@
         <?php
         	$admin = $this->request->session()->read('is_admin');
 			$supervisor = ( $this->request->session()->read('selected_project_role') == 'supervisor' ) ? 1 : 0;
-        	
-        	if($admin || $supervisor
-			|| $workinghour->member->user_id == $this->request->session()->read('Auth.User.id') ) { ?>
+			
+			// the week and year of the last weekly report
+			$project_id = $this->request->session()->read('selected_project')['id'];
+			$query = Cake\ORM\TableRegistry::get('Weeklyreports')
+				->find()
+				->select(['year','week']) 
+				->where(['project_id =' => $project_id])
+				->toArray();
+			if ($query != null) {
+				// picking out the week of the last weeklyreport from the results
+				$max = max($query);
+				$maxYear = $max['year'];
+				$maxWeek = $max['week'];
+			}
+			// the week and the year of the workinghour
+			$week= $workinghour->date->format('W');
+			$year= $workinghour->date->format('Y');
+			
+			/* The next IF looks kinda complicated, but it means this:
+			* IF you are the owning user AND workinghour isn't from previous weeks
+			* OR you are an admin or a supervisor
+			*/
+        	if ( ($workinghour->member->user_id == $this->request->session()->read('Auth.User.id') && (($year >= $maxYear) && ($week > $maxWeek))) 
+			     || ($admin || $supervisor) ) { ?>
 				<li><?= $this->Html->link(__('Edit logged time'), ['action' => 'edit', $workinghour->id]) ?> </li>
 		<?php } ?>
     </ul>
 </nav>
-<div class="workinghours view large-7 medium-8 columns content float: left">
+<div class="workinghours view large-7 medium-14 columns content float: left">
     <h3><?= h("View logged time") ?></h3>
     <table class="vertical-table">
         <tr>

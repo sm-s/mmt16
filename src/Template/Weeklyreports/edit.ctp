@@ -9,14 +9,14 @@
         ?></li>
     </ul>
 </nav>
-<div class="weeklyreports form large-5 medium-8 columns content float: left">
+<div class="weeklyreports form large-8 medium-16 columns content float: left">
     <?= $this->Form->create($weeklyreport) ?>
     <fieldset>
         <legend><?= __('Edit Weeklyreport') ?></legend>
         <?php
             echo $this->Form->input('title');
-            echo $this->Form->input('week');
-            echo $this->Form->input('year');
+            echo $this->Form->input('week', array('style' => 'width: 35%;'));
+            echo $this->Form->input('year', array('style' => 'width: 35%;'));
             echo $this->Form->input('meetings');
             echo $this->Form->input('reglink');
             echo $this->Form->input('problems');

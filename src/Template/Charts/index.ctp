@@ -5,7 +5,6 @@
         <li class="heading"><?= __('Edit limits') ?></li> 
         <?= $this->Form->create() ?>
         <fieldset>
-            <legend><?= __('Edit limits') ?></legend>
             <?php
                 echo $this->Form->input('weekmin', array('type' => 'number', 'value' => $this->request->session()->read('chart_limits')['weekmin']));
                 echo $this->Form->input('weekmax', array('type' => 'number', 'value' => $this->request->session()->read('chart_limits')['weekmax']));

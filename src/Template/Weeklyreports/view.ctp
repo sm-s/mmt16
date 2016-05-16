@@ -4,7 +4,7 @@
         <li><?= $this->Html->link(__('Edit Weeklyreport'), ['action' => 'edit', $weeklyreport->id]) ?> </li>
     </ul>
 </nav>
-<div class="weeklyreports view large-6 medium-8 columns content float: left">
+<div class="weeklyreports view large-7 medium-14 columns content float: left">
     <h3><?= h($weeklyreport->title) ?></h3>
     <table class="vertical-table">
         <tr>

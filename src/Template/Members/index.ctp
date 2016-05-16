@@ -15,7 +15,7 @@
         ?>
     </ul>
 </nav>
-<div class="members index large-4 medium-8 columns content float: left">
+<div class="members index large-9 medium-18 columns content float: left">
     <h3><?= __('Members') ?></h3>
     <table cellpadding="0" cellspacing="0">
         <thead>

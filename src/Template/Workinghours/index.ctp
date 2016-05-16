@@ -17,7 +17,7 @@
         <?php } ?>
     </ul>
 </nav>
-<div class="workinghours index large-6 medium-8 columns content float: left">
+<div class="workinghours index large-9 medium-18 columns content float: left">
     <h3><?= __('Logged time') ?></h3>
     <table cellpadding="0" cellspacing="0">
         <thead>
@@ -68,12 +68,17 @@
                     
                     // edit and delete are only shown if the weekly report is not sent
                     // edit and delete can also be viewed by the developer who owns them
-                    if (($year >= $maxYear) && ($week > $maxWeek)) {
-                        if( $admin || $supervisor
-                        || $workinghour->member->user_id == $this->request->session()->read('Auth.User.id') ) { ?>
+					
+					/* BUG FIX: admins couldn't see times that were old
+					 * Now it looks kinda complicated, but it means this:
+					 * IF you are the owning user AND workinghour isn't from previous weeks
+					 * OR you are an admin or a supervisor
+					 */
+                    if ( ($workinghour->member->user_id == $this->request->session()->read('Auth.User.id') && (($year >= $maxYear) && ($week > $maxWeek))) 
+					     || ($admin || $supervisor) ) { ?>
                         <?= $this->Html->link(__('Edit'), ['action' => 'edit', $workinghour->id]) ?>
                         <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $workinghour->id], ['confirm' => __('Are you sure you want to delete # {0}?', $workinghour->id)]) ?> 
-                        <?php }} ?>
+                        <?php } ?>
                 </td>
             </tr>
             <?php endforeach; ?>
