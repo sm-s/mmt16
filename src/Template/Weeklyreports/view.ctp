@@ -1,7 +1,6 @@
 <nav class="large-2 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('Back'), ['action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('Edit Weeklyreport'), ['action' => 'edit', $weeklyreport->id]) ?> </li>
     </ul>
 </nav>
@@ -38,11 +37,14 @@
         </tr>
         <tr>
             <th><?= __('Created on') ?></th>
-            <td><?= h($weeklyreport->created_on->format('Y-m-d')) ?></td>
+            <td><?= h($weeklyreport->created_on->format('d.m.Y')) ?></td>
         </tr>
         <tr>
             <th><?= __('Updated on') ?></th>
-        <td><?= h($weeklyreport->updated_on) ?></td>
+        <td><?php
+			if ($weeklyreport->updated_on != NULL)
+				echo h($weeklyreport->updated_on->format('d.m.Y'));
+		?></td>
     </table>
     <div class="related">
         <h4><?= __('Related Weeklyhours') ?></h4>
@@ -77,7 +79,7 @@
                 <?php foreach ($weeklyreport->metrics as $metrics): ?>
                 <tr>
                     <td><?= h($metrics->metric_description) ?></td>
-                    <td><?= h($metrics->date->format('Y-m-d')) ?></td>
+                    <td><?= h($metrics->date->format('d.m.Y')) ?></td>
                     <td><?= h($metrics->value) ?></td>
                     <td class="actions">
                         <?= $this->Html->link(__('Edit'), ['controller' => 'Metrics', 'action' => 'edit', $metrics->id]) ?>

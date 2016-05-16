@@ -24,15 +24,21 @@
         </tr>
         <tr>
             <th><?= __('Created On') ?></th>
-            <td><?= h($project->created_on->format('Y-m-d')) ?></tr>
+            <td><?= h($project->created_on->format('d.m.Y')) ?></tr>
         </tr>
         <tr>
             <th><?= __('Updated On') ?></th>
-            <td><?= h($project->updated_on) ?></tr>
+            <td><?php
+			if ($project->updated_on != NULL)
+				echo h($project->updated_on->format('d.m.Y'));
+			?></tr>
         </tr>
         <tr>
             <th><?= __('Finished Date') ?></th>
-            <td><?= h($project->finished_date) ?></tr>
+            <td><?php
+			if ($project->finished_date != NULL)
+				echo h($project->finished_date->format('d.m.Y')); 
+			?></tr>
         </tr>
         <tr>
             <th><?= __('Is Public') ?></th>

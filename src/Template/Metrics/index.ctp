@@ -39,7 +39,7 @@
                 <td><?= $metric->has('metrictype') ? $this->Html->link($metric->metrictype->description, ['controller' => 'Metrictypes', 'action' => 'view', $metric->metrictype->id]) : '' ?></td>
                 <td><?= $this->Number->format($metric->value) ?></td>
                 <td><?= $metric->has('weeklyreport') ? $this->Html->link($metric->weeklyreport->title, ['controller' => 'Weeklyreports', 'action' => 'view', $metric->weeklyreport->id]) : '' ?></td>
-                <td><?= h($metric->date->format('Y-m-d')) ?></td>
+                <td><?= h($metric->date->format('d.m.Y')) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $metric->id]) ?>
                     <?php

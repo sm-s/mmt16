@@ -15,7 +15,7 @@
         <li><?= $this->Html->link(__('Weeklyhours'), ['controller' => 'Weeklyhours', 'action' => 'index']) ?> </li> 
     </ul>
 </nav>
-<div class="weeklyreports index large-7 medium-8 columns content float: left">
+<div class="weeklyreports index large-8 medium-16 columns content float: left">
     <h3><?= __('Weeklyreports') ?></h3>
     <table cellpadding="0" cellspacing="0">
         <thead>
@@ -34,8 +34,11 @@
                 <td><?= h($weeklyreport->title) ?></td>
                 <td><?= h($weeklyreport->week) ?></td>
                 <td><?= h($weeklyreport->year) ?></td>
-                <td><?= h($weeklyreport->created_on->format('Y-m-d')) ?></td>
-                <td><?= h($weeklyreport->updated_on) ?></td>
+                <td><?= h($weeklyreport->created_on->format('d.m.Y')) ?></td>
+                <td><?php
+					if ($weeklyreport->updated_on != NULL)
+						echo h($weeklyreport->updated_on->format('d.m.Y'));
+				?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('Select'), ['action' => 'view', $weeklyreport->id]) ?>
                 </td>

@@ -41,7 +41,7 @@
                 ?>
                 <td><?= $workinghour->has('member') ? $this->Html->link($workinghour->member->member_name, ['controller' => 'Members', 'action' => 'view', $workinghour->member->id]) : '' ?></td>
                 <td><?= $this->Number->format($workinghour->duration) ?></td>
-                <td><?= h($workinghour->date->format('Y-m-d')) ?></td>
+                <td><?= h($workinghour->date->format('d.m.Y')) ?></td>
                 <td><?= $workinghour->has('worktype') ? $this->Html->link($workinghour->worktype->description, ['controller' => 'Worktypes', 'action' => 'view', $workinghour->worktype->id]) : '' ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $workinghour->id]) ?>
