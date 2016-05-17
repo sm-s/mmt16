@@ -8,7 +8,8 @@ class MessagesController extends AppController
 {
     public function index()
     {
-		
+		// this just throws you back
+		return $this->redirect($this->referer());
     }
 	
 	public function add() {
@@ -27,5 +28,9 @@ class MessagesController extends AppController
         
 		$this->set(compact('message'));
         $this->set('_serialize', ['message']);
+	}
+	
+	public function edit($id = null) {
+		
 	}
 }

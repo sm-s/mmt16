@@ -156,19 +156,27 @@
 					echo "<div class='messagebox'>";
 					echo "<span class='msginfo'>" . $fullname . " left this comment on " . $query[$i]->date_created->format('d.m.Y, H:i') . "</span><br />";
 					echo $query[$i]->content;
+					if ( $query[$i]->user_id == $this->request->session()->read('Auth.User.id') ) {
+						echo "<br />";
+						echo "<span class='msginfo'>";
+						echo $this->Html->link(__('edit'), ['controller' => 'Messages', 'action' => 'edit', $query[$i]->id]);
+						echo "</span><br />";
+					}
 					echo "</div>";
 				}
 			}
 		?>
 		<?php
+			// current time
+			$datetime = date_create()->format('Y-m-d H:i:s');
+			
 			echo $this->Form->create('Messages', array('url'=>array('controller'=>'messages', 'action'=>'add')));
-			echo $this->request->session()->read('selected_project_userid');
 		?>
 		<fieldset>
 			<legend><?= __('New message') ?></legend>
 			<?= $this->Form->textarea('content') ?>
-			<?= $this->Form->hidden('user_id', array('type' => 'numeric', 'default' => 50 ) ) ?>
-			<?= $this->Form->hidden('weeklyreport_id', array('type' => 'numeric', 'default' => 87 ) ) ?>
+			<?= $this->Form->hidden('user_id', array('type' => 'numeric', 'value' => $this->request->session()->read('Auth.User.id') ) ) ?>
+			<?= $this->Form->hidden('weeklyreport_id', array('type' => 'numeric', 'value' => $weeklyreport->id ) ) ?>
 		</fieldset>
 		<?php echo $this->Form->button('Submit', ['name' => 'submit', 'value' => 'submit']); ?>
 		<?= $this->Form->end() ?>
