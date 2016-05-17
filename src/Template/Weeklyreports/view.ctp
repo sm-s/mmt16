@@ -145,6 +145,7 @@
 			} else {
 				// loop every query row
 				for ($i=0; $i<sizeof( $query ); $i++ ) {
+					// display info about user and time of the comment
 					// data into variables
 					$userquery = Cake\ORM\TableRegistry::get('Users')
 								->find()
@@ -156,6 +157,15 @@
 					echo "<span class='msginfo'>" . $fullname . " left this comment on " . $query[$i]->date_created->format('d.m.Y, H:i') . "</span><br />";
 					echo $query[$i]->content;
 					
+					// display edit and delete options to owner
+					if ( $query[$i]->user_id == $this->request->session()->read('Auth.User.id') ) {
+						echo "<br />";
+						echo "<span class='msginfo'>";
+						echo $this->Html->link(__('edit'), ['controller' => 'Comments', 'action' => 'edit', $query[$i]->id]);
+						echo " : : ";
+						echo $this->Html->link(__('delete'), ['controller' => 'Comments', 'action' => 'delete', $query[$i]->id]);
+						echo "</span><br />";
+					}
 					echo "</div>";
 				}
 			}

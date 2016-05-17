@@ -31,11 +31,13 @@ class CommentsController extends AppController
 	}
 	
 	public function edit($id = null) {
-		
+		$this->Flash->success(__('Editing is not available yet.'));
+		$this->index();
 	}
 	
 	public function delete($id = null) {
-		
+		$this->Flash->success(__('Deleting is not available yet.'));
+		$this->index();
 	}
 	
 	public function isAuthorized($user) {
