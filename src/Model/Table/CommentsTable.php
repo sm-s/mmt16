@@ -7,13 +7,13 @@ use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
-class MessagesTable extends Table
+class CommentsTable extends Table
 {
     public function initialize(array $config)
     {
         parent::initialize($config);
 
-        $this->table('messages');
+        $this->table('comments');
         $this->displayField('content');
         $this->primaryKey('id');
 

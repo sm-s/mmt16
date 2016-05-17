@@ -155,6 +155,7 @@
 					echo "<div class='messagebox'>";
 					echo "<span class='msginfo'>" . $fullname . " left this comment on " . $query[$i]->date_created->format('d.m.Y, H:i') . "</span><br />";
 					echo $query[$i]->content;
+					
 					echo "</div>";
 				}
 			}
@@ -163,7 +164,7 @@
 			// current time
 			$datetime = date_create()->format('Y-m-d H:i:s');
 			
-			echo $this->Form->create('Comments', array('url'=>array('controller'=>'comments', 'action'=>'add')));
+			echo $this->Form->create('Comments', array('url'=>array('controller'=>'Comments', 'action'=>'add')));
 		?>
 		<fieldset>
 			<legend><?= __('New comment') ?></legend>

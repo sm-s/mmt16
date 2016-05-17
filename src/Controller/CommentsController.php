@@ -37,4 +37,12 @@ class CommentsController extends AppController
 	public function delete($id = null) {
 		
 	}
+	
+	public function isAuthorized($user) {
+		// everyone can leave comments
+		if ($this->request->action === 'add' || $this->request->action === 'edit' || $this->request->action === 'delete') {
+			return True;
+		}
+		return parent::isAuthorized($user);
+	}
 }
