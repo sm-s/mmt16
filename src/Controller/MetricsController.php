@@ -85,7 +85,7 @@ class MetricsController extends AppController
         $this->set('_serialize', ['metric']);
     }
     
-    // fuction for adding multiplme metrics at once
+    // function for adding multiple metrics at once
     // used in the weeklyreport form
     public function addmultiple()
     {        
@@ -124,29 +124,59 @@ class MetricsController extends AppController
             $metrics = $this->Metrics->newEntities($entities);
             // look for errors
             $dataok = True;
+            $continue = True;
+            
+            // Req 35:
+            // the input in weekly report form (page 2/3)
+            // check that the totals are greater than phases/passed test cases          
+            $temp1 = $metrics;
+            $temp2 = $metrics;            
+            // Totals (2 and 9) must be greater
+            foreach($temp1 as $val1) {
+                foreach($temp2 as $val2) {
+                    // Total phases > Phases
+                    if(($val1['metrictype_id'] == 1) && ($val2['metrictype_id'] == 2)) {
+                        if($val1['value'] > $val2['value']) {                           
+                            $continue = False;
+                        }
+                    }
+                    // Total test cases > Passed test cases 
+                    if (($val1['metrictype_id'] == 8) && ($val2['metrictype_id'] == 9)) {
+                        if($val1['value'] > $val2['value']) {
+                            $continue = False;
+                        }
+                    }
+                }                
+            }
+            
             foreach($metrics as $temp){
                 if($temp->errors()){
                     $dataok = False;
                 }
             }
             
-            if($dataok){
-                $this->request->session()->write('current_metrics', $metrics);
-                // based on the last form data we either move back or forward in the form
-                if($this->request->data['submit'] == "next"){
-                    return $this->redirect(
-                        ['controller' => 'Weeklyhours', 'action' => 'addmultiple']
-                    );
+            if (!$continue) {
+                $this->Flash->success(__('Please, check the values and try again.'));                   
+            }
+            else {
+                if($dataok){
+                    $this->request->session()->write('current_metrics', $metrics);
+                    // based on the last form data we either move back or forward in the form
+                    if($this->request->data['submit'] == "next"){
+                        return $this->redirect(
+                            ['controller' => 'Weeklyhours', 'action' => 'addmultiple']
+                        );
+                    }
+                    else{
+                        return $this->redirect(
+                            ['controller' => 'Weeklyreports', 'action' => 'add']
+                        );
+                    }
+
                 }
                 else{
-                    return $this->redirect(
-                        ['controller' => 'Weeklyreports', 'action' => 'add']
-                    );
+                    $this->Flash->success(__('Metrics failed validation'));
                 }
-                  
-            }
-            else{
-                $this->Flash->success(__('Metrics failed validation'));
             }
         }
         $projects = $this->Metrics->Projects->find('list', ['limit' => 200]);
