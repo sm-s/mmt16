@@ -39,6 +39,7 @@
 <nav class="large-2 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
+        <li><?= $this->Html->link(__('Back'), ['action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('Edit Weeklyreport'), ['action' => 'edit', $weeklyreport->id]) ?> </li>
     </ul>
 </nav>
@@ -80,10 +81,7 @@
         </tr>
         <tr>
             <th><?= __('Updated on') ?></th>
-        <td><?php
-			if ($weeklyreport->updated_on != NULL)
-				echo h($weeklyreport->updated_on->format('d.m.Y'));
-		?></td>
+        <td><?= h($weeklyreport->updated_on) ?></td>
     </table>
     <div class="related">
         <h4><?= __('Related Weeklyhours') ?></h4>
@@ -96,7 +94,13 @@
                 </tr>
                 <?php foreach ($weeklyreport->weeklyhours as $weeklyhours): ?>
                 <tr>
-                    <td><?= h($weeklyhours->member_name) ?></td>
+                    <td><?php
+						// member infos need refreshing before it can be displayed
+						if (empty($weeklyhours->member_name)) {
+							header("Refresh: 0");
+						}
+						echo h($weeklyhours->member_name);
+					?></td>
                     <td><?= h($weeklyhours->duration) ?></td>
                     <td class="actions">
                         <?= $this->Html->link(__('Edit'), ['controller' => 'Weeklyhours', 'action' => 'edit', $weeklyhours->id]) ?>
@@ -128,7 +132,6 @@
                 <?php endforeach; ?>
             </table>
         <?php endif; ?>
-		
 		<h4><?= __('Comments') ?></h4>
 		<?php
 			// query for comments
