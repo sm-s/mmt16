@@ -2,6 +2,7 @@
 	// if you're an admin or supervisor, we'll force you to change to the project the weeklyreport is from
 	$admin = $this->request->session()->read('is_admin');
 	$supervisor = ( $this->request->session()->read('selected_project_role') == 'supervisor' ) ? 1 : 0;
+	$manager = ( $this->request->session()->read('selected_project_role') == 'manager' ) ? 1 : 0;
 	
 	if ( $admin || $supervisor ) {
 		// fetch the ID of relevant project
@@ -39,7 +40,10 @@
 <nav class="large-2 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('Edit Weeklyreport'), ['action' => 'edit', $weeklyreport->id]) ?> </li>
+		<?php
+			if ($admin || $supervisor || $manager) { ?>
+				<li><?= $this->Html->link(__('Edit Weeklyreport'), ['action' => 'edit', $weeklyreport->id]) ?> </li>
+		<?php } ?>
     </ul>
 </nav>
 <div class="weeklyreports view large-8 medium-16 columns content float: left">
@@ -157,8 +161,8 @@
 					echo "<span class='msginfo'>" . $fullname . " left this comment on " . $query[$i]->date_created->format('d.m.Y, H:i') . "</span><br />";
 					echo $query[$i]->content;
 					
-					// display edit and delete options to owner
-					if ( $query[$i]->user_id == $this->request->session()->read('Auth.User.id') ) {
+					// display edit and delete options to owner and admin/SV
+					if ( $query[$i]->user_id == $this->request->session()->read('Auth.User.id') || ($admin || $supervisor) ) {
 						echo "<br />";
 						echo "<span class='msginfo'>";
 						echo $this->Html->link(__('edit'), ['controller' => 'Comments', 'action' => 'edit', $query[$i]->id]);

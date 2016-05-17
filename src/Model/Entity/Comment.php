@@ -16,7 +16,7 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\Time $ending_date
  * @property \App\Model\Entity\Workinghour[] $workinghours
  */
-class Message extends Entity
+class Comment extends Entity
 {
 
     /**
