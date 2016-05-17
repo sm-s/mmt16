@@ -33,7 +33,7 @@ echo $this->Html->script('jquery-ui.min');
              * Added input[readonly] to cake.css
              */
           
-            echo $this->Form->input('date', ['type' => 'text', 'readonly' => true]);
+            echo $this->Form->input('date', ['type' => 'text', 'readonly' => true, 'value' => '	']);
             ?> </br>
         <?php  
             echo $this->Form->input('description');
