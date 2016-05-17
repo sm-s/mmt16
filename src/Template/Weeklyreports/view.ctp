@@ -1,11 +1,50 @@
+<?php
+	// if you're an admin or supervisor, we'll force you to change to the project the weeklyreport is from
+	$admin = $this->request->session()->read('is_admin');
+	$supervisor = ( $this->request->session()->read('selected_project_role') == 'supervisor' ) ? 1 : 0;
+	
+	if ( $admin || $supervisor ) {
+		// fetch the ID of relevant project
+		$query = Cake\ORM\TableRegistry::get('Weeklyreports')
+					->find()
+					->select(['project_id'])
+					->where(['id =' => $weeklyreport['id']])
+					->toArray();
+		$iidee = $query[0]->project_id;
+		
+		/* Don't hit me. This code is a modified copy of Projects-controller's view-function.
+		 * Essentially it is an unnecessary copy, but it cannot be accessed directly because MVC doesn't
+		 * allow using controllers inside other controllers. This wouldn't be a problem if the code
+		 * was in Models, but previous teams never used Models and it would be extremely difficult to
+		 * change everything at this point
+		 */
+		$project = Cake\ORM\TableRegistry::get('Projects')->get($iidee, [
+            'contain' => ['Members', 'Metrics', 'Weeklyreports']
+        ]);
+        $this->set('project', $project);
+        $this->set('_serialize', ['project']);
+		
+		// if the selected project is a new one
+        if($this->request->session()->read('selected_project')['id'] != $project['id']){
+            // write the new id 
+            $this->request->session()->write('selected_project', $project);
+            // remove the all data from the weeklyreport form if any exists
+            $this->request->session()->delete('current_weeklyreport');
+            $this->request->session()->delete('current_metrics');
+            $this->request->session()->delete('current_weeklyhours');
+			
+        }
+	}
+?>
 <nav class="large-2 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('Edit Weeklyreport'), ['action' => 'edit', $weeklyreport->id]) ?> </li>
     </ul>
 </nav>
-<div class="weeklyreports view large-7 medium-14 columns content float: left">
+<div class="weeklyreports view large-8 medium-16 columns content float: left">
     <h3><?= h($weeklyreport->title) ?></h3>
+	<h5><?= h($selected_project = $this->request->session()->read('selected_project')['project_name']) ?></h5>
     <table class="vertical-table">
         <tr>
             <th><?= __('Title') ?></th>
