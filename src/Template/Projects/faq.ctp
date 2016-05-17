@@ -6,6 +6,7 @@
         <li><?= $this->Html->link(__('FAQ'), ['controller' => 'Projects', 'action' => 'faq']) ?> </li>
     </ul>    
 </nav>
+
 <div id="faq" class="projects index large-9 medium-18 columns content float: left">
     <h3><?= __('FAQ') ?></h3>
      

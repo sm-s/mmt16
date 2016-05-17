@@ -250,7 +250,7 @@
 					border: none;
 				}
 
-	/* MESSAGES-boxes in the weeklyreports' view page
+	/* COMMENT boxes in the weeklyreports' view page
 	*/
 	.messagebox {
 		background-color: #EEE;
@@ -262,6 +262,13 @@
 			color: #09A7DB;
 			font-size: 0.85em;
 		}
+		
+#faq {
+	margin: 0 auto;
+}
+	#faq ul {
+		list-style-type: circle;
+	}
 
 	/*
 		.title-area {
@@ -727,6 +734,7 @@
 
 	#actions-sidebar {
 	  background: #fafafa;
+	  padding-bottom: 1.2em;
 	}
 
 	.index table {
@@ -873,8 +881,7 @@
 	/* Force equal height by overflowing */
 	.content,
 	#actions-sidebar {
-	  margin-bottom: -99999px;
-	  padding-bottom: 99999px;
+		
 	}
 	@media(max-width: 640px) {
 		#actions-sidebar {

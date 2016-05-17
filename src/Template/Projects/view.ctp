@@ -17,11 +17,10 @@
 </nav>
 <div class="projects view large-7 medium-16 columns content float: left">
     <h3><?= h($project->project_name) ?></h3>
+	<p>
+		<?= h($project->description) ?>
+	</p>
     <table class="vertical-table">
-        <tr>
-            <th><?= __('Description') ?></th>
-            <td><?= h($project->description) ?></td>
-        </tr>
         <tr>
             <th><?= __('Created On') ?></th>
             <td><?= h($project->created_on->format('d.m.Y')) ?></tr>
