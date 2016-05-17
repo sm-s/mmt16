@@ -1,4 +1,4 @@
-CREATE TABLE messages (
+CREATE TABLE comments (
 	id INT AUTO_INCREMENT,
 	user_id INT NOT NULL,
 	weeklyreport_id INT NOT NULL,

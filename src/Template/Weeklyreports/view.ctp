@@ -134,8 +134,8 @@
         <?php endif; ?>
 		<h4><?= __('Comments') ?></h4>
 		<?php
-			// query for messages
-			$query = Cake\ORM\TableRegistry::get('Messages')
+			// query for comments
+			$query = Cake\ORM\TableRegistry::get('Comments')
 						->find()
 						->select()
 						->where(['weeklyreport_id =' => $weeklyreport['id']])
@@ -156,12 +156,6 @@
 					echo "<div class='messagebox'>";
 					echo "<span class='msginfo'>" . $fullname . " left this comment on " . $query[$i]->date_created->format('d.m.Y, H:i') . "</span><br />";
 					echo $query[$i]->content;
-					if ( $query[$i]->user_id == $this->request->session()->read('Auth.User.id') ) {
-						echo "<br />";
-						echo "<span class='msginfo'>";
-						echo $this->Html->link(__('edit'), ['controller' => 'Messages', 'action' => 'edit', $query[$i]->id]);
-						echo "</span><br />";
-					}
 					echo "</div>";
 				}
 			}
@@ -170,15 +164,15 @@
 			// current time
 			$datetime = date_create()->format('Y-m-d H:i:s');
 			
-			echo $this->Form->create('Messages', array('url'=>array('controller'=>'messages', 'action'=>'add')));
+			echo $this->Form->create('Comments', array('url'=>array('controller'=>'comments', 'action'=>'add')));
 		?>
 		<fieldset>
-			<legend><?= __('New message') ?></legend>
+			<legend><?= __('New comment') ?></legend>
 			<?= $this->Form->textarea('content') ?>
 			<?= $this->Form->hidden('user_id', array('type' => 'numeric', 'value' => $this->request->session()->read('Auth.User.id') ) ) ?>
 			<?= $this->Form->hidden('weeklyreport_id', array('type' => 'numeric', 'value' => $weeklyreport->id ) ) ?>
+			<?php echo $this->Form->button('Submit', ['name' => 'submit', 'value' => 'submit']); ?>
 		</fieldset>
-		<?php echo $this->Form->button('Submit', ['name' => 'submit', 'value' => 'submit']); ?>
 		<?= $this->Form->end() ?>
     </div>
 </div>
