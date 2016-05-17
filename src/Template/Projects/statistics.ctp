@@ -81,8 +81,8 @@
 											->toArray();
 										// transforming returned query item to integer
 										$reportId = $query[$i++]->id;
-								?>
-		                        		<?= $this->Html->link(__($report.' (view)'), [
+
+										echo $this->Html->link(__($report.' (view)'), [
 										                                              'controller' => 'Weeklyreports',
 		                        		                                              'action' => 'view',
 		                        		                                              $reportId ]) ?>
