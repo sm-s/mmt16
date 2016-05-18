@@ -84,7 +84,10 @@
         </tr>
         <tr>
             <th><?= __('Updated on') ?></th>
-        <td><?= h($weeklyreport->updated_on) ?></td>
+        <td><?php 
+		if ( $weeklyreport->updated_on != NULL ) {
+			echo h($weeklyreport->updated_on->format('d.m.Y'));
+		} ?></td>
     </table>
     <div class="related">
         <h4><?= __('Related Weeklyhours') ?></h4>
