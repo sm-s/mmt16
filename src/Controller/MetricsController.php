@@ -156,7 +156,7 @@ class MetricsController extends AppController
             }
             
             if (!$continue) {
-                $this->Flash->success(__('Please, check the values and try again.'));                   
+                $this->Flash->error(__('Please, check the values and try again.'));                   
             }
             else {
                 if($dataok){
