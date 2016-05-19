@@ -50,8 +50,9 @@ class ProjectsTable extends Table
             ->add('updated_on', 'valid', ['rule' => 'date'])
             ->allowEmpty('updated_on');
 
+        // because of jQuery UI datepicker used in edit.ctp
         $validator
-            ->add('finished_date', 'valid', ['rule' => 'date'])
+            //->add('finished_date', 'valid', ['rule' => 'date'])
             ->allowEmpty('finished_date');
 
         $validator
