@@ -19,29 +19,16 @@ echo $this->Html->script('jquery-ui.min');
              * Weeklyhours.edit.ctp, WeeklyHoursController.php*/
             echo $this->Form->input('member_id', ['options' => $members, 'label' => 'Member Name']);
             
-            /*
-             * Req #21
-             * 
-             * Using jQuery UI datepicker
-             * Added css and js files for datepicker to webroot
-             * Changed settings for validation in WorkingHoursTable.php
-             * Readonly turns the text field grey and doesn't allow other input than 
-             * the date selected from the calendar
-             * Added input[readonly] to cake.css
-             */     
-            echo $this->Form->input('date', ['type' => 'text', 'readonly' => true, 'value' => ' ']);
+
+            // Req 21: Using jQuery UI datepicker
+            echo $this->Form->input('date', ['type' => 'text', 'readonly' => true]);
             ?> </br>
         <?php  
             echo $this->Form->input('description');
             echo $this->Form->input('duration', array('style' => 'width: 35%;'));
             echo $this->Form->input('worktype_id', ['options' => $worktypes]);
         
-           /*
-             * Req #21
-             * 
-             * Fetching from the db the date when the project was created
-             */ 
-           
+            // Fetching from the db the date when the project was created      
             $project_id = $this->request->session()->read('selected_project')['id'];
             $query = Cake\ORM\TableRegistry::get('Projects')
                 ->find()
@@ -64,11 +51,9 @@ echo $this->Html->script('jquery-ui.min');
 
 <script> 
     /*
-     * Req #21
-     * 
+     * Req 21:
      * minDate is the date the project was created
      * maxDate is the current day
-     * both the input field and the icon can be clicked
      */
     $( "#date" ).datepicker({
         dateFormat: "MM d, yy",

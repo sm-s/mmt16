@@ -38,9 +38,7 @@ class WorkinghoursTable extends Table
             ->allowEmpty('id', 'create');
 
         /*
-         * Req #1
-         * 
-         * Made changes for the datepicker so that the working hours could be saved
+         * Req 1: Made changes for the datepicker so that the working hours could be saved
          */
         $validator
             //->add('date', 'valid', ['rule' => 'date'])

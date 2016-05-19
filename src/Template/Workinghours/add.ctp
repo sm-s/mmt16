@@ -16,8 +16,7 @@ echo $this->Html->script('jquery-ui.min');
         
           <?php 
             /*
-             * Req #1
-             * 
+             * Req 1
              * Using jQuery UI datepicker
              * Added css and js files for datepicker to webroot
              * Changed settings for validation in WorkingHoursTable.php
@@ -34,13 +33,11 @@ echo $this->Html->script('jquery-ui.min');
             echo $this->Form->input('worktype_id', ['options' => $worktypes]); 
             
             /*
-             * Req #1
-             * 
-             * if there are no weekly reports for the project then the minimum date 
+             * Req 1
+             * If there are no weekly reports for the project then the minimum date 
              * in the datepicker's date range is the date the project was created.
              * Otherwise, the minimum date in the date range is the monday after
              * the last weekly report was sent.
-             * 
              */
          
             $project_id = $this->request->session()->read('selected_project')['id'];
@@ -95,8 +92,7 @@ echo $this->Html->script('jquery-ui.min');
 
 <script> 
     /*
-     * Req #1
-     * 
+     * Req 1
      * minDate is either the first day of the weeklyreport week or 
      * the date project was created
      * maxDate is the current day

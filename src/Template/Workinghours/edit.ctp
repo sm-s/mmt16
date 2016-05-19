@@ -21,19 +21,10 @@ echo $this->Html->script('jquery-ui.min');
         <legend><?= __('Edit logged time') ?></legend>
         <?php
             // echo $this->Form->input('member_id', ['options' => $members]);
-            
-            /*
-             * Req #21
-             * 
-             * Using jQuery UI datepicker
-             * Added css and js files for datepicker to webroot
-             * Changed settings for validation in WorkingHoursTable.php
-             * Readonly turns the text field grey and doesn't allow other input than 
-             * the date selected from the calendar
-             * Added input[readonly] to cake.css
-             */
-          
-            echo $this->Form->input('date', ['type' => 'text', 'readonly' => true, 'value' => '	']);
+            // 
+            // ISSUE TO FIX
+            // format the date that is in the field when the page is opened
+            echo $this->Form->input('date', ['type' => 'text', 'readonly' => true]);
             ?> </br>
         <?php  
             echo $this->Form->input('description');
@@ -43,8 +34,7 @@ echo $this->Html->script('jquery-ui.min');
          *
         */
             /*
-             * Req #21
-             * 
+             * Req 21:
              * The weeks when the weekly reports were sent or if there are no reports,
              * the date when the project was created is fetched from the db.
              */ 
@@ -69,9 +59,7 @@ echo $this->Html->script('jquery-ui.min');
                 $mDate1 = $monday->format('d M Y');
                 $mDate = date('d M Y', strtotime($mDate1));
             }
-            /*
-             * There are no weekly reports.
-             */
+            // There are no weekly reports.
             else {
                 $project_id = $this->request->session()->read('selected_project')['id'];
                 $query2 = Cake\ORM\TableRegistry::get('Projects')
@@ -99,12 +87,10 @@ echo $this->Html->script('jquery-ui.min');
 
 <script> 
     /*
-     * Req #21
-     * 
+     * Req 21
      * minDate is either the first day of the weeklyreport week or 
      * the date project was created
      * maxDate is the current day
-     * both the input field and the icon can be clicked
      */
     $( "#date" ).datepicker({
         dateFormat: "MM d, yy",
