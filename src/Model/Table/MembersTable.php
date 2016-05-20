@@ -49,12 +49,13 @@ class MembersTable extends Table
                 'message' => 'Please enter a valid project role'
                 ]);
         
+        // Removed for jQuery UI datepicker
         $validator
-            ->add('starting_date', 'valid', ['rule' => 'date'])
+            //->add('starting_date', 'valid', ['rule' => 'date'])
             ->allowEmpty('starting_date');
 
         $validator
-            ->add('ending_date', 'valid', ['rule' => 'date'])
+            //->add('ending_date', 'valid', ['rule' => 'date'])
             ->allowEmpty('ending_date');
 
         return $validator;
