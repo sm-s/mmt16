@@ -122,37 +122,44 @@ class ProjectsTable extends Table
          */
         $query = $weeklyreports
             ->find()
-            ->select(['week'])
+            ->select(['week', 'created_on'])
             ->where(['project_id' => $project_id, 'week >=' => $min, 'week <=' => $max, 'year' => $year])
             ->toArray();
 
         $weeks = array();
+		$createdates = array();
         foreach($query as $temp){
             $weeks[] = $temp->week;
+			$createdates[] = $temp->created_on;
         }
         $time = Time::now();
         // with the weeks when the report has not been filled
         $completeList = array();
+		
+		// iterator for weeks and createdates array, resets to zero after "finishing" with one project's reports
+		$i = 0;
         for($count = $min; $count <= $max; $count++){
-            // if the week is found, 'X'
+            // if the week is found
             if(in_array($count, $weeks)){
-                $completeList[] = 'X'; 
+				// fetch the weekday when report was sent; protip: Sunday = 0 (so Monday = 1)
+				$weekday = date( "w", strtotime($createdates[$i]));
+				// also fetch the weeknumber when report was sent
+				$weekno = date( "W", strtotime($createdates[$i]));
+
+				// weeklyreport is late
+				// IF a) it was created on next week AND the weekday was after monday
+				// OR b) it was created several weeks later
+                if( ($weeks[$i] +1 == $weekno && $weekday > 1) || ($weeks[$i] +1 < $weekno) ) {
+					$completeList[] = 'L';
+                } else {
+					$completeList[] = 'X';
+				}
+				$i++;
             }
-            else{
-                // late,
-                // if its the week after the week in question and its this year and its a weekday after tuesday
-                // or the current weeknumber is over 1 more than weeknumber in question and its the same year
-                // or its just the next year
-                if(($time->weekOfYear == $count + 1 && $time->year == $year && $time->dayOfWeek > 2) 
-                    || ($time->weekOfYear > $count + 1 && $time->year == $year) 
-                    || ($time->year > $year)){
-                    $completeList[] = 'L';
-                }
-                // if its not late, but there is no report
-                else{
-                    $completeList[] = ' '; 
-                } 
-            } 
+            else {
+				// if its not late, but there is no report
+				$completeList[] = '-';
+            }
         }
         return $completeList;
     }

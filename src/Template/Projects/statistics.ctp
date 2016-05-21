@@ -15,8 +15,8 @@
 </nav>
 <div class="projects view large-9 medium-18 columns content float: left">
     <h3><?= h('Public statistics') ?></h3>
-    <table border="1">
-        <h4><?= h('Weeklyreports') ?></h4>
+    <h4><?= h('Weeklyreports') ?></h4>
+	<table border="1">
         <tbody>
             <tr>
 				<!-- empty cell -->
@@ -71,14 +71,14 @@
 					?>
 		                        <td>
 		                        <?php
-		                        	// non-X's print like normal
-		                        	if ( !($report == 'X') ) { ?>
+		                        	// missing ones print normally
+		                        	if ( $report == '-' ) { ?>
 		                        		<?= h($report) ?>
 		                        <?php
 		                        	}
 		                        	// adding link to X's if admin or supervisor
 		                        	// BUG FIX 31.3.: links to weeklyreports now actually link to correct reports
-		                        	elseif ( $report == 'X' && ($admin || $supervisor) ) { 
+		                        	elseif ( ($report == 'X' || $report == 'L') && ($admin || $supervisor) ) { 
 		                        		// fetching the ID for current weeklyreport's view-page
 		                        		$query = Cake\ORM\TableRegistry::get('Weeklyreports')
 											->find()
@@ -88,11 +88,20 @@
 											->toArray();
 										// transforming returned query item to integer
 										$reportId = $query[$i++]->id;
-
-										echo $this->Html->link(__($report.' (view)'), [
-										                                              'controller' => 'Weeklyreports',
-		                        		                                              'action' => 'view',
-		                        		                                              $reportId ]) ?>
+										
+										// X's have normal link color so they echo normally
+										if ($report == 'X') {
+											echo $this->Html->link(__($report.' (view)'), [
+																						  'controller' => 'Weeklyreports',
+																						  'action' => 'view',
+																						  $reportId ]);
+										} else {
+											echo $this->Html->link(__($report.' (view)'), [
+																						  'controller' => 'Weeklyreports',
+																						  'action' => 'view',
+																						  $reportId ], ['style'=>'color: orange;']);
+										}
+										?>
 		                        <?php
 		                        	// displays X without a link to other users
 		                        	} else { ?>
@@ -108,7 +117,7 @@
                     <?php endforeach; ?>
                 </tr>
             <?php endforeach; ?>
-        </tbody> 
+        </tbody>
     </table>
     <table border="1" style="width:50%;">
         <h4><?= h('Total weeklyhours') ?></h4>

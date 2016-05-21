@@ -165,11 +165,16 @@
 					echo $query[$i]->content;
 					
 					// display edit and delete options to owner and admin/SV
+					/* NOTE! edit functionality not implemented in spring 2016. If next teams want to implement it,
+					 * they can uncomment the lines below.
+					 * Note also that database table for comments already contains an attribute "date_modified"
+					 */
+
 					if ( $query[$i]->user_id == $this->request->session()->read('Auth.User.id') || ($admin || $supervisor) ) {
 						echo "<br />";
 						echo "<span class='msginfo'>";
-						echo $this->Html->link(__('edit'), ['controller' => 'Comments', 'action' => 'edit', $query[$i]->id]);
-						echo " : : ";
+						// echo $this->Html->link(__('edit'), ['controller' => 'Comments', 'action' => 'edit', $query[$i]->id]);
+						// echo " : : ";
 						echo $this->Html->link(__('delete'), ['controller' => 'Comments', 'action' => 'delete', $query[$i]->id]);
 						echo "</span><br />";
 					}
