@@ -37,10 +37,17 @@
                 	$min = $temp;
                 }
 				
+				/* REMOVED after deemed too restricting. If you want to implement this again, find and change
+				 * this piece of code also in ProjectsController
+				 * 
+
 				// for clear displaying purposes, amount of columns is limited to 11 (name + 10 weeks)
 				if ( ($max - $min) > 9 ) {
 					$max = $min + 9;
 				}
+				 * 
+				 * 
+				 */
 
                 for ($x = $min; $x <= $max; $x++) {
                     echo "<td>$x</td>";

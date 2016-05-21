@@ -75,11 +75,18 @@ class ProjectsController extends AppController
             	$min = $temp;
             }
 			
+			/*
+			 * REMOVED after deemed too restricting, but I left the code so it can easily be implemented if needed
+			 * remember to also change similar code in Template/Projects/statistics.ctp
+			 * 
 			// for clear displaying purposes, amount of columns is limited to 11 (name + 10 weeks)
 			if ( ($max - $min) > 9 ) {
 				$max = $min + 9;
 				$this->Flash->success(__('Maximum of ten weeks can be displayed at a time.'));
 			}
+			 * 
+			 *
+			 */
 				
 			// correction of year to current if bigger than it
 			if ( $year > date("Y") ) {
@@ -97,9 +104,9 @@ class ProjectsController extends AppController
         // current default settings
         if(!$this->request->session()->check('statistics_limits')){
             $time = Time::now();
-            // magic numbers for the springs project work course
+            // these initial limits are arbitrary so change freely if needed
             $statistics_limits['weekmin'] = 2;
-            $statistics_limits['weekmax'] = 15;
+            $statistics_limits['weekmax'] = 11;
             
             $statistics_limits['year'] = $time->year;
             
