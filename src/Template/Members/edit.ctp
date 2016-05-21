@@ -67,7 +67,7 @@ echo $this->Html->script('jquery-ui.min');
         firstDay: 1,
         showWeek: true,
         showOn: "both",
-        buttonImage: "/Metrix/img/glyphicons-46-calendar.png",
+        buttonImage: "../../webroot/img/glyphicons-46-calendar.png",
         buttonImageOnly: true,
         buttonText: "Select date"       
     });

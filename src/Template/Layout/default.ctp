@@ -55,10 +55,10 @@ $cakeDescription = 'MMT';
 					echo '<span id="label">Options</span>';
 				}
 			?>
-			<img src="/Metrix/img/arrow.png" />
+			<img src="webroot/img/arrow.png" />
 		</button>
 		<div class="dd-content">
-			<img src="/Metrix/img/icon.png" />
+			<img src="webroot/img/icon.png" />
 			<div id="userinfo">
 				<div class="info">Logged in as</div>
 				<?php
@@ -127,7 +127,7 @@ $cakeDescription = 'MMT';
 	<!-- this non-breaking space is empty content that makes the page render correctly -->
 	&nbsp;
 	<div id="topimg">
-		<img src="/Metrix/img/utalogo.png" />
+		<img src="webroot/img/utalogo.png" />
 	</div>
 
 	<!-- Left side (displays current location) -->
@@ -210,7 +210,7 @@ $cakeDescription = 'MMT';
 	<div id="area52">
 		<div class="footerblock">
 			<div id="logoblock">
-				<img src="/Metrix/img/pitkalogo1.png" />
+				<img src="webroot/img/pitkalogo1.png" />
 				<div class="footerlogo">METRICS</div>
 				<div class="footerlogo">MONITORING</div>
 				<div class="footerlogo">TOOL</div>
