@@ -49,6 +49,10 @@
                     $admin = $this->request->session()->read('is_admin');
                     $supervisor = ( $this->request->session()->read('selected_project_role') == 'supervisor' ) ? 1 : 0;
 
+                    // the week and the year of the workinghour
+                    $week= $workinghour->date->format('W');
+                    $year= $workinghour->date->format('Y');
+                    $firstWeeklyReport = false;
                     // the week and year of the last weekly report
                     $project_id = $this->request->session()->read('selected_project')['id'];
                     $query = Cake\ORM\TableRegistry::get('Weeklyreports')
@@ -62,19 +66,20 @@
                         $maxYear = $max['year'];
                         $maxWeek = $max['week'];
                     }
-                    // the week and the year of the workinghour
-                    $week= $workinghour->date->format('W');
-                    $year= $workinghour->date->format('Y');
-                    
+                    else {
+                        $firstWeeklyReport = true;
+                    }
+      
                     // edit and delete are only shown if the weekly report is not sent
                     // edit and delete can also be viewed by the developer who owns them
 					
-					/* BUG FIX: admins couldn't see times that were old
-					 * Now it looks kinda complicated, but it means this:
-					 * IF you are the owning user AND workinghour isn't from previous weeks
-					 * OR you are an admin or a supervisor
-					 */
-                    if ( ($workinghour->member->user_id == $this->request->session()->read('Auth.User.id') && (($year >= $maxYear) && ($week > $maxWeek))) 
+                        /* BUG FIX: admins couldn't see times that were old
+                	 * Now it looks kinda complicated, but it means this:
+			 * IF you are the owning user AND workinghour isn't from previous weeks
+			 * OR you are an admin or a supervisor
+			 */
+                    if ( ($workinghour->member->user_id == $this->request->session()->read('Auth.User.id') 
+                            && ($firstWeeklyReport || (($year >= $maxYear) && ($week > $maxWeek)))) 
 					     || ($admin || $supervisor) ) { ?>
                         <?= $this->Html->link(__('Edit'), ['action' => 'edit', $workinghour->id]) ?>
                         <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $workinghour->id], ['confirm' => __('Are you sure you want to delete # {0}?', $workinghour->id)]) ?> 

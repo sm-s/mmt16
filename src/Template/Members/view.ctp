@@ -55,7 +55,8 @@
                 <?php endforeach; ?>
             </table>
         <?php endif; ?>
-        <h4><?= __('Related Workinghours') ?></h4>
+
+                <h4><?= __('Related Workinghours') ?></h4>
         <?php if (!empty($member->workinghours)): ?>
             <table cellpadding="0" cellspacing="0">
                 <tr>
@@ -79,12 +80,45 @@
 	                <td><?= h($worktype->description) ?></td>
                     <td class="actions">
                         <?= $this->Html->link(__('View'), ['controller' => 'Workinghours', 'action' => 'view', $workinghours->id]) ?>
+                    <?php
+                        $admin = $this->request->session()->read('is_admin');
+                        $supervisor = ( $this->request->session()->read('selected_project_role') == 'supervisor' ) ? 1 : 0;
 
-                        <?= $this->Html->link(__('Edit'), ['controller' => 'Workinghours', 'action' => 'edit', $workinghours->id]) ?>
+                        // the week and the year of the workinghour
+                        $week= $workinghours->date->format('W');
+                        $year= $workinghours->date->format('Y');
+                        $firstWeeklyReport = false;
+                        // the week and year of the last weekly report
+                        $project_id = $this->request->session()->read('selected_project')['id'];
+                        $query = Cake\ORM\TableRegistry::get('Weeklyreports')
+                            ->find()
+                            ->select(['year','week']) 
+                            ->where(['project_id =' => $project_id])
+                            ->toArray();
+                        if ($query != null) {
+                            // picking out the week of the last weeklyreport from the results
+                            $max = max($query);
+                            $maxYear = $max['year'];
+                            $maxWeek = $max['week'];
+                        }
+                        else {
+                            $firstWeeklyReport = true;
+                        }
 
-                        <?= $this->Form->postLink(__('Delete'), ['controller' => 'Workinghours', 'action' => 'delete', $workinghours->id], ['confirm' => __('Are you sure you want to delete # {0}?', $workinghours->id)]) ?>
+                        // edit and delete are only shown if the weekly report is not sent
+                        // edit and delete can also be viewed by the developer who owns them
 
-                    </td>
+			// IF you are the owning user AND workinghour isn't from previous weeks
+			// OR you are an admin or a supervisor
+			 
+                        if ( ($member->user_id == $this->request->session()->read('Auth.User.id') 
+                                && ($firstWeeklyReport || (($year >= $maxYear) && ($week > $maxWeek)))) 
+                                                 || ($admin || $supervisor) ) { ?>
+                            <?= $this->Html->link(__('Edit'), ['controller' => 'Workinghours', 'action' => 'edit', $workinghours->id]) ?>
+
+                            <?= $this->Form->postLink(__('Delete'), ['controller' => 'Workinghours', 'action' => 'delete', $workinghours->id], ['confirm' => __('Are you sure you want to delete # {0}?', $workinghours->id)]) ?> 
+                    <?php } ?>
+                </td>
                 </tr>
                 <?php endforeach; ?>
             </table>
