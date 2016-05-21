@@ -28,7 +28,10 @@ $cakeDescription = 'MMT';
         <?= $cakeDescription ?>:
         <?= $this->fetch('title') ?>
     </title>
-    <?= $this->Html->meta('icon') ?>
+    <?= $this->Html->meta(
+			'tktlogo.png',
+			'webroot/img/tkt.png',
+			['type' => 'icon'] ); ?>
 
     <?= $this->Html->css('base.css') ?>
     <?= $this->Html->css('cake.css') ?>
@@ -127,7 +130,7 @@ $cakeDescription = 'MMT';
 	<!-- this non-breaking space is empty content that makes the page render correctly -->
 	&nbsp;
 	<div id="topimg">
-		<img src="webroot/img/utalogo.png" />
+		<img src="webroot/img/ylapalkki.jpg" />
 	</div>
 
 	<!-- Left side (displays current location) -->
