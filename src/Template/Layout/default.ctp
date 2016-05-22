@@ -80,7 +80,7 @@ $cakeDescription = 'MMT';
 					<!-- this button displays a letter icon -->
 					<button><span id="label"><?= $this->Html->image('letter.png'); ?></span></button>
 					<div class="n-content"><div id="cominfo">
-					<?= "Unread messages in:" ?><br/>
+					<?= "Unread comments in:" ?><br/>
 					<ul>
 						<?php
 						

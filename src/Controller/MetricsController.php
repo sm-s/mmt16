@@ -141,7 +141,7 @@ class MetricsController extends AppController
                     }
                     // Total test cases > Passed test cases 
                     if (($item1['metrictype_id'] == 8) && ($item2['metrictype_id'] == 9)) {
-                        if($$item1['value'] > $item2['value']) {
+                        if($item1['value'] > $item2['value']) {
                             $continue = False;
                         }
                     }

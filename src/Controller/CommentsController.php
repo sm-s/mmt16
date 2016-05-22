@@ -63,6 +63,7 @@ class CommentsController extends AppController
 							exit;
 						}
 					}
+					mysqli_close( $connection );
 				} else exit;
 
                 $this->Flash->success(__('The comment has been saved.'));

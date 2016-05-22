@@ -22,7 +22,25 @@
 			if (!mysqli_query($connection, $delete)) {
 				exit;
 			}
+			
+			// let's also remove data about unread weeklyreports
+			if ( $this->request->session()->read('selected_project_role') == 'supervisor' ) {
+				$newreps = Cake\ORM\TableRegistry::get('Newreports')->find()
+							->select()
+							->where(['user_id =' => $userid, 'weeklyreport_id =' => $wrid])
+							->toArray();
+				if ( sizeof($newreps) > 0 ) {
+					$delete = "DELETE FROM newreports"
+							. " WHERE user_id = $userid"
+							. " AND weeklyreport_id = $wrid";
+
+					if (!mysqli_query($connection, $delete)) {
+						exit;
+					}
+				}
+			}
 		}
+		mysqli_close( $connection );
 	}
 		
 	// if you're an admin or supervisor, we'll force you to change to the project the weeklyreport is from

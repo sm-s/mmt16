@@ -306,6 +306,12 @@
 		list-style-type: circle;
 	}
 
+.unread {
+	color: #c9302c;
+	font-size: 0.8em;
+		font-family: monospace;
+}
+
 	/*
 		.title-area {
 		  background: #01545b;

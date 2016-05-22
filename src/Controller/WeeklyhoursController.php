@@ -111,8 +111,35 @@ class WeeklyhoursController extends AppController
                     
                     // save all the parts of the weeklyreport that are saved in the session
                     $current_metrics = $this->request->session()->read('current_metrics');
+					// fetch all supervisors
+					$svquery = TableRegistry::get('Members')->find()
+								->select(['user_id'])
+								->distinct(['user_id'])
+								->where(['project_role =' => 'supervisor'])
+								->toArray();
                     
-                    if($this->Weeklyhours->saveSessionReport($current_weeklyreport, $current_metrics, $weeklyhours)){
+                    if($result = $this->Weeklyhours->saveSessionReport($current_weeklyreport, $current_metrics, $weeklyhours)){
+						// ID of last weeklyreport
+						// when a comment is added, also add a notification to database; so for that we'll fetch the maximum (= most recent) comment id
+						$query = TableRegistry::get('Weeklyreports')->find();
+						$query->select(['max'=>$query->func()->max('id')]);
+						$query = $query->toArray();
+
+						$maxid = $query[0]->max;
+
+						// add data about newly saved reports
+						if ( $connection = mysqli_connect("localhost", "user", "pass", "db") ) {
+							for ($i = 0; $i < sizeof($svquery); $i++) {
+								$insert = "INSERT INTO newreports "
+										. "VALUES (". $svquery[$i]->user_id .", ". $maxid .")";
+
+								if (!mysqli_query($connection, $insert)) {
+									exit;
+								}
+							}
+							mysqli_close( $connection );
+						} else exit;
+						
                         $this->Flash->success(__('Weeklyreport saved'));
                         
                         $this->request->session()->delete('current_weeklyreport');

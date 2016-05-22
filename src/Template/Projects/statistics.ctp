@@ -95,6 +95,16 @@
 																						  'controller' => 'Weeklyreports',
 																						  'action' => 'view',
 																						  $reportId ]);
+											// unread weeklyreports have some mark indicating it
+											$userid = $this->request->session()->read('Auth.User.id');
+											$newreps = Cake\ORM\TableRegistry::get('Newreports')->find()
+														->select()
+														->where(['user_id =' => $userid, 'weeklyreport_id =' => $reportId])
+														->toArray();
+											if ( sizeof($newreps) > 0 ) {
+												echo "<div class='unread'>unread</div>";
+											}
+											
 										} else {
 											echo $this->Html->link(__($report.' (view)'), [
 																						  'controller' => 'Weeklyreports',
