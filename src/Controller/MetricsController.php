@@ -61,8 +61,8 @@ class MetricsController extends AppController
         $this->set('_serialize', ['metric']);
     }
     
-    // a admin only function
-    // admin are allowed to add metrics to weeklyreports outside the weeklyreport form
+    // admin only function
+    // admin is allowed to add metrics to weeklyreports outside the weeklyreport form
     public function addadmin()
     {
         $project_id = $this->request->session()->read('selected_project')['id'];
@@ -87,7 +87,7 @@ class MetricsController extends AppController
     
     // function for adding multiple metrics at once
     // used in the weeklyreport form
-    public function addmultiple()
+        public function addmultiple()
     {        
         $project_id = $this->request->session()->read('selected_project')['id'];
         $metric = $this->Metrics->newEntity();
@@ -126,35 +126,34 @@ class MetricsController extends AppController
             $dataok = True;
             $continue = True;
             
-            // Req 35:
-            // the input in weekly report form (page 2/3)
+            // Weekly report form (page 2/3)
             // check that the totals are greater than phases/passed test cases          
-            $temp1 = $metrics;
-            $temp2 = $metrics;            
+            $items1 = $metrics;
+            $items2 = $metrics;            
             // Totals (2 and 9) must be greater
-            foreach($temp1 as $val1) {
-                foreach($temp2 as $val2) {
+            foreach($items1 as $item1) {
+                foreach($items2 as $item2) {
                     // Total phases > Phases
-                    if(($val1['metrictype_id'] == 1) && ($val2['metrictype_id'] == 2)) {
-                        if($val1['value'] > $val2['value']) {                           
+                    if(($item1['metrictype_id'] == 1) && ($item2['metrictype_id'] == 2)) {
+                        if($item1['value'] > $item2['value']) {                           
                             $continue = False;
                         }
                     }
                     // Total test cases > Passed test cases 
-                    if (($val1['metrictype_id'] == 8) && ($val2['metrictype_id'] == 9)) {
-                        if($val1['value'] > $val2['value']) {
+                    if (($item1['metrictype_id'] == 8) && ($item2['metrictype_id'] == 9)) {
+                        if($$item1['value'] > $item2['value']) {
                             $continue = False;
                         }
                     }
                 }                
             }
-            
+            // check metrics for errors
             foreach($metrics as $temp){
                 if($temp->errors()){
                     $dataok = False;
                 }
             }
-            
+            // write data if there are no errors
             if (!$continue) {
                 $this->Flash->error(__('Please, check the values and try again.'));                   
             }
