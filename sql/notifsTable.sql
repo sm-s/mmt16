@@ -2,9 +2,10 @@ CREATE TABLE notifications
 (
 	comment_id INT,
 	member_id INT,
-	is_read BOOLEAN DEFAULT FALSE,
+	weeklyreport_id INT,
 	
 	PRIMARY KEY (comment_id, member_id),
-	FOREIGN KEY (comment_id) REFERENCES comments(id),
-	FOREIGN KEY (member_id) REFERENCES members(id)
+	FOREIGN KEY (comment_id) REFERENCES comments(id) ON DELETE CASCADE,
+	FOREIGN KEY (member_id) REFERENCES members(id),
+	FOREIGN KEY (weeklyreport_id) REFERENCES weeklyreports(id)
 );

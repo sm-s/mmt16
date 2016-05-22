@@ -54,19 +54,16 @@ class CommentsController extends AppController
 				 * This can be modified to suit Cake's architecture later, but I can't really be bothered
 				 * - Ä
 				 */
-				$connection = mysqli_connect("localhost", "userhere", "passwordhere", "databasehere") or exit;
-				if (!$connection) {
-					exit;
-				}
-				
-				for ($i = 0; $i < sizeof($id_array); $i++) {
-					$insert = "INSERT INTO notifications "
-							. "VALUES (".$maxid.", ". $id_array[$i]. ", 'false')";
+				if ( $connection = mysqli_connect("localhost", "user", "pass", "db") ) {
+					for ($i = 0; $i < sizeof($id_array); $i++) {
+						$insert = "INSERT INTO notifications "
+								. "VALUES (".$maxid.", ". $id_array[$i]. ", " . $wrid . ")";
 
-					if (!mysqli_query($connection, $insert)) {
-						exit;
+						if (!mysqli_query($connection, $insert)) {
+							exit;
+						}
 					}
-				}
+				} else exit;
 
                 $this->Flash->success(__('The comment has been saved.'));
 				
@@ -75,6 +72,7 @@ class CommentsController extends AppController
             } else {
                 $this->Flash->error(__('The comment could not be saved. Please, try again.'));
             }
+			mysqli_close( $connection );
 			return $this->redirect($this->referer());
         }
         

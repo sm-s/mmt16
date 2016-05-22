@@ -49,6 +49,58 @@ $cakeDescription = 'MMT';
 <!-- previously delay was 2500 -->
 <body onmousemove="$('.message').delay(1000).fadeOut(1000);">
 <div id="area51">
+	<!-- This area is meant for notifications about new messages -->
+	<?php
+	/* Check notifications table; 
+	 * if user's member ID is linked to any comment of current project, show a link
+	 */
+	// execute only if a project is chosen
+	if ( $this->request->session()->read('selected_project')['id'] ) {
+		$userid = $this->request->session()->read('Auth.User.id');
+		$projid = $this->request->session()->read('selected_project')['id'];
+
+		// fetch member id of current user, if they are member of currently chosen project
+		$memid = Cake\ORM\TableRegistry::get('Members')->find()
+					->select(['id'])
+					->where(['user_id =' => $userid, 'project_id =' => $projid])
+					->toArray();
+
+		// proceed only if ID's were found
+		if ( sizeof($memid) > 0) {
+			// now try to find current member's id from notifications
+			$notifquery = Cake\ORM\TableRegistry::get('Notifications')->find()
+						->select(['comment_id', 'weeklyreport_id'])
+						->distinct(['weeklyreport_id'])
+						->where(['member_id =' => $memid[0]->id])
+						->toArray();
+
+			// if there are any notifications, tell user
+			if ( $amount = sizeof($notifquery) > 0 ) { ?>
+				<div id="notificationarea">
+					<!-- this button displays a letter icon -->
+					<button><span id="label"><?= $this->Html->image('letter.png'); ?></span></button>
+					<div class="n-content"><div id="cominfo">
+					<?= "Unread messages in:" ?><br/>
+					<ul>
+						<?php
+						
+						foreach($notifquery as $notif) {
+							// fetch reports week number
+							$weekno = Cake\ORM\TableRegistry::get('Weeklyreports')->find()
+										->select(['week'])
+										->where(['id =' => $notif->weeklyreport_id])
+										->toArray();
+									
+							echo "<li>" . $this->Html->link("Report, week " . strval($weekno[0]->week), ['controller'=>'Weeklyreports', 'action'=>'view', $notif->weeklyreport_id]) . "</li>";
+						}
+
+				// close a million tags
+				echo "</ul></div></div></div>";
+			}
+		}
+	}
+	?>
+	
 	<div class="dropdown">
 		<button>
 			<?php

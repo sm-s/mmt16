@@ -123,6 +123,42 @@
 					.dd-content a:hover {
 						background-color: #f1f1f1
 					}
+					
+	/* Notifications of unread messages
+	 */
+	 #notificationarea {
+		position: absolute;
+		right: 15em;
+	}
+		#notificationarea button {
+			padding: 0.6em 1em;
+			border: 2px ridge silver;
+				border-top: none;
+			border-radius: 0 0 5px 5px;
+			background-color: #083e7f;
+			margin: 0;
+		}
+		.n-content {
+			z-index: 10000;
+			display: none;
+			left: -4.5em;
+				right: -4.5em;
+			padding-top: 1em;
+			position: absolute;
+			background-color: #f9f9f9;
+			box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+			border-radius: 5px;
+				border: 2px outset dodgerblue;
+			
+		}
+			.n-content #cominfo {
+				margin-left: 1em;
+			}
+			/* hover: show dropdown */
+			#notificationarea:hover .n-content {
+				display: block;
+			}
+			
 
 	/* Banner picture */
 	#topimg {

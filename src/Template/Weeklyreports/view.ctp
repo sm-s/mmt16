@@ -1,4 +1,30 @@
 <?php
+	$userid = $this->request->session()->read('Auth.User.id');
+	$projid = $this->request->session()->read('selected_project')['id'];
+	$wrid = $weeklyreport->id;
+
+	// fetch member id of current user in currently chosen project
+	$memid = Cake\ORM\TableRegistry::get('Members')->find()
+				->select(['id'])
+				->where(['user_id =' => $userid, 'project_id =' => $projid])
+				->toArray();
+	
+	if (!empty($memid[0]->id)) {
+		$memid = $memid[0]->id;
+
+		// if current weeklyreport's ID is in notifications, remove the row where current member's id is
+		// again, I can't be bothered to try getting along with CakePHP, so I'll use MySQL from PHP
+		if ( $connection = mysqli_connect("localhost", "user", "pass", "db") ) {
+			$delete = "DELETE FROM notifications"
+					. " WHERE member_id = $memid"
+					. " AND weeklyreport_id = $wrid";
+
+			if (!mysqli_query($connection, $delete)) {
+				exit;
+			}
+		}
+	}
+		
 	// if you're an admin or supervisor, we'll force you to change to the project the weeklyreport is from
 	$admin = $this->request->session()->read('is_admin');
 	$supervisor = ( $this->request->session()->read('selected_project_role') == 'supervisor' ) ? 1 : 0;
