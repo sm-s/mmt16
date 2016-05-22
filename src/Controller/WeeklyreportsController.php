@@ -72,6 +72,10 @@ class WeeklyreportsController extends AppController
                 }
             }
         }
+		
+		// comments stuff
+		
+		
         $this->set('weeklyreport', $weeklyreport);
         $this->set('_serialize', ['weeklyreport']);
     }
