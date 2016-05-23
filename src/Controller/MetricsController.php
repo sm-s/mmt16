@@ -130,16 +130,16 @@ class MetricsController extends AppController
             // check that the totals are greater than phases/passed test cases          
             $items1 = $metrics;
             $items2 = $metrics;            
-            // Totals (2 and 9) must be greater
+            // Totals (metrictype_ids 2 and 9) must be greater
             foreach($items1 as $item1) {
                 foreach($items2 as $item2) {
-                    // Total phases > Phases
+                    // total phases must be greater than phases
                     if(($item1['metrictype_id'] == 1) && ($item2['metrictype_id'] == 2)) {
                         if($item1['value'] > $item2['value']) {                           
                             $continue = False;
                         }
                     }
-                    // Total test cases > Passed test cases 
+                    // total test cases must be greater than passed test cases
                     if (($item1['metrictype_id'] == 8) && ($item2['metrictype_id'] == 9)) {
                         if($item1['value'] > $item2['value']) {
                             $continue = False;
@@ -185,7 +185,7 @@ class MetricsController extends AppController
         $this->set('_serialize', ['metric']);
     }
     
-    public function edit($id = null)
+     public function edit($id = null)
     {   
         // the metric can only be edited if its from the current project
         $project_id = $this->request->session()->read('selected_project')['id'];
@@ -193,21 +193,48 @@ class MetricsController extends AppController
             'contain' => [],
             'conditions' => array('Metrics.project_id' => $project_id)
         ]);
-        
+        $temp_metric = $this->Metrics->get($id+1, [
+            'contain' => [],
+            'conditions' => array('Metrics.project_id' => $project_id)
+        ]);  
+               
         if ($this->request->is(['patch', 'post', 'put'])) {
             // data from the form
             $metric = $this->Metrics->patchEntity($metric, $this->request->data);
+            
+            // used when comparing phases to total phases and passed cases to total cases
+            $continue = True;
+            
+            // total phases must be greater than phases
+            if(($metric['metrictype_id'] == 1) && ($temp_metric['metrictype_id'] == 2)) {
+                if($metric['value'] > $temp_metric['value']) {                           
+                    $continue = False;
+                }
+            }
+            // total test cases must be greater than passed test cases
+            if(($metric['metrictype_id'] == 8) && ($temp_metric['metrictype_id'] == 9)) {
+                if($metric['value'] > $temp_metric['value']) {                           
+                    $continue = False;
+                }
+            } 
+            
             // it is made sure that the metric stays in the same project
             $metric['project_id'] = $project_id;
             
-            if ($this->Metrics->save($metric)) {
-                $this->Flash->success(__('The metric has been saved.'));
-                // place the user back where they presed the edit button
-                echo "<script>
-                        window.history.go(-2);
-                </script>";
-            } else {
-                $this->Flash->error(__('The metric could not be saved. Please, try again.'));
+            if (!$continue) {
+                $this->Flash->error(__('The number must be smaller. Please, try again.'));
+            }
+            // no errors
+            else {
+                if ($this->Metrics->save($metric)) {
+                    $this->Flash->success(__('The metric has been saved.'));
+                    // place the user back where they presed the edit button
+                    echo "<script>
+                            window.history.go(-2);
+                    </script>";
+                } else {
+                    $this->Flash->error(__('The metric could not be saved. Please, try again.'));
+                }
             }
         }
         $metrictypes = $this->Metrics->Metrictypes->find('list', ['limit' => 200]);
