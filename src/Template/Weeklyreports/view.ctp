@@ -184,8 +184,14 @@
                     <td><?= h($metrics->date->format('d.m.Y')) ?></td>
                     <td><?= h($metrics->value) ?></td>
                     <td class="actions">
+                         <?php
+                        // only admins and supervisors can edit metrics
+                        $admin = $this->request->session()->read('is_admin');
+                        $supervisor = ( $this->request->session()->read('selected_project_role') == 'supervisor' ) ? 1 : 0;
+                        if($admin || $supervisor) {
+                        ?>
                         <?= $this->Html->link(__('Edit'), ['controller' => 'Metrics', 'action' => 'edit', $metrics->id]) ?>
-
+                         <?php } ?>
                     </td>
                 </tr>
                 <?php endforeach; ?>
