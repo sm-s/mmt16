@@ -4,5 +4,5 @@ CREATE TABLE newreports (
 	
 	PRIMARY KEY (user_id, weeklyreport_id),
 	FOREIGN KEY (user_id) REFERENCES users(id),
-	FOREIGN KEY (weeklyreport_id) REFERENCES weeklyreports(id)
+	FOREIGN KEY (weeklyreport_id) REFERENCES weeklyreports(id) ON DELETE CASCADE
 );

@@ -106,17 +106,17 @@
             <th><?= __('Year') ?></th>
             <td><?= h($weeklyreport->year) ?></tr>
         </tr>
+		<tr>
+            <th><?= __('Meetings') ?></th>
+            <td><?= h($weeklyreport->meetings) ?></td>
+        </tr>
         <tr>
-            <th><?= __('Reglink') ?></th>
+            <th><?= __('Requirements link') ?></th>
             <td><?= h($weeklyreport->reglink) ?></td>
         </tr>
         <tr>
             <th><?= __('Problems') ?></th>
             <td><?= h($weeklyreport->problems) ?></td>
-        </tr>
-        <tr>
-            <th><?= __('Meetings') ?></th>
-            <td><?= h($weeklyreport->meetings) ?></td>
         </tr>
         <tr>
             <th><?= __('Additional') ?></th>

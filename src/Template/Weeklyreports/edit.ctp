@@ -18,7 +18,7 @@
             echo $this->Form->input('week', array('style' => 'width: 35%;'));
             echo $this->Form->input('year', array('style' => 'width: 35%;'));
             echo $this->Form->input('meetings');
-            echo $this->Form->input('reglink');
+            echo $this->Form->input('reglink', ['label' => 'Requirements link']);
             echo $this->Form->input('problems');
             echo $this->Form->input('additional');
         ?>
