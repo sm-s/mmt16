@@ -153,8 +153,17 @@
 					?></td>
                     <td><?= h($weeklyhours->duration) ?></td>
                     <td class="actions">
+                        <?= $this->Html->link(__('View'), ['controller' => 'Weeklyhours', 'action' => 'view', $weeklyhours->id]) ?>
+                        <?php
+                        $admin = $this->request->session()->read('is_admin');
+                        $supervisor = ( $this->request->session()->read('selected_project_role') == 'supervisor' ) ? 1 : 0;
+                        $manager = ( $this->request->session()->read('selected_project_role') == 'manager' ) ? 1 : 0;
+                        if($admin || $supervisor || $manager) {
+                        ?>
                         <?= $this->Html->link(__('Edit'), ['controller' => 'Weeklyhours', 'action' => 'edit', $weeklyhours->id]) ?>
 
+                        <?= $this->Form->postLink(__('Delete'), ['controller' => 'Weeklyhours', 'action' => 'delete', $weeklyhours->id], ['confirm' => __('Are you sure you want to delete # {0}?', $weeklyhours->id)]) ?>
+                        <?php } ?> 
                     </td>
                 </tr>
                 <?php endforeach; ?>
