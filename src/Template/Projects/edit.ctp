@@ -23,7 +23,7 @@ echo $this->Html->script('jquery-ui.min');
             echo $this->Form->input('project_name');
             
             // Req 37: using jQuery UI datepicker
-            echo $this->Form->input('finished_date', ['type' => 'text', 'readonly' => true, 'id' => 'datepicker']);
+            echo $this->Form->input('finished_date', ['type' => 'text', 'readonly' => true, 'label' => 'Completion date', 'id' => 'datepicker']);
             ?> </br>
             <?php
             echo $this->Form->input('description');
@@ -54,12 +54,10 @@ echo $this->Html->script('jquery-ui.min');
     /*
      * Req 37:
      * minDate is the date the project was created
-     * maxDate is the current day
      */
     $( "#datepicker" ).datepicker({
         dateFormat: "MM d, yy",
         minDate: new Date('<?php echo $mDate; ?>'),
-        maxDate: '0', 
         firstDay: 1,
         showWeek: true,
         showOn: "both",

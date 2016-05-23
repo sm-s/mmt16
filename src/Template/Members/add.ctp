@@ -52,14 +52,24 @@ echo $this->Html->script('jquery-ui.min');
     // minDate is the date the project was created
     // maxDate is the current day
 
-    $( "#datepicker1, #datepicker2" ).datepicker({
+       $( "#datepicker1" ).datepicker({
         dateFormat: "MM d, yy",
         minDate: new Date('<?php echo $mDate; ?>'),
         maxDate: '0', 
         firstDay: 1,
         showWeek: true,
         showOn: "both",
-        buttonImage: "../webroot/img/glyphicons-46-calendar.png",
+        buttonImage: "../../webroot/img/glyphicons-46-calendar.png",
+        buttonImageOnly: true,
+        buttonText: "Select date"       
+    });
+        $( "#datepicker2" ).datepicker({
+        dateFormat: "MM d, yy",
+        minDate: new Date('<?php echo $mDate; ?>'),
+        firstDay: 1,
+        showWeek: true,
+        showOn: "both",
+        buttonImage: "../../webroot/img/glyphicons-46-calendar.png",
         buttonImageOnly: true,
         buttonText: "Select date"       
     });
