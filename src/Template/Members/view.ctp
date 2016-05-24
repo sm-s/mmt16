@@ -51,8 +51,9 @@
                     // links for edit and delete are not visible to devs
                     $admin = $this->request->session()->read('is_admin');
                     $supervisor = ( $this->request->session()->read('selected_project_role') == 'supervisor' ) ? 1 : 0;
-                    $manager = ( $this->request->session()->read('selected_project_role') == 'manager' ) ? 1 : 0;
-                    if($admin || $supervisor || $manager) {
+                    // $manager = ( $this->request->session()->read('selected_project_role') == 'manager' ) ? 1 : 0;
+                    // if($admin || $supervisor || $manager) {
+                    if($admin || $supervisor) {
                     ?>
                     <?= $this->Html->link(__('Edit'), ['controller' => 'Weeklyhours', 'action' => 'edit', $weeklyhours->id]) ?>
 

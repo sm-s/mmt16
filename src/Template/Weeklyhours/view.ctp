@@ -6,9 +6,9 @@
         	$admin = $this->request->session()->read('is_admin');
             $supervisor = ( $this->request->session()->read('selected_project_role') == 'supervisor' ) ? 1 : 0;
             // managers are also able to edit weeklyhours
-		    $manager = ( $this->request->session()->read('selected_project_role') == 'manager' ) ? 1 : 0;
-		    
-	        if($admin || $supervisor || $manager) {
+		// $manager = ( $this->request->session()->read('selected_project_role') == 'manager' ) ? 1 : 0;
+		// if($admin || $supervisor || $manager) {    
+	        if($admin || $supervisor) {
 	      ?>
         		<li><?= $this->Html->link(__('Edit Weeklyhour'), ['action' => 'edit', $weeklyhour->id]) ?> </li>
 		<?php

@@ -42,9 +42,9 @@
 			            $supervisor = ( $this->request->session()->read('selected_project_role') == 'supervisor' ) ? 1 : 0;
 			            
 			            // FIX: managers can also add edit/delete weeklyhours
-        			    $manager = ( $this->request->session()->read('selected_project_role') == 'manager' ) ? 1 : 0;
-        			    
-			            if($admin || $supervisor || $manager) {
+        			    // $manager = ( $this->request->session()->read('selected_project_role') == 'manager' ) ? 1 : 0;
+        			    // if($admin || $supervisor || $manager) {
+			            if($admin || $supervisor) {
 			        ?>
                  	   <?= $this->Html->link(__('Edit'), ['action' => 'edit', $weeklyhour->id]) ?>
                  	   <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $weeklyhour->id], ['confirm' => __('Are you sure you want to delete # {0}?', $weeklyhour->id)]) ?>
