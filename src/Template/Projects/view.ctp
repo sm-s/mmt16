@@ -33,7 +33,7 @@
 			?></tr>
         </tr>
         <tr>
-            <th><?= __('Finished Date') ?></th>
+            <th><?= __('Completion Date') ?></th>
             <td><?php
 			if ($project->finished_date != NULL)
 				echo h($project->finished_date->format('d.m.Y')); 
