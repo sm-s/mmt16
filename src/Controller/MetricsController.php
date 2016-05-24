@@ -127,22 +127,37 @@ class MetricsController extends AppController
             $continue = True;
             
             // Weekly report form (page 2/3)
-            // check that the totals are greater than phases/passed test cases          
+			// check that all values exist and are greater than zero
+            // at the same time, check that the totals are greater than phases/passed test cases          
             $items1 = $metrics;
-            $items2 = $metrics;            
+            $items2 = $metrics;
+			
+			// flags to indicate what error message needs to be printed
+			$nullFlag = False;
+			$phaseFlag = False;
+			
             // Totals (metrictype_ids 2 and 9) must be greater
             foreach($items1 as $item1) {
                 foreach($items2 as $item2) {
+					// check that no zeroes/nulls exist
+					if ( ($item1['value'] == NULL || $item1['value'] == 0) || ($item2['value'] == NULL || $item2['value'] == 0) ) {
+						$continue = False;
+						$nullFlag = True;
+						break;
+					}
                     // total phases must be greater than phases
                     if(($item1['metrictype_id'] == 1) && ($item2['metrictype_id'] == 2)) {
                         if($item1['value'] > $item2['value']) {                           
                             $continue = False;
+							$phaseFlag = True;
+							break;
                         }
                     }
                     // total test cases must be greater than passed test cases
                     if (($item1['metrictype_id'] == 8) && ($item2['metrictype_id'] == 9)) {
                         if($item1['value'] > $item2['value']) {
                             $continue = False;
+							break;
                         }
                     }
                 }                
@@ -155,7 +170,13 @@ class MetricsController extends AppController
             }
             // write data if there are no errors
             if (!$continue) {
-                $this->Flash->error(__('Please, check the values and try again.'));                   
+				if ( $nullFlag ) {
+					$this->Flash->error(__('Make sure all fields are filled with values greater than zero'));
+				} elseif ( $phaseFlag ) {
+	                $this->Flash->error(__('Current phase number cannot exceed the total.'));
+				} else {
+	                $this->Flash->error(__('Passed test cases cannot exceed the total.'));
+				}
             }
             else {
                 if($dataok){

@@ -46,8 +46,8 @@ $cakeDescription = 'MMT';
     <?= $this->fetch('script') ?>
 </head>
 <!-- onmousemove will make any Flash messages disappear -->
-<!-- previously delay was 2500 -->
-<body onmousemove="$('.message').delay(1000).fadeOut(1000);">
+<!-- delay of 1000 was way too fast, back to 2500 -->
+<body onmousemove="$('.message').delay(2500).fadeOut(1000);">
 <div id="area51">
 	<!-- This area is meant for notifications about new messages -->
 	<?php
