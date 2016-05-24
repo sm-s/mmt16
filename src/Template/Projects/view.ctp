@@ -5,14 +5,21 @@
         <?php
             $admin = $this->request->session()->read('is_admin');
             $supervisor = ( $this->request->session()->read('selected_project_role') == 'supervisor' ) ? 1 : 0;
+            
             if($admin || $supervisor){
         ?>
             <li><?= $this->Html->link(__('Edit Project'), ['action' => 'edit', $project->id]) ?> </li>
+        <?php } ?>
+        
         <?php
-            }
-        ?>        
+            $manager = ($this->request->session()->read('selected_project_role') == 'manager' ) ? 1 : 0;
+            $developer = ($this->request->session()->read('selected_project_role') == 'developer' ) ? 1 : 0;
+
+            if($admin || $supervisor || $manager || $developer){
+        ?>               
         <li><?= $this->Html->link(__('Members'), ['controller' => 'Members', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('Metrics'), ['controller' => 'Metrics', 'action' => 'index']) ?> </li>     
+        <li><?= $this->Html->link(__('Metrics'), ['controller' => 'Metrics', 'action' => 'index']) ?> </li>
+        <?php } ?>    
     </ul>
 </nav>
 <div class="projects view large-7 medium-16 columns content float: left">
