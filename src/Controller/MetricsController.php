@@ -87,7 +87,7 @@ class MetricsController extends AppController
     
     // function for adding multiple metrics at once
     // used in the weeklyreport form
-        public function addmultiple()
+    public function addmultiple()
     {        
         $project_id = $this->request->session()->read('selected_project')['id'];
         $metric = $this->Metrics->newEntity();
@@ -185,7 +185,7 @@ class MetricsController extends AppController
         $this->set('_serialize', ['metric']);
     }
     
-     public function edit($id = null)
+    public function edit($id = null)
     {   
         // the metric can only be edited if its from the current project
         $project_id = $this->request->session()->read('selected_project')['id'];
@@ -193,36 +193,60 @@ class MetricsController extends AppController
             'contain' => [],
             'conditions' => array('Metrics.project_id' => $project_id)
         ]);
-        $temp_metric = $this->Metrics->get($id+1, [
-            'contain' => [],
-            'conditions' => array('Metrics.project_id' => $project_id)
-        ]);  
-               
+        // for metrictype_ids other than the last one (total test cases)
+        if ($id % 9 != 0) {
+            $temp_metric1 = $this->Metrics->get($id+1, [
+                'contain' => [],
+                'conditions' => array('Metrics.project_id' => $project_id)
+            ]);
+        }
+        // for metrictype_ids other than the first one (phases)
+        if ($id % 9 != 1) {
+            $temp_metric2 = $this->Metrics->get($id-1, [
+                'contain' => [],
+                'conditions' => array('Metrics.project_id' => $project_id)
+            ]);
+        }
+        echo $metric->$id;
         if ($this->request->is(['patch', 'post', 'put'])) {
             // data from the form
             $metric = $this->Metrics->patchEntity($metric, $this->request->data);
             
             // used when comparing phases to total phases and passed cases to total cases
-            $continue = True;
+            $errTooHigh = False;
+            $errTooSmall = False;
             
             // total phases must be greater than phases
-            if(($metric['metrictype_id'] == 1) && ($temp_metric['metrictype_id'] == 2)) {
-                if($metric['value'] > $temp_metric['value']) {                           
-                    $continue = False;
+            if(($metric['metrictype_id'] == 1) && ($temp_metric1['metrictype_id'] == 2)) {
+                if($metric['value'] > $temp_metric1['value']) {                           
+                    $errTooHigh = True;
+                }
+            }
+            if(($metric['metrictype_id'] == 2) && ($temp_metric2['metrictype_id'] == 1)) {
+                if($metric['value'] < $temp_metric2['value']) {                           
+                    $errTooSmall = True;
                 }
             }
             // total test cases must be greater than passed test cases
-            if(($metric['metrictype_id'] == 8) && ($temp_metric['metrictype_id'] == 9)) {
-                if($metric['value'] > $temp_metric['value']) {                           
-                    $continue = False;
+            if(($metric['metrictype_id'] == 8) && ($temp_metric1['metrictype_id'] == 9)) {
+                if($metric['value'] > $temp_metric1['value']) {                           
+                    $errTooHigh = True;
                 }
-            } 
+            }
+            if(($metric['metrictype_id'] == 9) && ($temp_metric2['metrictype_id'] == 8)) {
+                if($metric['value'] < $temp_metric2['value']) {                           
+                    $errTooSmall = True;
+                }
+            }
             
             // it is made sure that the metric stays in the same project
             $metric['project_id'] = $project_id;
             
-            if (!$continue) {
+            if ($errTooHigh) {
                 $this->Flash->error(__('The number must be smaller. Please, try again.'));
+            }
+            elseif ($errTooSmall) {
+                $this->Flash->error(__('The number must be higher. Please, try again.'));
             }
             // no errors
             else {
