@@ -48,7 +48,7 @@
                     <?= $this->Html->link(__('View'), ['controller' => 'Weeklyhours', 'action' => 'view', $weeklyhours->id]) ?>
                                        
                     <?php       
-                    // links for edit and delete are not visible to devs
+                    // links for edit and delete are not visible to devs and managers
                     $admin = $this->request->session()->read('is_admin');
                     $supervisor = ( $this->request->session()->read('selected_project_role') == 'supervisor' ) ? 1 : 0;
                     // $manager = ( $this->request->session()->read('selected_project_role') == 'manager' ) ? 1 : 0;
@@ -92,7 +92,8 @@
                     <?php
                         $admin = $this->request->session()->read('is_admin');
                         $supervisor = ( $this->request->session()->read('selected_project_role') == 'supervisor' ) ? 1 : 0;
-
+                        $manager = ( $this->request->session()->read('selected_project_role') == 'manager' ) ? 1 : 0;
+                        
                         // the week and the year of the workinghour
                         $week= $workinghours->date->format('W');
                         $year= $workinghours->date->format('Y');
@@ -117,12 +118,12 @@
                         // edit and delete are only shown if the weekly report is not sent
                         // edit and delete can also be viewed by the developer who owns them
 
-			// IF you are the owning user AND workinghour isn't from previous weeks
+			// IF (you are the owning user or a manager) AND workinghour isn't from previous weeks
 			// OR you are an admin or a supervisor
 			 
-                        if ( ($member->user_id == $this->request->session()->read('Auth.User.id') 
-                                && ($firstWeeklyReport || (($year >= $maxYear) && ($week > $maxWeek)))) 
-                                                 || ($admin || $supervisor) ) { ?>
+                        if ( ( ($member->user_id == $this->request->session()->read('Auth.User.id') || $manager)                        
+                                && ($firstWeeklyReport || (($year >= $maxYear) && ($week > $maxWeek) ) ) ) 
+                                                || ($admin || $supervisor) ) { ?>
                             <?= $this->Html->link(__('Edit'), ['controller' => 'Workinghours', 'action' => 'edit', $workinghours->id]) ?>
 
                             <?= $this->Form->postLink(__('Delete'), ['controller' => 'Workinghours', 'action' => 'delete', $workinghours->id], ['confirm' => __('Are you sure you want to delete # {0}?', $workinghours->id)]) ?> 
@@ -134,3 +135,4 @@
         <?php endif; ?>
     </div>
 </div>
+

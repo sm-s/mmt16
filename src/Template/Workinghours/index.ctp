@@ -6,12 +6,13 @@
             
             $admin = $this->request->session()->read('is_admin');
             $supervisor = ( $this->request->session()->read('selected_project_role') == 'supervisor' ) ? 1 : 0;
+            $manager = ( $this->request->session()->read('selected_project_role') == 'manager' ) ? 1 : 0;
             if ( !($supervisor) ) {
             ?>
             <li><?= $this->Html->link(__('Log time'), ['action' => 'add']) ?></li>
             <?php 
             } 
-            if($admin || $supervisor) {
+            if($admin || $supervisor || $manager) {
             ?>
             <li><?= $this->Html->link(__('Log time for another member'), ['action' => 'adddev']) ?></li>
         <?php } ?>
@@ -48,7 +49,7 @@
                     <?php
                     $admin = $this->request->session()->read('is_admin');
                     $supervisor = ( $this->request->session()->read('selected_project_role') == 'supervisor' ) ? 1 : 0;
-
+                    $manager = ( $this->request->session()->read('selected_project_role') == 'manager' ) ? 1 : 0;
                     // the week and the year of the workinghour
                     $week= $workinghour->date->format('W');
                     $year= $workinghour->date->format('Y');
@@ -75,10 +76,10 @@
 					
                         /* BUG FIX: admins couldn't see times that were old
                 	 * Now it looks kinda complicated, but it means this:
-			 * IF you are the owning user AND workinghour isn't from previous weeks
+			 * IF (you are the owning user or a manager) AND workinghour isn't from previous weeks
 			 * OR you are an admin or a supervisor
 			 */
-                    if ( ($workinghour->member->user_id == $this->request->session()->read('Auth.User.id') 
+                    if ( ( ($workinghour->member->user_id == $this->request->session()->read('Auth.User.id') || $manager)
                             && ($firstWeeklyReport || (($year >= $maxYear) && ($week > $maxWeek)))) 
 					     || ($admin || $supervisor) ) { ?>
                         <?= $this->Html->link(__('Edit'), ['action' => 'edit', $workinghour->id]) ?>
