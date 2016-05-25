@@ -42,9 +42,9 @@ echo $this->Html->script('jquery-ui.min');
                 $day = $temp['day'];   
                 $mDate = date("d M Y", mktime(0,0,0, $month, $day, $year));
             }
+			echo $this->Form->button(__('Submit'));
        ?>    
     </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
     <?= $this->Form->end() ?>
 </div>
 

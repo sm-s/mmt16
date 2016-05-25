@@ -9,8 +9,8 @@
         <legend><?= __('Add Metrictype') ?></legend>
         <?php
             echo $this->Form->input('description');
+			echo $this->Form->button(__('Submit'));
         ?>
     </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
     <?= $this->Form->end() ?>
 </div>

@@ -13,8 +13,8 @@
             echo $this->Form->input('first_name');
             echo $this->Form->input('last_name');
             echo $this->Form->input('phone');
+			echo $this->Form->button(__('Submit'));
         ?>
     </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
     <?= $this->Form->end() ?>
 </div>

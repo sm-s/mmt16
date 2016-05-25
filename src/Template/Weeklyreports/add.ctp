@@ -33,9 +33,9 @@
                 echo $this->Form->input('reglink', array('label' => 'Requirements link'));
                 echo $this->Form->input('problems');
                 echo $this->Form->input('additional', array('label' => 'Additional information'));
-            }     
+            }
+			echo $this->Form->button(__('Submit'));
         ?>
     </fieldset>
-    <?= $this->Form->button(__('Next Page')) ?>
     <?= $this->Form->end() ?>
 </div>

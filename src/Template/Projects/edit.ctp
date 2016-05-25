@@ -47,7 +47,7 @@ echo $this->Html->script('jquery-ui.min');
 			echo $this->Form->button(__('Submit'));
     ?>
     </fieldset>
-    <?= $this->Form->end() ?>
+	<?= $this->Form->end(); ?>
 </div>
 
 <script> 

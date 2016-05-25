@@ -16,8 +16,8 @@
         <?php
             echo $this->Form->input('id');
             echo $this->Form->input('description');
+			echo $this->Form->button(__('Submit'));
         ?>
     </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
     <?= $this->Form->end() ?>
 </div>

@@ -12,8 +12,8 @@
             echo $this->Form->input('weeklyreport_id', ['empty' => 'No weeklyreport', 'options' => $weeklyreports]);
             echo $this->Form->input('date');
             echo $this->Form->input('value', array('style' => 'width: 30%;'));
+			echo $this->Form->button(__('Submit'));
         ?>
     </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
     <?= $this->Form->end() ?>
 </div>

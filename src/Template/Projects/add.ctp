@@ -11,8 +11,8 @@
             echo $this->Form->input('project_name');
             echo $this->Form->input('description');
             echo $this->Form->input('is_public', array("checked" => "checked", 'label' => "This project is public"));
+			echo $this->Form->button(__('Submit'));
         ?>
     </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
     <?= $this->Form->end() ?>
 </div>

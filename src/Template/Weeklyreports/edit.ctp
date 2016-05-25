@@ -21,8 +21,8 @@
             echo $this->Form->input('reglink', ['label' => 'Requirements link']);
             echo $this->Form->input('problems');
             echo $this->Form->input('additional');
+			echo $this->Form->button(__('Submit'));
         ?>
     </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
     <?= $this->Form->end() ?>
 </div>

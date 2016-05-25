@@ -21,8 +21,8 @@
             echo $this->Form->input('phone');
             echo $this->Form->input('role', 
                 ['options' => array('user' => 'user', 'admin' => 'admin', 'inactive' => 'inactive')]);
+			echo $this->Form->button(__('Submit'));
         ?>
     </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
     <?= $this->Form->end() ?>
 </div>

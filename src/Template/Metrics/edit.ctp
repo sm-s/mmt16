@@ -28,8 +28,8 @@
         <legend><?= __('Edit Metric') ?></legend>
         <?php
             echo $this->Form->input('value', array('style' => 'width: 30%;'));
+			echo $this->Form->button(__('Submit'));
         ?>
     </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
     <?= $this->Form->end() ?>
 </div>

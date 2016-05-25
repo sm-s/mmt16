@@ -10,9 +10,9 @@
                 echo $this->Form->input('weekmax', array('type' => 'number', 'value' => $this->request->session()->read('chart_limits')['weekmax']));
                 echo $this->Form->input('yearmin', array('type' => 'number', 'value' => $this->request->session()->read('chart_limits')['yearmin']));
                 echo $this->Form->input('yearmax', array('type' => 'number', 'value' => $this->request->session()->read('chart_limits')['yearmax']));
-            ?>
+				echo $this->Form->button(__('Submit'));
+			?>
         </fieldset>
-        <?= $this->Form->button(__('Submit')) ?>
         <?= $this->Form->end() ?>
     </ul>
 </nav>

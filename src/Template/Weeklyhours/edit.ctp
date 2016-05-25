@@ -26,8 +26,8 @@
              * Weeklyhours.edit.ctp, WeeklyHoursController.php*/
             //echo $this->Form->input('member_id', ['options' => $members, 'label' => 'Member Name']);
             echo $this->Form->input('duration', array('style' => 'width: 33%;'));
+			echo $this->Form->button(__('Submit'));
         ?>
     </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
     <?= $this->Form->end() ?>
 </div>
