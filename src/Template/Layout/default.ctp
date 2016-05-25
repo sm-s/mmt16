@@ -57,32 +57,13 @@ $cakeDescription = 'MMT';
 						->select(['project_role'])
 						->where(['user_id =' => $this->request->session()->read('Auth.User.id'), 'project_role =' => 'supervisor'])
 						->first();
-	$supervisor = ( !empty($supervisorquery) ) ? 1 : 0;
-
-	/* Don't hit me. This code is a modified copy of Projects-controller's view-function.
-	* Essentially it is an unnecessary copy, but it cannot be accessed directly because MVC doesn't
-	* allow using controllers inside other controllers.
-	*/
-	if ( $admin || $supervisor ) {
-		$project = Cake\ORM\TableRegistry::get('Projects')->get(1, [
-			'contain' => ['Members', 'Metrics', 'Weeklyreports']
-		]);
-		$this->set('project', $project);
-		$this->set('_serialize', ['project']);
-
-		// if the selected project is a new one AND no project has been yet selected
-		if($this->request->session()->read('selected_project')['id'] != $project['id'] 
-		   && empty($this->request->session()->read('selected_project')['id'])) 
-		{
-			// write the new id 
-			$this->request->session()->write('selected_project', $project);
-			// remove the all data from the weeklyreport form if any exists
-			$this->request->session()->delete('current_weeklyreport');
-			$this->request->session()->delete('current_metrics');
-			$this->request->session()->delete('current_weeklyhours');
-
-		}
+	if ( !empty($supervisorquery) ) {
+		// set role as a supervisor; the consequence is that 
+		// a) comment notifications are visible right after login and b) public statistics links are directly accessible
+		$this->request->session()->write('selected_project_role', 'supervisor');
+		$supervisor = 1;
 	}
+
 ?>
 <div id="area51">
 	<!-- This area is meant for notifications about new messages -->
@@ -91,8 +72,8 @@ $cakeDescription = 'MMT';
 	 * if user's member ID is linked to any comment of current project, show a link
 	 * admins don't get any notifications
 	 */
-	// execute only if a project is chosen
-	if ( $this->request->session()->read('selected_project')['id'] ) {
+	// execute only if a project is chosen OR if you are a supervisor
+	if ( $this->request->session()->read('selected_project')['id'] || $supervisor ) {
 		$userid = $this->request->session()->read('Auth.User.id');
 		$projid = $this->request->session()->read('selected_project')['id'];
 		
