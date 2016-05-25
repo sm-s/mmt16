@@ -59,9 +59,7 @@
 		
 		/* Don't hit me. This code is a modified copy of Projects-controller's view-function.
 		 * Essentially it is an unnecessary copy, but it cannot be accessed directly because MVC doesn't
-		 * allow using controllers inside other controllers. This wouldn't be a problem if the code
-		 * was in Models, but previous teams never used Models and it would be extremely difficult to
-		 * change everything at this point
+		 * allow using controllers inside other controllers.
 		 */
 		$project = Cake\ORM\TableRegistry::get('Projects')->get($iidee, [
             'contain' => ['Members', 'Metrics', 'Weeklyreports']

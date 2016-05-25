@@ -48,31 +48,96 @@ $cakeDescription = 'MMT';
 <!-- onmousemove will make any Flash messages disappear -->
 <!-- delay of 1000 was way too fast, back to 2500 -->
 <body onmousemove="$('.message').delay(2500).fadeOut(1000);">
+<?php
+	$admin = $this->request->session()->read('is_admin');
+	$supervisor = ( $this->request->session()->read('selected_project_role') == 'supervisor' ) ? 1 : 0;
+	
+	// also determine supervisor role by skimming member table. If role supervisor is even once, you'll be set as a supervisor
+	$supervisorquery = \Cake\ORM\TableRegistry::get('Members')->find()
+						->select(['project_role'])
+						->where(['user_id =' => $this->request->session()->read('Auth.User.id'), 'project_role =' => 'supervisor'])
+						->first();
+	$supervisor = ( !empty($supervisorquery) ) ? 1 : 0;
+
+	/* Don't hit me. This code is a modified copy of Projects-controller's view-function.
+	* Essentially it is an unnecessary copy, but it cannot be accessed directly because MVC doesn't
+	* allow using controllers inside other controllers.
+	*/
+	if ( $admin || $supervisor ) {
+		$project = Cake\ORM\TableRegistry::get('Projects')->get(1, [
+			'contain' => ['Members', 'Metrics', 'Weeklyreports']
+		]);
+		$this->set('project', $project);
+		$this->set('_serialize', ['project']);
+
+		// if the selected project is a new one AND no project has been yet selected
+		if($this->request->session()->read('selected_project')['id'] != $project['id'] 
+		   && empty($this->request->session()->read('selected_project')['id'])) 
+		{
+			// write the new id 
+			$this->request->session()->write('selected_project', $project);
+			// remove the all data from the weeklyreport form if any exists
+			$this->request->session()->delete('current_weeklyreport');
+			$this->request->session()->delete('current_metrics');
+			$this->request->session()->delete('current_weeklyhours');
+
+		}
+	}
+?>
 <div id="area51">
 	<!-- This area is meant for notifications about new messages -->
 	<?php
 	/* Check notifications table; 
 	 * if user's member ID is linked to any comment of current project, show a link
+	 * admins don't get any notifications
 	 */
 	// execute only if a project is chosen
 	if ( $this->request->session()->read('selected_project')['id'] ) {
 		$userid = $this->request->session()->read('Auth.User.id');
 		$projid = $this->request->session()->read('selected_project')['id'];
+		
+		// non-supervisor users only get notifications from their own project after choosing it
+		if ( !($supervisor) ) {
+			$memid = Cake\ORM\TableRegistry::get('Members')->find()
+						->select(['id'])
+						->where(['user_id =' => $userid, 'project_id =' => $projid])
+						->toArray();
 
-		// fetch member id of current user, if they are member of currently chosen project
-		$memid = Cake\ORM\TableRegistry::get('Members')->find()
-					->select(['id'])
-					->where(['user_id =' => $userid, 'project_id =' => $projid])
-					->toArray();
+		// else (as SV) you get informed about every new comment of every project
+		} else {
+			$memid = Cake\ORM\TableRegistry::get('Members')->find()
+						->select(['id'])
+						->where(['user_id =' => $userid])
+						->toArray();
+		}
+		
+		
 
 		// proceed only if ID's were found
 		if ( sizeof($memid) > 0) {
 			// now try to find current member's id from notifications
+			$notifquery = array();
+			
+			//non-supervisors get only one member id, so one query
+			if ( !($supervisor) ) {
 			$notifquery = Cake\ORM\TableRegistry::get('Notifications')->find()
 						->select(['comment_id', 'weeklyreport_id'])
 						->distinct(['weeklyreport_id'])
 						->where(['member_id =' => $memid[0]->id])
 						->toArray();
+			
+			// supervisors need looping to get notifications with all their member ID's
+			} else {
+				$notifquery = Cake\ORM\TableRegistry::get('Notifications')->find()
+							->select(['comment_id', 'weeklyreport_id'])
+							->distinct(['weeklyreport_id']);
+				
+				// this part fetches all the rows by putting OR condition between all member ID's
+				for ($i=0; $i<sizeof($memid); $i++) {
+					$notifquery = $notifquery->orWhere(['member_id =' => $memid[$i]->id]);
+				}
+				$notifquery = $notifquery->toArray();
+			}
 
 			// if there are any notifications, tell user
 			if ( $amount = sizeof($notifquery) > 0 ) { ?>
@@ -85,13 +150,25 @@ $cakeDescription = 'MMT';
 						<?php
 						
 						foreach($notifquery as $notif) {
-							// fetch reports week number
-							$weekno = Cake\ORM\TableRegistry::get('Weeklyreports')->find()
-										->select(['week'])
+							// fetch reports' week numbers
+							$week = Cake\ORM\TableRegistry::get('Weeklyreports')->find()
+										->select(['week', 'project_id'])
 										->where(['id =' => $notif->weeklyreport_id])
 										->toArray();
-									
-							echo "<li>" . $this->Html->link("Report, week " . strval($weekno[0]->week), ['controller'=>'Weeklyreports', 'action'=>'view', $notif->weeklyreport_id]) . "</li>";
+							$weekno = $week[0]->week;
+							// supervisors also need project's name
+							if ( $supervisor ) {
+								$projname = \Cake\ORM\TableRegistry::get('Projects')->find()
+											->select(['project_name'])
+											->where(['id =' => $week[0]->project_id])
+											->toArray();
+								$projname = $projname[0]->project_name;
+							}
+							if ( $supervisor ) {
+								echo "<li>" . $this->Html->link($projname. " report, week " . $weekno, ['controller'=>'Weeklyreports', 'action'=>'view', $notif->weeklyreport_id]) . "</li>";
+							} else {
+								echo "<li>" . $this->Html->link("Report, week " . $weekno, ['controller'=>'Weeklyreports', 'action'=>'view', $notif->weeklyreport_id]) . "</li>";
+							}
 						}
 
 				// close a million tags
