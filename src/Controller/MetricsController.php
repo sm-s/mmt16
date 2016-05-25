@@ -214,21 +214,21 @@ class MetricsController extends AppController
             'contain' => [],
             'conditions' => array('Metrics.project_id' => $project_id)
         ]);
-        // for metrictype_ids other than the last one (total test cases)
+        //  for metrictype_ids 1-8
         if ($id % 9 != 0) {
             $temp_metric1 = $this->Metrics->get($id+1, [
                 'contain' => [],
                 'conditions' => array('Metrics.project_id' => $project_id)
             ]);
         }
-        // for metrictype_ids other than the first one (phases)
+        // for metrictype_ids 2-9
         if ($id % 9 != 1) {
             $temp_metric2 = $this->Metrics->get($id-1, [
                 'contain' => [],
                 'conditions' => array('Metrics.project_id' => $project_id)
             ]);
         }
-        echo $metric->$id;
+        
         if ($this->request->is(['patch', 'post', 'put'])) {
             // data from the form
             $metric = $this->Metrics->patchEntity($metric, $this->request->data);
@@ -262,21 +262,24 @@ class MetricsController extends AppController
             
             // it is made sure that the metric stays in the same project
             $metric['project_id'] = $project_id;
-            
+               
             if ($errTooHigh) {
                 $this->Flash->error(__('The number must be smaller. Please, try again.'));
             }
             elseif ($errTooSmall) {
                 $this->Flash->error(__('The number must be higher. Please, try again.'));
-            }
+            } 
             // no errors
-            else {
+            else { 
                 if ($this->Metrics->save($metric)) {
-                    $this->Flash->success(__('The metric has been saved.'));
+                    $this->Flash->success(__('The metric has been saved.'));            
+                    
+                    $wr_id = $metric->weeklyreport_id;
+                    return $this->redirect(['controller' => 'weeklyreports', 'action' => 'view', $wr_id]);                    
                     // place the user back where they presed the edit button
-                    echo "<script>
-                            window.history.go(-2);
-                    </script>";
+                    /*echo "<script>
+                        window.history.go(-2);
+                    </script>"; */
                 } else {
                     $this->Flash->error(__('The metric could not be saved. Please, try again.'));
                 }
