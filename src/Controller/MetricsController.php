@@ -204,7 +204,7 @@ class MetricsController extends AppController
         $this->set('_serialize', ['metric']);
     }
     
-    public function edit($id = null)
+        public function edit($id = null)
     {   
         // the metric can only be edited if its from the current project
         $project_id = $this->request->session()->read('selected_project')['id'];
@@ -231,30 +231,32 @@ class MetricsController extends AppController
                 $errTooHigh = False;
                 $errTooSmall = False;
                 foreach($items as $item) {
-                    // total phases must be greater than phases
-                    if(($metric['metrictype_id'] == 1) && ($item['metrictype_id'] == 2)) {
-                        if($metric['value'] > $item['value']) {                           
-                            $errTooHigh = True;
-                            break;
+                    if($item != null) {
+                        // total phases must be greater than phases
+                        if(($metric['metrictype_id'] == 1) && ($item['metrictype_id'] == 2)) {
+                            if($metric['value'] > $item['value']) {                           
+                                $errTooHigh = True;
+                                break;
+                            }
                         }
-                    }
-                    if(($metric['metrictype_id'] == 2) && ($item['metrictype_id'] == 1)) {
-                        if($metric['value'] < $item['value']) {                           
-                            $errTooSmall = True;
-                            break;
+                        if(($metric['metrictype_id'] == 2) && ($item['metrictype_id'] == 1)) {
+                            if($metric['value'] < $item['value']) {                           
+                                $errTooSmall = True;
+                                break;
+                            }
                         }
-                    }
-                    // total test cases must be greater than passed test cases
-                    if (($metric['metrictype_id'] == 8) && ($item['metrictype_id'] == 9)) {
-                        if($metric['value'] > $item['value']) {
-                            $errTooHigh = True;
-                            break;
+                        // total test cases must be greater than passed test cases
+                        if (($metric['metrictype_id'] == 8) && ($item['metrictype_id'] == 9)) {
+                            if($metric['value'] > $item['value']) {
+                                $errTooHigh = True;
+                                break;
+                            }
                         }
-                    }
-                    if(($metric['metrictype_id'] == 9) && ($item['metrictype_id'] == 8)) {
-                        if($metric['value'] < $item['value']) {                           
-                            $errTooSmall = True;
-                            break;
+                        if(($metric['metrictype_id'] == 9) && ($item['metrictype_id'] == 8)) {
+                            if($metric['value'] < $item['value']) {                           
+                                $errTooSmall = True;
+                                break;
+                            }
                         }
                     }
                 }    
@@ -282,7 +284,7 @@ class MetricsController extends AppController
                 } else {
                     $this->Flash->error(__('The metric could not be saved. Please, try again.'));
                 }
-            }                
+            }    
         }
         $metrictypes = $this->Metrics->Metrictypes->find('list', ['limit' => 200]);
         $weeklyreports = $this->Metrics->Weeklyreports->find('list', ['limit' => 200, 'conditions' => array('Weeklyreports.project_id' => $project_id)]);
