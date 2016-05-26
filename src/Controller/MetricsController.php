@@ -2,11 +2,9 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
-/**
- * Metrics Controller
- *
- * @property \App\Model\Table\MetricsTable $Metrics
- */
+use Cake\ORM\TableRegistry;
+use Cake\ORM\Entity;
+
 class MetricsController extends AppController
 {
 
@@ -214,67 +212,68 @@ class MetricsController extends AppController
             'contain' => [],
             'conditions' => array('Metrics.project_id' => $project_id)
         ]);
-        //  for metrictype_ids 1-8
-        if ($id % 9 != 0) {
-            $temp_metric1 = $this->Metrics->get($id+1, [
-                'contain' => [],
-                'conditions' => array('Metrics.project_id' => $project_id)
-            ]);
-        }
-        // for metrictype_ids 2-9
-        if ($id % 9 != 1) {
-            $temp_metric2 = $this->Metrics->get($id-1, [
-                'contain' => [],
-                'conditions' => array('Metrics.project_id' => $project_id)
-            ]);
-        }
+        // metrictype_id and weeklyreport_id for the metric in question
+        $metric_type = $metric->metrictype_id;
+        $wr_id = $metric->weeklyreport_id;
         
         if ($this->request->is(['patch', 'post', 'put'])) {
             // data from the form
             $metric = $this->Metrics->patchEntity($metric, $this->request->data);
             
-            // used when comparing phases to total phases and passed cases to total cases
-            $errTooHigh = False;
-            $errTooSmall = False;
-            
-            // total phases must be greater than phases
-            if(($metric['metrictype_id'] == 1) && ($temp_metric1['metrictype_id'] == 2)) {
-                if($metric['value'] > $temp_metric1['value']) {                           
-                    $errTooHigh = True;
-                }
+            // phase, totalPhases, passedTestCases, totalTestCases
+            if($metric_type == 1 || $metric_type == 2 || $metric_type == 8 || $metric_type == 9) { 
+                $query = TableRegistry::get('Metrics')
+                        ->find()
+                        ->select(['metrictype_id', 'value']) 
+                        ->where(['project_id =' => $project_id, 'weeklyreport_id' => $wr_id])
+                        ->toArray(); 
+                $items = $query;
+                $errTooHigh = False;
+                $errTooSmall = False;
+                foreach($items as $item) {
+                    // total phases must be greater than phases
+                    if(($metric['metrictype_id'] == 1) && ($item['metrictype_id'] == 2)) {
+                        if($metric['value'] > $item['value']) {                           
+                            $errTooHigh = True;
+                            break;
+                        }
+                    }
+                    if(($metric['metrictype_id'] == 2) && ($item['metrictype_id'] == 1)) {
+                        if($metric['value'] < $item['value']) {                           
+                            $errTooSmall = True;
+                            break;
+                        }
+                    }
+                    // total test cases must be greater than passed test cases
+                    if (($metric['metrictype_id'] == 8) && ($item['metrictype_id'] == 9)) {
+                        if($metric['value'] > $item['value']) {
+                            $errTooHigh = True;
+                            break;
+                        }
+                    }
+                    if(($metric['metrictype_id'] == 9) && ($item['metrictype_id'] == 8)) {
+                        if($metric['value'] < $item['value']) {                           
+                            $errTooSmall = True;
+                            break;
+                        }
+                    }
+                }    
             }
-            if(($metric['metrictype_id'] == 2) && ($temp_metric2['metrictype_id'] == 1)) {
-                if($metric['value'] < $temp_metric2['value']) {                           
-                    $errTooSmall = True;
-                }
-            }
-            // total test cases must be greater than passed test cases
-            if(($metric['metrictype_id'] == 8) && ($temp_metric1['metrictype_id'] == 9)) {
-                if($metric['value'] > $temp_metric1['value']) {                           
-                    $errTooHigh = True;
-                }
-            }
-            if(($metric['metrictype_id'] == 9) && ($temp_metric2['metrictype_id'] == 8)) {
-                if($metric['value'] < $temp_metric2['value']) {                           
-                    $errTooSmall = True;
-                }
-            }
-            
+
             // it is made sure that the metric stays in the same project
             $metric['project_id'] = $project_id;
-               
+           
             if ($errTooHigh) {
                 $this->Flash->error(__('The number must be smaller. Please, try again.'));
             }
             elseif ($errTooSmall) {
                 $this->Flash->error(__('The number must be higher. Please, try again.'));
-            } 
-            // no errors
-            else { 
+            }
+            // if no errors found
+            else {
                 if ($this->Metrics->save($metric)) {
-                    $this->Flash->success(__('The metric has been saved.'));            
-                    
-                    $wr_id = $metric->weeklyreport_id;
+                    $this->Flash->success(__('The metric has been saved.'));
+                    // takes the user to the weeklyreport's page
                     return $this->redirect(['controller' => 'weeklyreports', 'action' => 'view', $wr_id]);                    
                     // place the user back where they presed the edit button
                     /*echo "<script>
@@ -283,7 +282,7 @@ class MetricsController extends AppController
                 } else {
                     $this->Flash->error(__('The metric could not be saved. Please, try again.'));
                 }
-            }
+            }                
         }
         $metrictypes = $this->Metrics->Metrictypes->find('list', ['limit' => 200]);
         $weeklyreports = $this->Metrics->Weeklyreports->find('list', ['limit' => 200, 'conditions' => array('Weeklyreports.project_id' => $project_id)]);
