@@ -137,8 +137,8 @@ class MetricsController extends AppController
             // Totals (metrictype_ids 2 and 9) must be greater
             foreach($items1 as $item1) {
                 foreach($items2 as $item2) {
-					// check that no zeroes/nulls exist
-					if ( ($item1['value'] == NULL || $item1['value'] == 0) || ($item2['value'] == NULL || $item2['value'] == 0) ) {
+					// check that no nulls or negative values exist
+					if ( ($item1['value'] == NULL || $item1['value'] < 0) || ($item2['value'] == NULL || $item2['value'] < 0) ) {
 						$continue = False;
 						$nullFlag = True;
 						break;
