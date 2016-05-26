@@ -1,4 +1,7 @@
 /vendor/*
+/src/Controller/CommentsController.php
+/src/Controller/WeeklyhoursController.php
+/src/Template/Weeklyreports/view.ctp
 /config/app.php
 /tmp/*
 /logs/*
