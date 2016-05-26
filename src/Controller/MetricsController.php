@@ -212,13 +212,16 @@ class MetricsController extends AppController
             'contain' => [],
             'conditions' => array('Metrics.project_id' => $project_id)
         ]);
-        // metrictype_id and weeklyreport_id for the metric in question
+       // metrictype_id and weeklyreport_id for the metric in question
         $metric_type = $metric->metrictype_id;
         $wr_id = $metric->weeklyreport_id;
         
         if ($this->request->is(['patch', 'post', 'put'])) {
             // data from the form
             $metric = $this->Metrics->patchEntity($metric, $this->request->data);
+            
+            $errTooHigh = False;
+            $errTooSmall = False;
             
             // phase, totalPhases, passedTestCases, totalTestCases
             if($metric_type == 1 || $metric_type == 2 || $metric_type == 8 || $metric_type == 9) { 
@@ -228,8 +231,7 @@ class MetricsController extends AppController
                         ->where(['project_id =' => $project_id, 'weeklyreport_id' => $wr_id])
                         ->toArray(); 
                 $items = $query;
-                $errTooHigh = False;
-                $errTooSmall = False;
+                
                 foreach($items as $item) {
                     if($item != null) {
                         // total phases must be greater than phases
