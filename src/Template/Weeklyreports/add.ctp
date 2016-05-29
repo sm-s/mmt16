@@ -34,7 +34,7 @@
                 echo $this->Form->input('problems');
                 echo $this->Form->input('additional', array('label' => 'Additional information'));
             }
-			echo $this->Form->button(__('Submit'));
+			echo $this->Form->button(__('Next page'));
         ?>
     </fieldset>
     <?= $this->Form->end() ?>

@@ -14,23 +14,23 @@
             $current_metrics = $this->request->session()->read('current_metrics');
         
             echo $this->Form->input('phase', 
-                array('value' => $current_metrics[0]['value'], 'label' => 'Current phase','type' => 'number'));
+                array('value' => $current_metrics[0]['value'], 'label' => 'Current phase','type' => 'number', 'required'=>true));
             echo $this->Form->input('totalPhases', 
-                array('value' => $current_metrics[1]['value'], 'label' => 'Total phases','type' => 'number'));
+                array('value' => $current_metrics[1]['value'], 'label' => 'Total phases','type' => 'number', 'required'=>true));
             echo $this->Form->input('reqNew', 
-                array('value' => $current_metrics[2]['value'], 'label' => 'New requirements','type' => 'number'));
+                array('value' => $current_metrics[2]['value'], 'label' => 'New requirements','type' => 'number', 'required'=>true));
             echo $this->Form->input('reqInProgress', 
-                array('value' => $current_metrics[3]['value'], 'label' => 'Requirements in progress','type' => 'number'));
+                array('value' => $current_metrics[3]['value'], 'label' => 'Requirements in progress','type' => 'number', 'required'=>true));
             echo $this->Form->input('reqClosed', 
-                array('value' => $current_metrics[4]['value'], 'label' => 'Closed requirements','type' => 'number'));
+                array('value' => $current_metrics[4]['value'], 'label' => 'Closed requirements','type' => 'number', 'required'=>true));
             echo $this->Form->input('reqRejected', 
-                array('value' => $current_metrics[5]['value'], 'label' => 'Rejected requirements','type' => 'number'));
+                array('value' => $current_metrics[5]['value'], 'label' => 'Rejected requirements','type' => 'number', 'required'=>true));
             echo $this->Form->input('commits', 
-                array('value' => $current_metrics[6]['value'], 'label' => 'Commits','type' => 'number'));
+                array('value' => $current_metrics[6]['value'], 'label' => 'Commits','type' => 'number', 'required'=>true));
             echo $this->Form->input('passedTestCases', 
-                array('value' => $current_metrics[7]['value'], 'label' => 'Passed test cases','type' => 'number'));
+                array('value' => $current_metrics[7]['value'], 'label' => 'Passed test cases','type' => 'number', 'required'=>true));
             echo $this->Form->input('totalTestCases', 
-                array('value' => $current_metrics[8]['value'], 'label' => 'Total test cases','type' => 'number'));
+                array('value' => $current_metrics[8]['value'], 'label' => 'Total test cases','type' => 'number', 'required'=>true));
 		?>
 		<div style="margin-top: 2em;">
 	        <?php
