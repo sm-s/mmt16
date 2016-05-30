@@ -6,6 +6,6 @@ CREATE TABLE comments (
 	date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	date_modified DATETIME DEFAULT NULL,
 	PRIMARY KEY (id),
-	FOREIGN KEY (user_id) REFERENCES users(id),
-	FOREIGN KEY (weeklyreport_id) REFERENCES weeklyreports(id)
+	FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+	FOREIGN KEY (weeklyreport_id) REFERENCES weeklyreports(id) ON DELETE CASCADE
 );
